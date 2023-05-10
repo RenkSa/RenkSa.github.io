@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="RentalCars/Aluguél de carros - Limpeza e Mecânica.">
+    <meta name="author" content="https://github.com/RenkSa">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+     <!--========== BOOSTSTRAP ==========-->
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <!--========== CAIXA DE ÍCONES ==========-->
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+
+    <!--========== FAVICOM ==========-->
+    <link rel="shortcut icon" href="img/iconRCars.png" type="image/x-icon">
+    <!--Owl css-->
+    <link rel="stylesheet" href="css/owl/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl/owl.theme.default.min.css">
+    <title>RentalCars</title>
+</head>
+<body>
+
+  <!--========== SCROLL TOP ==========-->
+  <a href="#" class="scrolltop" id="scroll-top">
+    <i class='bx bx-chevron-up scrolltop__icon'></i>
+</a>
+
+ <!--========== HEADER ==========-->
+ <header class="l-header " id="header">
+  <nav class="nav bd-container navbar-dark">
+      <a href="#">  
+      <img class="img_logo" src="img/iconRCars.png" alt="" width="150px">
+      </a>
+
+      <div class="nav__menu" id="nav-menu">
+          <ul class="nav__list">
+              <li class="nav__item"><a href="#mainSlider" class="nav__link active-link">Home</a></li>
+              <li class="nav__item"><a href="#frota" class="nav__link">Veículos</a></li>
+              <li class="nav__item"><a href="#services-area" class="nav__link">Serviços</a></li>              
+              <li class="nav__item"><a href="#contract" class="nav__link">Contrato</a></li>
+              <li class="nav__item"><a href="#gps" class="nav__link">Como chegar</a></li>                           
+              <li class="nav__item"><a href="#contato" class="nav__link">Contatos</a></li>
+          </ul>
+      </div>      
+      <div class="nav__toggle" id="nav-toggle">
+        <i class="fa-solid fa-bars"></i>
+    </div>
+  </nav> 
+</header>
+ <!--========== HOME ==========-->
+<main>
+  <div id="mainSlider" class="carousel carousel-dark slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#mainSlider" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#mainSlider" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#mainSlider" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-bs-interval="10000">
+        <img src="img/carros.jpeg" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-md-block">
+          <h5>Procurando um carro ?</h5>
+          <p>Que tal alugar um de nossos carros ?</p>
+          <a href="#frota" class="main-btn">Nossa Frota</a>
+        </div>
+      </div>
+      <div class="carousel-item" data-bs-interval="2000">
+        <img src="img/MecaCar.png" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-md-block">
+          <h5>Second slide label</h5>
+          <p>Some representative placeholder content for the second slide.</p>
+          <a href="#gps" class="main-btn">Faça uma visita</a>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="img/frotas.jpg" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-md-block">
+          <h5>Third slide label</h5>
+          <p>Some representative placeholder content for the third slide.</p>
+          <a href="#gps" class="main-btn">Faça uma visita</a>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#mainSlider" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#mainSlider" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+<!-------------Carousel---------------> 
+
+<section class="container" id="frota">
+    <h2 class="section-title home__data">Carros Disponíveis</h2>
+    <div class="owl-carousel owl-theme menu__container bd-grid menu__content">
+        <div class="item">
+            <img src="img/cars/BOLT.png" alt="">
+            <h4>Modelo</h4>
+            <p>Detalhes.</p>
+        </div>
+        <div data-name="Bolt" data-price="2500.00" class="item">
+            <img src="img/cars/CORO.png" alt="">
+            <h4>Modelo</h4>
+            <p>Detalhes.</p>
+        </div>
+        <div class="item">
+          <img src="img/cars/CRUF.png" alt="">
+          <h4>Modelo</h4>
+          <p>Detalhes.</p>
+      </div>
+      <div data-name="Bolt" data-price="2500.00" class="item">
+          <img src="img/cars/RE4D.png" alt="">
+          <h4>Modelo</h4>
+          <p>Detalhes.</p>
+      </div>
+      <div class="item">
+        <img src="img/cars/BOLT.png" alt="">
+        <h4>Modelo</h4>
+        <p>Detalhes.</p>
+    </div>
+    <div data-name="Bolt" data-price="2500.00" class="item">
+        <img src="img/cars/CORO.png" alt="">
+        <h4>Modelo</h4>
+        <p>Detalhes.</p>
+    </div>
+    <div class="item">
+      <img src="img/cars/CRUF.png" alt="">
+      <h4>Modelo</h4>
+      <p>Detalhes.</p>
+  </div>
+  <div data-name="Bolt" data-price="2500.00" class="item">
+      <img src="img/cars/RE4D.png" alt="">
+      <h4>Modelo</h4>
+      <p>Detalhes.</p>
+  </div>
+         
+        
+    </div>
+</section>
+
+ <!-- Serviços da empresa -->
+ <section class="menu section bd-container" id="services-area">
+    <h2 class="section-title home__data">Nossos Serviços</h2>
+ <div id="services-area menu__content">
+    <div class="services-container">
+      <div class="row home__data">
+        <div class="col-12">
+        </div>
+
+        <div class="col-md-4 service-box">
+            <i class="fas fa-handshake"></i>
+          <h4>Aluguel de carros</h4>
+          <p>Temos uma frota de carros disponível para você.</p>
+        </div>
+        <div class="col-md-4 service-box">
+            <i class="fas fa-oil-can"></i>
+          <h4>Mecânica de Carros</h4>
+          <p>Ótimos Mecânicos para disponibilizar seus serviços.</p>
+        </div>
+        <div class="col-md-4 service-box">
+            <i class="fa-solid fa-street-view"></i>
+          <h4>Lavagem de carros</h4>
+          <p>Limpeza Profunda.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--======================  Regras-Aluguel    ==============================-->
+<section class="menu section max-width" id="contract">
+  
+<h2 class="section-title home__data">Perguntas e respostas rápidas sobre a locação de veículos</h2>
+  <div class="row row-cols-1 row-cols-md-4 g-4">
+    <div class="col">
+      <div class="card h-100">
+        <i class="fa-solid fa-laptop home__data"></i>
+        <div class="card-body">
+          <h5 class="card-title">Como comparar preços de aluguel de carros?</h5>
+          <p class="card-text">              Para pesquisar pelos melhores preços, basta inserir o local onde você deseja retirar o carro (pode ser uma cidade ou aeroporto), a data e o horário de retirada e devolução. Também é possível retirar o carro em um local e devolvê-lo em outro, basta selecionar a opção “Devolver em outra cidade”. Depois de clicar em “Pesquisar”, listamos as melhores ofertas de aluguel de carros e você pode filtrar pela sua locadora de preferência, categoria de carro desejada, intervalo de preços, entre outros. </p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100">
+        <i class="fa-solid fa-file-signature home__data"></i>
+        <div class="card-body">
+          <h5 class="card-title">
+            Quais são os requisitos mínimos para o aluguel de carros?</h5>
+          <p class="card-text">
+            Existem algumas regras diferentes para aluguel de carros que dependem da região que você realizar sua locação. No Brasil, o locatário precisa ter 21 anos, Carteira Nacional de Habilitação (CNH) válida e emitida há mais de 2 anos (CNH definitiva) e cartão de crédito com limite suficiente para o bloqueio caução, também chamado de pré-autorização. Já no exterior, além da CNH, é necessário apresentar o passaporte e, em alguns países, a Permissão Internacional para Dirigir (PID). O cartão de crédito para caução precisa ser internacional.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100">
+        <i class="fa-solid fa-hand-holding-dollar home__data"></i>
+        <div class="card-body">
+          <h5 class="card-title">
+            Como funciona o caução no aluguel de carros?
+          </h5>
+          <p class="card-text">
+            O bloqueio caução ou pré-autorização é um valor retido no cartão de crédito do locatário para a segurança da locadora. Esta quantia, que é determinada pela própria locadora, não é cobrada como uma compra comum, mas sim bloqueada do limite do cartão de crédito. Essa é uma exigência das locadoras, que fazem o bloqueio no momento da retirada do veículo alugado. Mas pode ficar tranquilo! O valor é desbloqueado após a vistoria e entrega do carro nas mesmas condições de retirada.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100">
+        <i class="fa-solid fa-screwdriver-wrench home__data"></i>
+        <div class="card-body">
+          <h5 class="card-title">
+            Aqui um serviço de ajuda
+          </h5>
+          <p class="card-text">
+           Detalhes do serviço de ajuda
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+ <!--========== GPS ==========-->
+ <section class="menu section bd-container" id="gps">
+    <h2 class="section-title">Como chegar até nós</h2>
+    <div class="gps-container">
+        <div class="row">
+          <div class="col-12"> 
+            <h3 class="GMPS">Google Maps</h3>
+          </div>
+          <div class="col-md-6 home__data">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2818.6628002510197!2d-54.741893066545806!3d-2.443303190911047!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9288f91ded11bad7%3A0xf11adea605d80ca2!2sAv.%20Eng.%20Fernando%20Guilhon%2C%20394%20-%20Santarenzinho%2C%20Santar%C3%A9m%20-%20PA%2C%2068038-000!5e0!3m2!1spt-BR!2sbr!4v1652883082867!5m2!1spt-BR!2sbr" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <div class="col-md-6">
+            <h3 class="about-title">Visite-nos!</h3>
+            <p>Rua: Av. Eng. Fernando Guilhon, 394.</p>
+            <p>Bairro: Santarenzinho.</p>
+            <p>Cidade: Santarém-PA.</p>
+          </div>
+        </div>
+      </div>
+   
+    
+</section>
+
+
+
+ <!--========== CONTACT US ==========-->
+ <section class="menu section bd-container" id="contato">
+    <h3 class="section-title">Entre em contato conosco</h3>
+    <div id="contact-area">
+        <div class="contact-container">
+            <div class="row">
+             
+              <div class="col-md-6 contact-box">
+                <i class="fa-solid fa-phone-flip home__data"></i>
+                <p><span class="contact-title">Ligue para:</span> (48)99999-9999</p>
+                <p><span class="contact-title">WhatsApp:</span><a href="https://wa.me/93999999999" target="_blank">(93)99999-9999</a></p>
+                <p><span class="contact-title">Horários:</span> 8:00 - 19:00</p>
+              </div>
+              <div class="col-md-6 contact-box">
+                <i class="fa-solid fa-envelope home__data"></i>
+                <p><span class="contact-title">Envie um email:</span> contato@rentalcars.com.br</p>
+              </div>
+            </div>
+          </div>
+          </div>
+    <a class="Whatsapplink heartbeat" id="whats-link" href="https://wa.me/93999999999" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+ </section>
+              
+
+ <!--========== FOOTER ==========-->
+ <footer class="footer section bd-container">
+  <div class="footer__container bd-grid">
+      <div class="footer__content">
+          <a href="#" class="footer__logo">Rental Cars</a>
+          <span class="footer__description">Redes sociais</span>
+          <div>
+              <a href="#" target="_blank" class="footer__social"><i class="bi bi-instagram"></i></a>
+              <a href="#" target="_blank" class="footer__social"><i class="bi bi-telegram" style="color: red;"></i></a>                        
+      </div>
+  </div> 
+
+      <div class="footer__content">
+          <img src="img/iconRCars.png" alt="logo-rentalcars">
+      </div>
+
+      <div class="footer__content">
+        <h3 class="footer__title">Menu</h3>
+        <ul>
+            <li><a href="#home" class="footer__link">Home</a></li>
+            <li><a href="#about" class="footer__link">Frota</a></li>
+            <li><a href="#menu" class="footer__link">Serviços</a></li>                        
+            <li><a href="#contract" class="footer__link">Contrato</a></li>
+            <li><a href="#Certificados" class="footer__link">Local</a></li>
+            <li><a href="#contact" class="footer__link">Contato</a></li>                        
+        </ul>
+    </div>
+
+  </div>
+
+  <p class="footer__copy">&#169; 2022 RENTALCARS.</p>
+</footer>
+
+
+<!-------------------FontAwesome--------------->
+<script src="https://kit.fontawesome.com/04e525ee6b.js" crossorigin="anonymous"></script>
+<!--========== SCROLL REVEAL ==========-->
+<script src="https://unpkg.com/scrollreveal"></script>
+
+<!--Setup - Owl-->
+<script src="js/owl/jquery.min.js "></script>
+<script src="js/owl/owl.carousel.min.js"></script>
+<script src="js/owl/setup.js"></script>
+<!-------------------BOOTSTRAP--------------->
+<script src="js/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+
+
+</body>
+</html>

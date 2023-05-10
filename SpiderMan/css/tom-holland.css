@@ -1,0 +1,235 @@
+@import url('reset.css');
+@import url('global.css');
+
+
+
+.s-wrapper {
+    display: flex;
+    height: 100vh;
+    flex-flow: row nowrap;
+    background-color: aqua;
+}
+
+.s-wrapper video {
+    position: fixed;
+    width: 100%;
+}
+
+.s-wrapper .s-left-column {
+    width: 100px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    padding-right: 50px;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+
+.s-wrapper .s-main-content {
+    height: 100%;
+    width: 100%;
+    padding-left: 130px;
+    position: relative;
+}
+
+.s-spiderman-01-01 {
+    background-image: url('/SpiderMan/assets/images/spiderman-tobey/movie-01/background.png');
+    background-size: cover;
+}
+
+.s-spiderman-01-02 {
+    background-image: url('/SpiderMan/assets/images/spiderman-tobey/movie-02/background.png');
+    background-size: cover;
+}
+
+.s-spiderman-01-03 {
+    background-image: url('/SpiderMan/assets/images/spiderman-tobey/movie-03/background.png');
+    background-size: cover;
+}
+
+.s-wrapper .s-main-content_top {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.s-wrapper .s-main-content_bottom {
+    height: 20vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-bottom: 100px;
+}
+
+.s-wrapper .s-main-content .s-logo img {
+    margin-top: 5px;
+    margin-left: 117px;
+    margin-bottom: -9px;
+}
+
+
+.pills ul {
+    display: flex;
+    flex-direction: row;
+}
+
+.pills ul li {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 5px 15px;
+    margin: 0 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+
+.pills ul li:first-child {
+    margin-left: 0;
+}
+
+.navigator {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+
+.navigator ul li {
+    margin: 60px 0;    
+}
+
+.navigator ul li:first-child {
+    margin-top: 0;
+}
+
+.navigator ul li:last-child {
+    margin-bottom: 0;
+}
+
+.navigator ul li a{
+    color: white;
+    border: solid 2px white;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navigator::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background-color: white;
+    z-index: 0;
+}
+
+.navigator ul {
+    z-index: 1;
+}
+
+.navigator ul li a:hover,
+.navigator ul li a.active {
+    color: var(--primary-color);
+    background-color: white;
+}
+
+.navigator .navigator_icon {
+    position: absolute;
+    top: -20px;
+}
+
+
+.s-wrapper .s-main-content_top .s-description {
+    background-color: rgba(0, 0, 0, .7);
+    max-width: 60%;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.s-wrapper .s-main-content_top .s-description .s-description_text p{
+    color: white;
+    line-height: 100%;
+}
+
+.s-wrapper .s-main-content_top .s-description .pills {
+    margin-bottom: 20px;
+}
+
+/*  link - button */
+
+a.link-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+a.link-button .icon {
+    width: 28px;
+    height: 28px;
+    padding: 3px;
+    background-color: var(--primary-color);
+    border: solid 1px white;
+    background-clip: content-box;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+a.link-button .icon .play-icon {
+    border: solid 7px white;
+    width: 0;
+    height: 0;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+    margin-right: -7px;
+}
+
+a.link-button .label {
+    margin-left: 10px;
+    margin-top: 15px;
+}
+
+.s-wrapper .s-main-content .s-links ul {
+    display: flex;
+    flex-direction: row;
+}
+
+/* GALLERY */
+
+.gallery {
+    padding: 20px;
+    padding-left: 0;
+}
+
+.gallery ul {
+    display: flex;
+    flex-direction: row;
+}
+
+.gallery ul li {
+    margin-left: 25px;
+}
+
+.gallery ul li:first-child {
+    margin-left: 0px;
+}
+
+.gallery ul li a img {
+    border: solid 6px white;
+    border-radius: 15px;
+}

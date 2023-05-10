@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    
+    <title>Memory Game</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="stats-container">
+          <div id="moves-count"></div>
+          <div id="time"></div>
+        </div>
+        <div class="game-container"></div>
+        <button id="stop" class="hide">Stop Game</button>
+      </div>
+      <div class="controls-container">
+        <div id="tsparticles"></div>
+        <p id="result"></p>
+        <button id="start" style="--content: 'Iniciar Jogo';">
+            <div class="left"></div>
+              Iniciar Jogo
+            <div class="right"></div>
+        </button>
+          
+      </div>
+      <!-- scripts tsParticles -->
+      <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.0.6/tsparticles.bundle.min.js"></script>
+      <script src="app.js"></script>
+      <script src="js.js"></script>
+      
+</body>
+</html>

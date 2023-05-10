@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+
+  
+  .bg-primary-color {
+    background-color: #fff;
+  }
+  
+  .bg-secondary-color {
+    background-color: #34eb0f;
+  }
+  
+  .bg-dark-color {
+    background-color: #050505;
+  }
+  
+  .primary-color {
+    color: #050505;
+  }
+  
+  .secondary-color {
+    color: #7a7a7a;
+  }
+
+span, a, h1, h2, h3 {
+    color: #34eb0f;
+}
+
+body {
+  background-color: #050505 !important;
+  color: #e5e5e5 !important;
+
+}
+
+/*============== preloader ================*/
+.c-loader{
+  animation: is-rotating 1s infinite;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  border: 6px solid #e5e5e5;
+  border-top: #1af10b;
+
+}
+
+@keyframes is-rotating{
+  to{
+    transform: rotate(1turn);
+  }
+}
+
+
+
+  /*============== navbar ================*/
+  
+  #navbar a {
+    color: #f7f7f7;
+  }
+  
+  #navbar a:hover {
+    color: #34eb0f;
+  }
+  
+  #navbar .active {
+    border-bottom: 1px solid #050505;
+  }
+  
+  .navbar-brand {
+    display: flex;
+  }
+  
+  .navbar-brand img {
+    width: 100px;
+  }
+  
+  .navbar-brand span {
+    font-weight: 700;
+    font-size: 1.5em;
+    margin-left: 0.5em;
+  }
+  
+  #navbar-items .navbar-nav {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+  }
+  
+  #navbar-items .nav-item {
+    margin: 0 1em;
+  }
+
+/*      home        */
+
+
+
+.carousel-caption {
+  bottom: 14.25rem !important;
+  color: #1af10b !important;
+  text-align: end !important;
+  right: 28% !important;
+}
+
+.carousel-caption h5 {
+  font-size: 50pt;
+  box-shadow: 5px solid #88f180;
+}
+
+.carousel-caption p {
+  font-size: 15pt;
+}
+
+
+.img-just{
+  margin-top: 61px;
+}
+
+.img-abs {
+  position: absolute;
+  top: 169px;
+  left: 110px;
+  transition: 0.5s;
+  border: 5px solid #34eb0f;
+  border-radius: 50%;
+  box-shadow: 10px solid #89eb82;
+
+}
+
+.nav-pills {
+  --bs-nav-pills-border-radius: 1.5rem !important;
+  --bs-nav-pills-link-active-bg: #34eb0f !important;
+}
+
+button.navbar-toggler {
+  color: #34eb0f;
+}
+
+/* ========== Servicos ==========*/
+
+section#about {
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+
+.service-box i{
+  font-size: 60pt;
+}
+
+.service-box i, .services-box h4{
+  transition: .5s;
+}
+
+.service-box:hover > i, .service-box:hover > h4{
+  color: #1af10b;
+}
+
+
+
+
+.p-3.mb-2.bg-success.text-white {
+  text-align: center;
+}
+
+
+
+
+
+
+/* ========== RESPONSIVO ==========*/
+@media Screen and (max-width: 576px) { 
+
+.img-just {
+  width: 100vh;
+  margin-top: 59px;
+}
+
+.img-abs {
+  position: absolute;
+  top: 112px;
+  left: 36px;
+  transition: 0.5s;
+  border: 5px solid #34eb0f;
+  border-radius: 50%;
+  box-shadow: 10px solid #89eb82;
+  width: 150px;
+}
+
+.carousel-caption {
+  top: 92px;
+  right: 24% !important;
+}
+
+.carousel-caption h5{
+  font-size: 20pt;
+}
+
+.carousel-caption p{
+  font-size: 10pt;
+}
+
+}
+
+
+@media (max-width: 768px) {
+  
+}
+
+
+@media (max-width: 992px) { 
+  
+}
+
+
+@media (max-width: 1200px) {
+  
+}
+
+
+@media (max-width: 1400px) {
+  
+}
