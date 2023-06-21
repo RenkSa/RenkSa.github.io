@@ -1,11 +1,11 @@
 # Meu Portfólio
 
-Portfólio criado com HTML, CSS, SCSS e JS.
+Atualização de Melhorias
 
 | :placard: Vitrine.Dev |     |
 | -------------  | --- |
 | :sparkles: Nome        | **Titulo do meu projeto**
-| :label: Tecnologias | java, html, ruby, c# (tecnologias utilizadas)
+| :label: Tecnologias | Javascript, Html, Css, Scss (tecnologias utilizadas)
 | :rocket: URL         | https://url-deploy.com.br
 | :fire: Desafio     | https://url-do-desafio.com.br
 
