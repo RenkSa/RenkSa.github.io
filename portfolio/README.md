@@ -4,7 +4,7 @@ Atualização de Melhorias
 
 | :placard: Vitrine.Dev |     |
 | -------------  | --- |
-| :sparkles: Renk-Portfolio        | **Portfólio**
+| :sparkles: Nome        | **Portfólio**
 | :label: Tecnologias | Javascript, Html, Css, Scss (tecnologias utilizadas)
 | :fire: Desafio     | https://renksa.site/portfolio/
 <!-- Inserir imagem com a #vitrinedev ao final do link -->
