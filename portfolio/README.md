@@ -10,7 +10,7 @@ Atualização de Melhorias
 | :fire: Desafio     | https://url-do-desafio.com.br
 
 <!-- Inserir imagem com a #vitrinedev ao final do link -->
-![]([https://renksa.site/portfolio/](https://github.com/RenkSa/RenkSa.github.io/blob/main/portfolio/myportfolio.png)#vitrinedev)
+![](https://raw.githubusercontent.com/RenkSa/RenkSa.github.io/main/portfolio/myportfolio.png#vitrinedev)
 
 ## Detalhes do projeto
 
