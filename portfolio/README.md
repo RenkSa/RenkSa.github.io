@@ -1,3 +1,4 @@
+![](https://raw.githubusercontent.com/RenkSa/RenkSa.github.io/main/portfolio/myportfolio.png#vitrinedev)
 # Meu Portfólio
 
 Atualização de Melhorias
@@ -8,7 +9,7 @@ Atualização de Melhorias
 | :label: Tecnologias | Javascript, Html, Css, Scss (tecnologias utilizadas)
 | :fire: Desafio     | https://renksa.site/portfolio/
 <!-- Inserir imagem com a #vitrinedev ao final do link -->
-![](https://raw.githubusercontent.com/RenkSa/RenkSa.github.io/main/portfolio/myportfolio.png#vitrinedev)
+
 
 ## Detalhes do projeto
 
