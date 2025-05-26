@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta author="Renk Sa">
+    <title>Romaneio</title>
+    <style>
+        * {
+            margin: 0;
+        }
+
+        body {
+            background-color: rgba(93, 230, 30, 0.651);
+            font: 600 20px arial;
+        }
+
+        p {
+            font: 600 20px arial;
+        }
+
+        h1 {
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        option:focus-visible,
+        option:active,
+        optgroup:focus-visible,
+        option:nth-last-child(),
+        option:current,
+        option:last-child {
+            color: blue !important;
+            text-decoration: line-through;
+        }
+
+        #inputs {
+            display: flex;
+            align-items: center;
+            font: 600 15px sans serif;
+            margin: 40px;
+            width: 200px;
+            height: 230px;
+            flex-direction: column;
+            align-content: stretch;
+            flex-wrap: nowrap;
+            justify-content: space-evenly;
+            top: 10px;
+        }
+
+        input#metragem,
+        input#largura,
+        input#bitola {
+            width: 200px;
+            border-radius: 2rem;
+            padding: 0.5rem;
+        }
+
+
+
+        section {
+            margin: auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            align-content: stretch;
+            flex-wrap: wrap;
+            top: 30px;
+        }
+
+        tr {
+            background-color: rgb(175, 175, 175);
+        }
+
+        #tabela {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .textE {
+            text-align: end;
+        }
+
+        section#btao {
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        table,
+        tr,
+        td {
+            /* From https://css.glass */
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(6.4px);
+            -webkit-backdrop-filter: blur(6.4px);
+            border: 1px solid rgba(255, 255, 255, 0.96);
+            padding: 5px;
+        }
+
+        table {
+            width: 350px;
+            height: 450px;
+        }
+
+        [type=button] {
+            border-radius: 2rem;
+            width: 200px;
+            height: 30px;
+        }
+
+        footer {
+            text-align: center;
+            top: 35px;
+            position: relative;
+            font: 800 15px arial;
+            display: flex;
+            gap: 5px;
+            flex-direction: column;
+        }
+
+        div#dados>h1 {
+            position: absolute;
+            top: 20px;
+            position: relative;
+            top: -66px;
+        }
+
+        #resTTL {
+            font: 800 20px arial;
+        }
+
+        #dados {
+            display: flex;
+            width: 350px;
+            height: 194px;
+            background: #000000;
+            border-radius: 5%;
+            overflow: hidden;
+            align-content: center;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: column;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.116);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.527);
+            backdrop-filter: blur(6.4px);
+            -webkit-backdrop-filter: blur(6.4px);
+            border: 1px solid rgba(255, 255, 255, 0.644);
+            padding: 5px;
+        }
+
+        .letter::after {
+            content: '_______________________________';
+            color: #000;
+        }
+
+        .letter {
+            color: #000;
+        }
+
+        #tipo,
+        #metros {
+            color: #fff;
+        }
+
+        #metros {
+            width: 100%;
+            text-align: center;
+            font-size: 1.5rem;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(6.4px);
+            -webkit-backdrop-filter: blur(6.4px);
+            border: 1px solid rgba(255, 255, 255, 0.96);
+            color: #000;
+
+        }
+
+        select::-webkit-scrollbar {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(6.4px);
+            -webkit-backdrop-filter: blur(6.4px);
+        }
+
+        select::-webkit-scrollbar-button {
+            background-color: #fff;
+        }
+
+        select::-webkit-progress-value {
+            background-color: #000;
+        }
+
+        .fixed {
+            position: relative;
+            top: 10px;
+            overflow: hidden;
+        }
+
+
+        @media screen and (max-width: 649px) {
+            section {
+                margin: auto;
+                position: relative;
+                display: flex;
+                align-items: baseline;
+                justify-content: center;
+                flex-direction: row;
+                align-content: stretch;
+                flex-wrap: wrap;
+                top: 30px;
+            }
+
+            #tabela {
+                top: 55px;
+                position: relative;
+            }
+
+            footer {
+                top: 90px;
+            }
+
+            #dados {
+                margin-top: 60px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>romaneio</h1>
+    </header>
+    <section>
+        <form id="inputs">
+            <p>Bitola: <input type="number" name="bitola" id="bitola" placeholder="Insira a Espessura"
+                    required="required" pattern="[0-9]"></p>
+            <p>Largura: <input type="number" name="largura" id="largura" placeholder="Insira a Largura"
+                    required="required" pattern="[0-9]"></p>
+            <p>Metragem: <input type="number" name="metragem" id="metragem" placeholder="Insira a Metragem"
+                    required="required" pattern="[0-9]">
+            </p>
+
+            <section id="btao">
+                <div><input id="botao" type="button" value="ADD"></div>
+                <div><input id="sub" type="button" value="SUB"></div>
+                <div><input type="button" id="reset" value="Resetar"></div>
+                <div><input type="button" id="print" value="Imprimir" onclick="window.print()"></div>
+            </section>
+        </form>
+        <div id="tabela">
+            <table border="1">
+                <tr>
+                    <td>TIPO</td>
+                    <td>METRAGEM</td>
+                </tr>
+                <tr>
+                    <td>PRANCHA</td>
+                    <td class="textE" id="resPC"></td>
+                </tr>
+                <tr>
+                    <td>PRANCHÃO</td>
+                    <td class="textE" id="resPAO"></td>
+                </tr>
+                <tr>
+                    <td>CAIBRO</td>
+                    <td class="textE" id="resCB"></td>
+                </tr>
+                <tr>
+                    <td>TABUA</td>
+                    <td class="textE" id="resTB"></td>
+                </tr>
+                <tr>
+                    <td>VIGA</td>
+                    <td class="textE" id="resVG"></td>
+                </tr>
+                <tr>
+                    <td>RIPAS</td>
+                    <td class="textE" id="resRP"></td>
+                </tr>
+                <tr>
+                    <td>VIGOTA</td>
+                    <td class="textE" id="resVGTA"></td>
+                </tr>
+                <tr>
+                    <td>BLOCO</td>
+                    <td class="textE" id="resBC"></td>
+                </tr>
+                <tr>
+                    <td>SARRAFOS</td>
+                    <td class="textE" id="resSRRF"></td>
+                </tr>
+                <tr>
+                    <td>TOTAL:</td>
+                    <td class="textE" id="resTTL"></td>
+                </tr>
+            </table>
+        </div>
+        <!--Div Historico-->
+        <div id="dados">
+            <div class="letter">
+                <h1 class="fixed">HISTÓRICO</h1>
+            </div>
+
+            <select id="metros" size="10">
+
+            </select>
+        </div>
+
+    </section>
+
+    <footer>
+        <div id="erro"></div>
+        <div>&reg;RWS</div>
+        <div id="hours"></div>
+    </footer>
+
+    <script>
+        const m3 = document.getElementById('metros')
+        let date = new Date()
+
+        let produto = [Number(0), Number(0), Number(0), Number(0),
+        Number(0), Number(0), Number(0), Number(0),
+        Number(0), Number(0)]
+        let somaTotal = Number(0)
+
+        function removerCaracteresEspeciais(input) {
+            const regex = /[^a-zA-Z0-9\s]/g;
+            const textoSemCaracteresEspeciais = input.replace(regex, '');
+            return textoSemCaracteresEspeciais;
+        }
+        
+        function calcular() {
+            let E = Number(document.getElementById("bitola").value)
+            let L = Number(document.getElementById("largura").value)
+            let M = Number(document.getElementById("metragem").value)
+            let resP = document.getElementById("resPC")
+            let Total = document.getElementById("resTTL")
+
+
+
+            if ((E >= 12 && L >= 12) && (E === L)) { //condicao bloco
+                let array = produto
+                let bloco = 'Bloco'
+                array[7] = Number(array[7] + M)
+                let item = document.createElement('option')
+                somaTotal += M
+
+                Total.style.color = '#000'
+                resBC.style.color = '#000'
+
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+                resBC.innerText = `${produto[7].toFixed(4).replace('.', ',')}m³`
+                item.text = `${bloco} | ${M.toFixed(4).replace('.', ',')}`
+                
+                m3.appendChild(item)
+            } else if (E >= 4 && L > 20 && E <= 7) { //condicao prancha
+                let array = produto
+                let prancha = 'Prancha'
+                let item2 = document.createElement('option')
+
+                array[0] = Number(array[0] + M)
+                somaTotal += M
+
+
+                item2.text = `${prancha} | ${M.toFixed(4).replace('.', ',')}`
+                m3.appendChild(item2)
+
+                resP.innerText = `${produto[0].toFixed(4).replace('.', ',')}m³`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+
+                Total.style.color = '#000'
+                resP.style.color = '#000'
+
+            } else if (E > 7 && L > 20) { // condicao Pranchao
+                let array = produto
+                let item3 = document.createElement('option')
+                let pao = 'Pranchão'
+                array[1] = Number(array[1] + M)
+                somaTotal += M
+
+                item3.text = `${pao} | ${M.toFixed(4).replace('.', ',')}`
+                m3.appendChild(item3)
+
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+                resPAO.innerText = `${produto[1].toFixed(4).replace('.', ',')}m³`
+                Total.style.color = '#000'
+                resPAO.style.color = '#000'
+            } else if (E >= 4 && L >= 4 && E <= 8 && L <= 7.9) { //condicao caibro
+                let array = produto
+                let item4 = document.createElement('option')
+                let caibro = 'Caibro'
+                array[2] = Number(array[2] + M)
+                somaTotal += M
+
+                item4.text = `${caibro} | ${M.toFixed(4).replace('.', ',')}`
+                m3.appendChild(item4)
+
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+                resCB.innerText = `${produto[2].toFixed(4).replace('.', ',')}m³`
+                
+                Total.style.color = '#000'
+                resCB.style.color = '#000'
+            } else if (E >= 1 && L > 10 && E <= 3.9) { //condicao Tábua
+                let array = produto
+                let item5 = document.createElement('option')
+                let Tba = 'Tábua'
+
+                array[3] = Number(array[3] + M)
+                somaTotal += M
+
+                item5.text = `${Tba} | ${M.toFixed(4).replace('.', ',')}`
+                m3.appendChild(item5)
+
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+                resTB.innerText = `${produto[3].toFixed(4).replace('.', ',')}m³`
+                Total.style.color = '#000'
+                resTB.style.color = '#000'
+            } else if (E >= 4 && L >= 11 && L <= 20) { //Condicao Viga
+                let array = produto
+                let item6 = document.createElement('option')
+                let Vg = 'Viga'
+
+                array[4] = Number(array[4] + M)
+                somaTotal += M
+
+                item6.text = `${Vg} | ${M.toFixed(4).replace('.', ',')}`
+                m3.appendChild(item6)
+
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+                resVG.innerText = `${produto[4].toFixed(4).replace('.', ',')}m³`
+
+                Total.style.color = '#000'
+                resVG.style.color = '#000'
+            } else if (E < 2 && L <= 10 && E > 0) { //condicao Ripas
+                let array = produto
+                let item7 = document.createElement('option')
+                let RP = 'Ripas'
+
+                array[5] = Number(array[5] + M)
+                somaTotal += M
+
+                item7.text = `${RP} | ${M.toFixed(4).replace('.', ',')}`
+                m3.appendChild(item7)
+
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+                resRP.innerText = `${produto[5].toFixed(4).replace('.', ',')}m³`
+
+                Total.style.color = '#000'
+                resRP.style.color = '#000'
+            } else if (E >= 4 && L >= 8 && E <= 11 && L <= 10.9) { //condicao vigota
+                let array = produto
+                let item8 = document.createElement('option')
+                let vgt = 'Vigota'
+
+                array[6] = Number(array[6] + M)
+                somaTotal += M
+
+                item8.text = `${vgt} | ${M.toFixed(4).replace('.', ',')}`
+                m3.appendChild(item8)
+
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+                resVGTA.innerText = `${produto[6].toFixed(4).replace('.', ',')}m³`
+
+                Total.style.color = '#000'
+                resVGTA.style.color = '#000'
+            } else if ((E >= 2 && L >= 2) && (E <= 3.9 && L <= 10)) { //condicao sarrafos
+                let array = produto
+                let item9 = document.createElement('option')
+                let srrf = 'Sarrafos'
+
+                array[8] = Number(array[8] + M)
+                somaTotal += M
+
+                item9.text = `${srrf} | ${M.toFixed(4).replace('.', ',')}`
+                m3.appendChild(item9)
+
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+                resSRRF.innerText = `${produto[8].toFixed(4).replace('.', ',')}m³`
+
+                Total.style.color = '#000'
+                resSRRF.style.color = '#000'
+            } else {
+                alert('[ERRO] Por Favor insira os dados!')
+            }
+
+
+
+            function limpar() {
+                document.getElementById('bitola').value = ''
+                document.getElementById('largura').value = ''
+                document.getElementById('metragem').value = ''
+            }
+
+
+            limpar()
+
+        }
+
+        function subtrair() {
+            let E = Number(document.getElementById("bitola").value)
+            let L = Number(document.getElementById("largura").value)
+            let M = Number(document.getElementById("metragem").value)
+            let resP = document.getElementById("resPC")
+            let Total = document.getElementById("resTTL")
+
+
+            if ((E >= 12 && L >= 12) && (E === L)) { //condicao bloco
+                let array = produto
+                array[7] = Number(array[7] - M)
+                somaTotal -= M
+                let bloco = 'Bloco'
+                let item = document.createElement('option')
+
+                item.text = `${bloco} | ${M.toFixed(4)}`
+                m3.appendChild(item)
+                item.style.color = 'red'
+
+                Total.style.color = 'red'
+                resBC.style.color = 'red'
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+                resBC.innerText = `${produto[7].toFixed(4).replace('.', ',')}m³`
+
+            } else if (E >= 4 && L > 20 && E <= 7) { //condicao prancha
+                let array = produto
+                let item2 = document.createElement('option')
+                let pcha = 'Prancha'
+                array[0] = Number(array[0] - M)
+                somaTotal -= M
+
+                item2.text = `${pcha} | ${M.toFixed(4)}`
+                m3.appendChild(item2)
+                Total.style.color = 'red'
+                resP.style.color = 'red'
+                item2.style.color = 'red'
+                resP.innerText = `${produto[0].toFixed(4).replace('.', ',')}m³`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+
+            } else if (E > 7 && L > 20) { // condicao Pranchao
+                let array = produto
+                let item3 = document.createElement('option')
+                let pchao = 'Pranchão'
+                array[1] = Number(array[1] - M)
+                somaTotal -= M
+
+                item3.text = `${pchao} | ${M.toFixed(4)}`
+                m3.appendChild(item3)
+                item3.style.color = 'red'
+                Total.style.color = 'red'
+                resPAO.style.color = 'red'
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+                resPAO.innerText = `${produto[1].toFixed(4).replace('.', ',')}m³`
+            } else if (E >= 4 && L >= 4 && E <= 8 && L <= 8) { //condicao caibro
+                let array = produto
+                let item4 = document.createElement('option')
+                let Cai = 'Caibro'
+                array[2] = Number(array[2] - M)
+                somaTotal -= M
+
+                item4.text = `${Cai} | ${M.toFixed(4)}`
+                m3.appendChild(item4)
+                item4.style.color = 'red'
+                Total.style.color = 'red'
+                resCB.style.color = 'red'
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+                resCB.innerText = `${produto[2].toFixed(4).replace('.', ',')}m³`
+            } else if (E >= 1 && L > 10 && E <= 4) { //condicao Tábua
+                let array = produto
+                let item5 = document.createElement('option')
+                let Tba = 'Tábua'
+                array[3] = Number(array[3] - M)
+                somaTotal -= M
+
+                item5.text = `${Tba} | ${M.toFixed(4)}`
+                m3.appendChild(item5)
+                item5.style.color = 'red'
+                Total.style.color = 'red'
+                resTB.style.color = 'red'
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+                resTB.innerText = `${produto[3].toFixed(4).replace('.', ',')}m³`
+            } else if (E > 4 && L >= 11 && L <= 20) { //Condicao Viga
+                let array = produto
+                let item6 = document.createElement('option')
+                let Vga = 'Viga'
+                array[4] = Number(array[4] - M)
+                somaTotal -= M
+
+                item6.text = `${Vga} | ${M.toFixed(4)}`
+                m3.appendChild(item6)
+                item6.style.color = 'red'
+                Total.style.color = 'red'
+                resVG.style.color = 'red'
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+                resVG.innerText = `${produto[4].toFixed(4).replace('.', ',')}m³`
+            } else if (E < 2 && L < 10 && E > 0) { //condicao Ripas
+                let array = produto
+                let item7 = document.createElement('option')
+                let Rpa = 'Ripas'
+                array[5] = Number(array[5] - M)
+                somaTotal -= M
+
+                item7.text = `${Rpa} | ${M.toFixed(4)}`
+                m3.appendChild(item7)
+                item7.style.color = 'red'
+                Total.style.color = 'red'
+                resRP.style.color = 'red'
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+                resRP.innerText = `${produto[5].toFixed(4).replace('.', ',')}m³`
+            } else if (E >= 4 && L >= 8 && E <= 8 && L <= 11) { //condicao vigota
+                let array = produto
+                let item8 = document.createElement('option')
+                let Vigo = 'Vigota'
+                array[6] = Number(array[6] - M)
+                somaTotal -= M
+
+                item8.text = `${Vigo} | ${M.toFixed(4)}`
+                m3.appendChild(item8)
+                item8.style.color = 'red'
+                Total.style.color = 'red'
+                resVGTA.style.color = 'red'
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+                resVGTA.innerText = `${produto[6].toFixed(4).replace('.', ',')}m³`
+            } else if ((E >= 2 && L >= 2) && (E <= 4 && L <= 10)) { //condicao sarrafos
+                let array = produto
+                let item9 = document.createElement('option')
+                let sarra = 'Sarrafos'
+                array[8] = Number(array[8] - M)
+                somaTotal -= M
+
+                item9.text = `${sarra} | ${M.toFixed(4)}`
+                m3.appendChild(item9)
+                item9.style.color = 'red' 
+                Total.style.color = 'red'
+                resSRRF.style.color = 'red'
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+                resSRRF.innerText = `${produto[8].toFixed(4).replace('.', ',')}m³`
+            } else {
+                alert('[ERRO] Por Favor insira os dados!')
+            }
+
+
+
+            function limpar() {
+                document.getElementById('bitola').value = ''
+                document.getElementById('largura').value = ''
+                document.getElementById('metragem').value = ''
+            }
+
+
+            limpar()
+
+        }
+
+        function reset() {
+            somaTotal = 0
+            produto = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            document.getElementById("resTTL").innerHTML = ""
+            document.getElementById("resSRRF").innerHTML = ""
+            document.getElementById("resPC").innerHTML = ""
+            document.getElementById("resPAO").innerHTML = ""
+            document.getElementById("resCB").innerHTML = ""
+            document.getElementById("resTB").innerHTML = ""
+            document.getElementById("resVG").innerHTML = ""
+            document.getElementById("resRP").innerHTML = ""
+            document.getElementById("resVGTA").innerHTML = ""
+            document.getElementById("resBC").innerHTML = ""
+            document.getElementById('metros').innerHTML = ""
+            console.log(somaTotal)
+            console.log(produto)
+        }
+
+
+
+        //eventos KEY
+        document.getElementById("reset").addEventListener("click", reset)
+        document.getElementById("botao").addEventListener("click", calcular);
+        document.getElementById('sub').addEventListener('click', subtrair)
+
+
+        document.body.addEventListener('keypress', function (event) {
+            let k = event.keyCode
+            if (k == 43) {
+                calcular()
+            } else if (k == 45) {
+                subtrair()
+            }
+        });
+
+        // Adiciona um ouvinte de evento para verificar se a tecla "Enter" foi pressionada
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                calcular(); // Chama a função quando a tecla "Enter" é pressionada
+            }
+        });
+
+
+        let hour = document.getElementById("hours").innerHTML = `${date.toLocaleTimeString()} - ${date.toLocaleDateString()}`
+
+
+
+    </script>
+</body>
+
+</html>
