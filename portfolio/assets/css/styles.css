@@ -949,7 +949,8 @@ input:valid ~ label{
   }
 
   .home__img{
-    width: 500px;
+        width: 25rem;
+        height: 30rem;
   }
 
   .about__container,
