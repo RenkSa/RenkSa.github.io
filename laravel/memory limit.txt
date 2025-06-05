@@ -1,0 +1,6 @@
+php -r "echo ini_get('memory_limit');" // mostra o valor limite de memoria
+php --ini 
+php.ini ctrl+F = memory_limit = "alterando limite de memoria value"
+
+composer.phar 
+ 
