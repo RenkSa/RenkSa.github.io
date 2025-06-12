@@ -6,7 +6,7 @@
     <title>Amor - Laysa ♡</title>
     <style>
       body {
-        background-color: red;
+        background-color: rgb(65, 7, 226);
       }
 
       .painel {
@@ -20,14 +20,70 @@
         padding-top: 50px;
         font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
       }
+
+      #sim {
+        position: absolute;
+        height: 40px;
+        width: 60px;
+        background-color: rgb(65, 7, 226);
+        border: #fff;
+        border-radius: 10px;
+        color: #fff;
+      }
+
+      #nao {
+        height: 40px;
+        width: 60px;
+        background-color: rgb(65, 7, 226);
+        border: #fff;
+        border-radius: 10px;
+        color: #fff;
+        margin-left: 70px;
+      }
     </style>
   </head>
   <body>
     <div class="painel">
       <h1>Feliz Dia dos Namorado 12/06/2025</h1>
+      <h2>Aceita Namorar Comigo?</h2>
 
-      <button id="sim">Sim!</button>
-      <button id="nao">Não!</button>
+      <button class="btn" id="sim" onclick="sim()">Sim!</button>
+
+      <button
+        class="btn"
+        id="nao"
+        onclick="desvia(this)"
+        onmouseover="desvia(this)"
+      >
+        Não!
+      </button>
+
+      <img
+        src="https://gifman.net/wp-content/uploads/2019/06/ursinho-fofo-apaixonado.gif"
+        alt="gif ursinho"
+        margin-top:
+        50px;
+      />
     </div>
+
+    <script>
+      function sim() {
+        // redireciona para um URL após clicar no SIM
+        location.href = "https://music.youtube.com/watch?v=izGwDsrQ1eQ";
+      }
+
+      function desvia(btn) {
+        // btn declarado na função
+        btn.style.position = "absolute";
+        btn.style.background = "red";
+        btn.style.bottom = geraPosicao(10, 90);
+        btn.style.left = geraPosicao(10, 90);
+        console.log("opa, desviei...");
+      }
+
+      function geraPosicao(min, max) {
+        return Math.random() * (max - min) + min + "%";
+      }
+    </script>
   </body>
 </html>
