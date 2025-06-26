@@ -39,16 +39,19 @@ Route::prefix('/app')->group(function(){
 });
 
 //redirecionamento de rota
-Route::get('/rota1', function (){
-    echo 'Rota 1';
-})->name('site.rota1');
+Route::get('/teste/{p1}/{p2}', [\App\Http\Controllers\TesteController::class, 'teste'])->name('teste'); //observaçao de versao 
 
-Route::get('/rota2', function () {
-    return redirect()->route('site.rota1');
-})->name('site.rota2');
+
+
+//redirecionamento de rotas
+// Route::get('/rota2', function () {
+//     return redirect()->route('site.rota1');
+// })->name('site.rota2');
 
 // Route::redirect('/rota2', '/rota1');
 
+
+//metodo de fallback
 Route::fallback(function() {
     echo 'A rota acessada não existe. <a href="/">Clique aqui</a> para acessar a página inicial'; //no curso foi utilizada <a href="'.route('site.index')'">Clique aqui</a> não deu certo
 });
