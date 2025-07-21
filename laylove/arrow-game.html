@@ -57,19 +57,30 @@
       </clipPath>
       <g class="arrows" clip-path="url(#mask)"  pointer-events="none">
       </g>
-     <g class="sinto-falta" fill="#aaa" opacity="0" transform="translate(-50, 50)">
-      <path d="M358 194L363 118 386 120 400 153 416 121 440 119 446 203 419 212 416 163 401 180 380 160 381 204"/>
-      <path d="M450 120L458 200 475 192 474 121"/>
-      <path d="M537 118L487 118 485 160 515 162 509 177 482 171 482 193 529 199 538 148 501 146 508 133 537 137"/>
-      <path d="M540 202L543 178 570 186 569 168 544 167 546 122 590 116 586 142 561 140 560 152 586 153 586 205"/>
-      <path d="M630 120 L650 160 L670 120 L690 120 L660 170 L660 200 L640 200 L640 170 L610 120 Z"/>
-      <!-- o -->
-      <path d="M700 160 A20 20 0 1 1 699.9 160"/>
-      <!-- u -->
-      <path d="M730 140 L730 180 A20 20 0 0 0 770 180 L770 140 L750 140 L750 180 A5 5 0 0 1 750 180 L750 140 Z"/>
-      <!-- ! moved -->
-      <path d="M790 150 L790 180 L810 180 L810 100 Z M790 200 L810 200 L810 220 L790 220 Z"/>
-    </g>
+<g class="errou" fill="#aaa" opacity="0" transform="translate(500, 100)">
+  <!-- V -->
+  <path d="M0 0 L10 80 L20 0 L15 0 L10 60 L5 0 Z"/>
+  <!-- O -->
+  <path d="M40 40 A20 20 0 1 1 39.9 40"/>
+  <!-- C -->
+  <path d="M70 20 A20 20 0 1 0 70 60 L80 60 L80 50 L75 50 L75 30 L80 30 L80 20 Z"/>
+  <!-- Ê (E com acento circunflexo) -->
+  <path d="M100 0 L110 0 L105 10 Z"/> <!-- Acento -->
+  <path d="M100 20 L100 80 L130 80 L130 70 L110 70 L110 50 L130 50 L130 40 L110 40 L110 30 L130 30 L130 20 Z"/>
+  
+  <!-- E -->
+  <path d="M160 20 L160 80 L190 80 L190 70 L170 70 L170 50 L190 50 L190 40 L170 40 L170 30 L190 30 L190 20 Z"/>
+  <!-- R -->
+  <path d="M200 20 L200 80 L220 80 L220 55 L210 55 L225 80 L235 80 L215 50 L225 45 L225 20 Z"/>
+  <!-- R -->
+  <path d="M250 20 L250 80 L270 80 L270 55 L260 55 L275 80 L285 80 L265 50 L275 45 L275 20 Z"/>
+  <!-- O -->
+  <path d="M310 40 A20 20 0 1 1 309.9 40"/>
+  <!-- U -->
+  <path d="M340 20 L340 60 A20 20 0 0 0 380 60 L380 20 L370 20 L370 60 A10 10 0 0 1 350 60 L350 20 Z"/>
+  <!-- ! -->
+  <path d="M400 20 L400 70 L410 70 L410 20 Z M400 80 L410 80 L410 90 L400 90 Z"/>
+</g>
 
 <g class="amo-laysa" fill="#F4531C" opacity="0" transform="translate(300, 100)">
   <!-- A -->
@@ -130,7 +141,7 @@ window.addEventListener("touchend", function(e) {
       let lineSegment = { // target intersection line segment
         x1: 875, y1: 280, x2: 925, y2: 220
       };
-      let pivot = { x: 100, y: 250 }; // bow rotation point
+      let pivot = { x: 300, y: 250 }; // bow rotation point
       aim({ clientX: 320, clientY: 300 }); // set up start drag event
       window.addEventListener("mousedown", draw);
       function draw(e) { // pull back arrow
@@ -271,7 +282,7 @@ window.addEventListener("touchend", function(e) {
 
       function onMiss() {
         // Damn!
-        showMessage(".missyou");
+        showMessage(".errou");
       }
 
       function showMessage(selector) {
