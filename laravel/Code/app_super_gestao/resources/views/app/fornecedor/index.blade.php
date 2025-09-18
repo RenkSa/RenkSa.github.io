@@ -20,19 +20,35 @@
 
 </script>
 
-{{-- @unless executa se o retorno for false --}}
+@isset($fornecedores)
+    @forelse($fornecedores as $indice => $fornecedor)
+        Fornecedor: @{{ $fornecedor['nome']}}
+        <br>
+        Status: @{{ $fornecedor['status'] }}
+        <br>
+        CNPJ: @{{ $fornecedor['cnpj'] }}
+        <br>
+        Telefone: @({{ $fornecedor['ddd'] ?? ''}}) @{{ $fornecedor['telefone']}}
+        <br>
+    @empty
+        Não existem fornecedores cadastrados!!!
+    @endforelse    
+@endisset    
+
+{{-- @unless executa se o retorno for false
 <br>
 Fornecedor: {{ $fornecedores[0] ['nome'] }}
 <br>
 Status: {{ $fornecedores[0] ['status'] }}
-<br>
-@if($fornecedores[0]['status'] == 'S')
+<br> --}}
+
+{{-- @if($fornecedores[0]['status'] == 'S')
     Fornecedor inativo.
 @endif
 <br>
 @unless($fornecedores[0]['status'] == 'S') <!-- se o retorno da condicao for false -->
     Fornecedor inativo.
-@endunless
+@endunless --}}
 
 
 {{-- @if(count($fornecedores) > 0 && count($fornecedores) <= 10)
