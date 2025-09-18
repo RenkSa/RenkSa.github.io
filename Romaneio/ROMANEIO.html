@@ -46,7 +46,7 @@
             align-content: stretch;
             flex-wrap: nowrap;
             justify-content: space-evenly;
-            top: 10px;
+            margin-top: -100px;
         }
 
         input#metragem,
@@ -56,6 +56,13 @@
             border-radius: 2rem;
             padding: 0.5rem;
         }
+
+        tr#tdCenter {
+    position: relative;
+    /* align-items: center; */
+    left: 40px;
+    /* margin: 30px; */
+}
 
 
 
@@ -69,6 +76,7 @@
             align-content: stretch;
             flex-wrap: wrap;
             top: 30px;
+            gap: 50px;
         }
 
         tr {
@@ -121,10 +129,11 @@
             text-align: center;
             top: 35px;
             position: relative;
-            font: 800 15px arial;
+            font: 800 20px arial;
             display: flex;
             gap: 5px;
             flex-direction: column;
+            top: 150px;
         }
 
         div#dados>h1 {
@@ -246,6 +255,49 @@
         <h1>romaneio</h1>
     </header>
     <section>
+        <div id="tabela">
+            <table border="1">
+                <tr id="tdCenter">
+                    <td class="tdCenter" style="text-align:center;">Colinha para Sr(a) Josi</td>
+                </tr>
+                <tr>
+                    <td>PRANCHA</td>
+                    <td class="tdCenter" style="text-align:center;"> 5 x 25 </td>
+                </tr>
+                <tr>
+                    <td>PRANCHÃO</td>
+                    <td class="tdCenter" style="text-align:center;"> 8 x 25 </td>
+                </tr>
+                <tr>
+                    <td>CAIBRO</td>
+                    <td class="tdCenter" style="text-align:center;"> 5 x 5</td>
+                </tr>
+                <tr>
+                    <td>TABUA</td>
+                    <td class="tdCenter" style="text-align:center;">2 x 15</td>
+                </tr>
+                <tr>
+                    <td>VIGA</td>
+                    <td class="tdCenter" style="text-align:center;"> 5 x 15</td>
+                </tr>
+                <tr>
+                    <td>RIPAS</td>
+                    <td class="tdCenter" style="text-align:center;"> 1 x 5</td>
+                </tr>
+                <tr>
+                    <td>VIGOTA</td>
+                    <td class="tdCenter" style="text-align:center;"> 5 x 10</td>
+                </tr>
+                <tr>
+                    <td>BLOCO</td>
+                    <td class="tdCenter" style="text-align:center;">12 x 12</td>
+                </tr>
+                <tr>
+                    <td>SARRAFOS</td>
+                    <td class="tdCenter" style="text-align:center;">3 x 5</td>
+                </tr>
+            </table>
+        </div>
         <form id="inputs">
             <p>Bitola: <input type="number" name="bitola" id="bitola" placeholder="Insira a Espessura"
                     required="required" pattern="[0-9]"></p>
