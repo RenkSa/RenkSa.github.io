@@ -415,8 +415,8 @@
                 Total.style.color = '#000'
                 resBC.style.color = '#000'
 
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
-                resBC.innerText = `${produto[7].toFixed(4).replace('.', ',')}m³`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
+                resBC.innerText = `${produto[7].toFixed(4).replace('.', ',')}`
                 item.text = `${bloco} | ${M.toFixed(4).replace('.', ',')}`
                 
                 m3.appendChild(item)
@@ -432,8 +432,8 @@
                 item2.text = `${prancha} | ${M.toFixed(4).replace('.', ',')}`
                 m3.appendChild(item2)
 
-                resP.innerText = `${produto[0].toFixed(4).replace('.', ',')}m³`
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+                resP.innerText = `${produto[0].toFixed(4).replace('.', ',')}`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
 
                 Total.style.color = '#000'
                 resP.style.color = '#000'
@@ -448,8 +448,8 @@
                 item3.text = `${pao} | ${M.toFixed(4).replace('.', ',')}`
                 m3.appendChild(item3)
 
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
-                resPAO.innerText = `${produto[1].toFixed(4).replace('.', ',')}m³`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
+                resPAO.innerText = `${produto[1].toFixed(4).replace('.', ',')}`
                 Total.style.color = '#000'
                 resPAO.style.color = '#000'
             } else if (E >= 4 && L >= 4 && E <= 8 && L <= 7.9) { //condicao caibro
@@ -462,8 +462,8 @@
                 item4.text = `${caibro} | ${M.toFixed(4).replace('.', ',')}`
                 m3.appendChild(item4)
 
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
-                resCB.innerText = `${produto[2].toFixed(4).replace('.', ',')}m³`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
+                resCB.innerText = `${produto[2].toFixed(4).replace('.', ',')}`
                 
                 Total.style.color = '#000'
                 resCB.style.color = '#000'
@@ -478,8 +478,8 @@
                 item5.text = `${Tba} | ${M.toFixed(4).replace('.', ',')}`
                 m3.appendChild(item5)
 
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
-                resTB.innerText = `${produto[3].toFixed(4).replace('.', ',')}m³`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
+                resTB.innerText = `${produto[3].toFixed(4).replace('.', ',')}`
                 Total.style.color = '#000'
                 resTB.style.color = '#000'
             } else if (E >= 4 && L >= 11 && L <= 20) { //Condicao Viga
@@ -493,8 +493,8 @@
                 item6.text = `${Vg} | ${M.toFixed(4).replace('.', ',')}`
                 m3.appendChild(item6)
 
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
-                resVG.innerText = `${produto[4].toFixed(4).replace('.', ',')}m³`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
+                resVG.innerText = `${produto[4].toFixed(4).replace('.', ',')}`
 
                 Total.style.color = '#000'
                 resVG.style.color = '#000'
@@ -509,8 +509,8 @@
                 item7.text = `${RP} | ${M.toFixed(4).replace('.', ',')}`
                 m3.appendChild(item7)
 
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
-                resRP.innerText = `${produto[5].toFixed(4).replace('.', ',')}m³`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
+                resRP.innerText = `${produto[5].toFixed(4).replace('.', ',')}`
 
                 Total.style.color = '#000'
                 resRP.style.color = '#000'
@@ -525,8 +525,8 @@
                 item8.text = `${vgt} | ${M.toFixed(4).replace('.', ',')}`
                 m3.appendChild(item8)
 
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
-                resVGTA.innerText = `${produto[6].toFixed(4).replace('.', ',')}m³`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
+                resVGTA.innerText = `${produto[6].toFixed(4).replace('.', ',')}`
 
                 Total.style.color = '#000'
                 resVGTA.style.color = '#000'
@@ -541,8 +541,8 @@
                 item9.text = `${srrf} | ${M.toFixed(4).replace('.', ',')}`
                 m3.appendChild(item9)
 
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
-                resSRRF.innerText = `${produto[8].toFixed(4).replace('.', ',')}m³`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
+                resSRRF.innerText = `${produto[8].toFixed(4).replace('.', ',')}`
 
                 Total.style.color = '#000'
                 resSRRF.style.color = '#000'
@@ -584,8 +584,8 @@
 
                 Total.style.color = 'red'
                 resBC.style.color = 'red'
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
-                resBC.innerText = `${produto[7].toFixed(4).replace('.', ',')}m³`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
+                resBC.innerText = `${produto[7].toFixed(4).replace('.', ',')}`
 
             } else if (E >= 4 && L > 20 && E <= 7) { //condicao prancha
                 let array = produto
@@ -599,8 +599,8 @@
                 Total.style.color = 'red'
                 resP.style.color = 'red'
                 item2.style.color = 'red'
-                resP.innerText = `${produto[0].toFixed(4).replace('.', ',')}m³`
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
+                resP.innerText = `${produto[0].toFixed(4).replace('.', ',')}`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
 
             } else if (E > 7 && L > 20) { // condicao Pranchao
                 let array = produto
@@ -614,8 +614,8 @@
                 item3.style.color = 'red'
                 Total.style.color = 'red'
                 resPAO.style.color = 'red'
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
-                resPAO.innerText = `${produto[1].toFixed(4).replace('.', ',')}m³`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
+                resPAO.innerText = `${produto[1].toFixed(4).replace('.', ',')}`
             } else if (E >= 4 && L >= 4 && E <= 8 && L <= 8) { //condicao caibro
                 let array = produto
                 let item4 = document.createElement('option')
@@ -628,8 +628,8 @@
                 item4.style.color = 'red'
                 Total.style.color = 'red'
                 resCB.style.color = 'red'
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
-                resCB.innerText = `${produto[2].toFixed(4).replace('.', ',')}m³`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
+                resCB.innerText = `${produto[2].toFixed(4).replace('.', ',')}`
             } else if (E >= 1 && L > 10 && E <= 4) { //condicao Tábua
                 let array = produto
                 let item5 = document.createElement('option')
@@ -642,8 +642,8 @@
                 item5.style.color = 'red'
                 Total.style.color = 'red'
                 resTB.style.color = 'red'
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
-                resTB.innerText = `${produto[3].toFixed(4).replace('.', ',')}m³`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
+                resTB.innerText = `${produto[3].toFixed(4).replace('.', ',')}`
             } else if (E > 4 && L >= 11 && L <= 20) { //Condicao Viga
                 let array = produto
                 let item6 = document.createElement('option')
@@ -656,8 +656,8 @@
                 item6.style.color = 'red'
                 Total.style.color = 'red'
                 resVG.style.color = 'red'
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
-                resVG.innerText = `${produto[4].toFixed(4).replace('.', ',')}m³`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
+                resVG.innerText = `${produto[4].toFixed(4).replace('.', ',')}`
             } else if (E < 2 && L < 10 && E > 0) { //condicao Ripas
                 let array = produto
                 let item7 = document.createElement('option')
@@ -670,8 +670,8 @@
                 item7.style.color = 'red'
                 Total.style.color = 'red'
                 resRP.style.color = 'red'
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
-                resRP.innerText = `${produto[5].toFixed(4).replace('.', ',')}m³`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
+                resRP.innerText = `${produto[5].toFixed(4).replace('.', ',')}`
             } else if (E >= 4 && L >= 8 && E <= 8 && L <= 11) { //condicao vigota
                 let array = produto
                 let item8 = document.createElement('option')
@@ -684,8 +684,8 @@
                 item8.style.color = 'red'
                 Total.style.color = 'red'
                 resVGTA.style.color = 'red'
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
-                resVGTA.innerText = `${produto[6].toFixed(4).replace('.', ',')}m³`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
+                resVGTA.innerText = `${produto[6].toFixed(4).replace('.', ',')}`
             } else if ((E >= 2 && L >= 2) && (E <= 4 && L <= 10)) { //condicao sarrafos
                 let array = produto
                 let item9 = document.createElement('option')
@@ -698,8 +698,8 @@
                 item9.style.color = 'red' 
                 Total.style.color = 'red'
                 resSRRF.style.color = 'red'
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}m³`
-                resSRRF.innerText = `${produto[8].toFixed(4).replace('.', ',')}m³`
+                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
+                resSRRF.innerText = `${produto[8].toFixed(4).replace('.', ',')}`
             } else {
                 alert('[ERRO] Por Favor insira os dados!')
             }
