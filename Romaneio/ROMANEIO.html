@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MadMais - Sistema Corrigido</title>
+    <title>MadMais - Sistema com Reset</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         :root {
@@ -69,7 +69,7 @@
             <h3 style="color: var(--blue); margin-bottom: 15px;">MÓDULO FISCAL</h3>
             <button class="btn btn-blue" onclick="abrirModal('modalNfe')">ABRIR CONSULTA NF-E</button>
             <hr style="opacity: 0.1; margin: 15px 0;">
-            <textarea id="textoInput" placeholder="Texto (Grudar / Caps)..." rows="2"></textarea>
+            <textarea id="textoInput" placeholder="Processar texto..." rows="2"></textarea>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
                 <button class="btn btn-accent" onclick="removerTodosEspacos()">Grudar</button>
                 <button class="btn btn-blue" style="background:#444" onclick="corrigirETirarParagrafos()">CAPS</button>
@@ -88,6 +88,7 @@
                 <button class="btn btn-success" onclick="calcular()">ADD (+)</button>
                 <button class="btn btn-danger" onclick="subtrair()">SUB (-)</button>
             </div>
+            <button class="btn btn-blue" style="background: #333; margin-bottom: 8px;" onclick="resetCalculadora()">RESETAR VALORES</button>
             <button class="btn btn-accent" onclick="abrirModal('modalBitola')">TABELA DE BITOLAS</button>
         </div>
 
@@ -105,7 +106,7 @@
                 <tr id="row-SRRF" class="row-hidden"><td>SARRAFOS</td><td id="resSRRF" align="right">0,0000</td></tr>
                 <tr id="row-total" class="row-hidden"><td>TOTAL GERAL</td><td id="resTTL" align="right">0,0000</td></tr>
             </table>
-            <p id="msgVazia" style="font-size: 12px; opacity: 0.5; text-align: center; margin-top: 10px;">Aguardando dados...</p>
+            <p id="msgVazia" style="font-size: 12px; opacity: 0.5; text-align: center; margin-top: 10px;">Aguardando lançamentos...</p>
         </div>
 
         <div class="glass-panel" style="text-align: center;">
@@ -117,7 +118,7 @@
             </div>
             <div id="qrcode-container" style="display:none;"><div id="qrcode"></div></div>
             <select id="metros" size="5" style="margin-top:10px;"></select>
-            <button class="btn btn-danger" style="margin-top:5px; opacity:0.5" onclick="reset()">ZERAR TUDO</button>
+            <button class="btn btn-danger" style="margin-top:5px; opacity:0.5" onclick="resetGeral()">RECARREGAR TUDO</button>
         </div>
     </div>
 
@@ -174,7 +175,7 @@
         function corrigirETirarParagrafos() { document.getElementById('textoInput').value = document.getElementById('textoInput').value.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim().toUpperCase(); }
         function copiarTexto() { document.getElementById('textoInput').select(); document.execCommand("copy"); }
 
-        // MADEIRA LÓGICA (CATEGORIAS)
+        // MADEIRA LÓGICA
         let produto = [0,0,0,0,0,0,0,0,0], total = 0;
         const sufixos = ["PC", "PAO", "CB", "TB", "VG", "RP", "VGTA", "BC", "SRRF"];
 
@@ -217,7 +218,7 @@
                 document.getElementById('metros').prepend(opt);
                 atualizar();
             }
-            limpar();
+            limparFoco();
         }
 
         function subtrair() {
@@ -230,26 +231,29 @@
                 document.getElementById('metros').prepend(opt);
                 atualizar();
             }
-            limpar();
+            limparFoco();
         }
 
-        // ESCUTADOR DE TECLAS (+ e -)
-        document.addEventListener('keydown', function(e) {
-            // Não disparar se estiver digitando em campos de texto
-            if (document.activeElement.tagName === 'TEXTAREA' || document.activeElement.id === 'chaveAcesso' || document.activeElement.id === 'qrLink') return;
-            
-            if (e.key === '+') {
-                e.preventDefault();
-                calcular();
+        // NOVO RESET ESPECIFICO DA CALCULADORA
+        function resetCalculadora() {
+            if(confirm("Deseja limpar os valores do resumo e histórico?")) {
+                produto = [0,0,0,0,0,0,0,0,0];
+                total = 0;
+                document.getElementById('metros').innerHTML = "";
+                atualizar();
+                limparFoco();
             }
-            if (e.key === '-') {
-                e.preventDefault();
-                subtrair();
-            }
-        });
+        }
 
-        function limpar() { document.getElementById('bitola').value=''; document.getElementById('largura').value=''; document.getElementById('metragem').value=''; document.getElementById('bitola').focus(); }
-        function reset() { if(confirm("Deseja zerar todos os dados?")) location.reload(); }
+        function limparFoco() { document.getElementById('bitola').value=''; document.getElementById('largura').value=''; document.getElementById('metragem').value=''; document.getElementById('bitola').focus(); }
+        function resetGeral() { if(confirm("Recarregar sistema completo?")) location.reload(); }
+
+        // ATALHOS DE TECLADO (+ e -)
+        document.addEventListener('keydown', function(e) {
+            if (document.activeElement.tagName === 'TEXTAREA' || document.activeElement.id === 'chaveAcesso' || document.activeElement.id === 'qrLink') return;
+            if (e.key === '+') { e.preventDefault(); calcular(); }
+            if (e.key === '-') { e.preventDefault(); subtrair(); }
+        });
 
         function gerarQR() {
             const link = document.getElementById('qrLink').value;
