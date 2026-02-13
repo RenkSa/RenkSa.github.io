@@ -5,766 +5,388 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta author="Renk Sa">
-    <title>Romaneio</title>
+    <title>Romaneio Pro - Madeira</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        * {
-            margin: 0;
+        /* Variáveis de Cores Rústicas */
+        :root {
+            --primary: #3d2b1f; /* Café escuro */
+            --accent: #a67c52;  /* Madeira clara */
+            --bg-glass: rgba(255, 255, 255, 0.08);
+            --border-glass: rgba(255, 255, 255, 0.15);
+            --text: #f4ece2;
+            --success: #6d8c54;
+            --danger: #b35a4d;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
         body {
-            background-color: rgba(93, 230, 30, 0.651);
-            font: 600 20px arial;
+            background-color: var(--primary);
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                              url('https://images.unsplash.com/photo-1541123356219-284ebe98ae3b?q=80&w=2070&auto=format&fit=crop');
+            background-attachment: fixed;
+            background-size: cover;
+            color: var(--text);
+            padding: 40px 20px;
         }
 
-        p {
-            font: 600 20px arial;
-        }
-
-        h1 {
+        header h1 {
             text-align: center;
             text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 40px;
+            font-weight: 300;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
         }
 
-        option:focus-visible,
-        option:active,
-        optgroup:focus-visible,
-        option:nth-last-child(),
-        option:current,
-        option:last-child {
-            color: blue !important;
-            text-decoration: line-through;
+        /* Painéis Modernos (Glassmorphism) */
+        .glass-panel {
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: transform 0.3s ease;
         }
 
-        #inputs {
-            display: flex;
-            align-items: center;
-            font: 600 15px sans serif;
-            margin: 40px;
-            width: 200px;
-            height: 230px;
-            flex-direction: column;
-            align-content: stretch;
-            flex-wrap: nowrap;
-            justify-content: space-evenly;
-            margin-top: -100px;
+        .tools-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
         }
 
-        input#metragem,
-        input#largura,
-        input#bitola {
-            width: 200px;
-            border-radius: 2rem;
-            padding: 0.5rem;
-        }
-
-        tr#tdCenter {
-    position: relative;
-    /* align-items: center; */
-    left: 40px;
-    /* margin: 30px; */
-}
-
-
-
-        section {
-            margin: auto;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: row;
-            align-content: stretch;
-            flex-wrap: wrap;
-            top: 30px;
-            gap: 50px;
-        }
-
-        tr {
-            background-color: rgb(175, 175, 175);
-        }
-
-        #tabela {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
-        }
-
-        .textE {
-            text-align: end;
-        }
-
-        section#btao {
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        table,
-        tr,
-        td {
-            /* From https://css.glass */
-            background: rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(6.4px);
-            -webkit-backdrop-filter: blur(6.4px);
-            border: 1px solid rgba(255, 255, 255, 0.96);
-            padding: 5px;
-        }
-
-        table {
-            width: 350px;
-            height: 450px;
-        }
-
-        [type=button] {
-            border-radius: 2rem;
-            width: 200px;
-            height: 30px;
-        }
-
-        footer {
-            text-align: center;
-            top: 35px;
-            position: relative;
-            font: 800 20px arial;
-            display: flex;
-            gap: 5px;
-            flex-direction: column;
-            top: 150px;
-        }
-
-        div#dados>h1 {
-            position: absolute;
-            top: 20px;
-            position: relative;
-            top: -66px;
-        }
-
-        #resTTL {
-            font: 800 20px arial;
-        }
-
-        #dados {
-            display: flex;
-            width: 350px;
-            height: 194px;
-            background: #000000;
-            border-radius: 5%;
-            overflow: hidden;
-            align-content: center;
-            flex-wrap: nowrap;
-            justify-content: space-between;
-            align-items: center;
-            flex-direction: column;
-            overflow: hidden;
-            background: rgba(255, 255, 255, 0.116);
-            border-radius: 16px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.527);
-            backdrop-filter: blur(6.4px);
-            -webkit-backdrop-filter: blur(6.4px);
-            border: 1px solid rgba(255, 255, 255, 0.644);
-            padding: 5px;
-        }
-
-        .letter::after {
-            content: '_______________________________';
-            color: #000;
-        }
-
-        .letter {
-            color: #000;
-        }
-
-        #tipo,
-        #metros {
+        /* Inputs e Textarea */
+        textarea, .qr-input, input[type=number] {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 12px;
             color: #fff;
+            font-size: 15px;
+            margin-bottom: 10px;
+            outline: none;
+            transition: border 0.3s;
         }
 
+        textarea:focus, input:focus { border-color: var(--accent); }
+
+        /* Botões Interativos */
+        .btn {
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 13px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+            filter: brightness(1.2);
+        }
+
+        .btn:active { transform: translateY(0); }
+
+        .btn-accent { background: var(--accent); }
+        .btn-success { background: var(--success); }
+        .btn-danger { background: var(--danger); }
+        .btn-blue { background: #4a7ab5; }
+
+        /* QR Code Display */
+        #qrcode-container {
+            background: #fff;
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        /* Seção Principal */
+        section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Tabela de Resultados */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--border-glass);
+            font-size: 15px;
+        }
+
+        tr:last-child td { border: none; font-size: 18px; color: var(--accent); }
+
+        /* Histórico */
         #metros {
             width: 100%;
+            height: 250px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            border: none;
+            color: #ddd;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: #2d1f16;
+            margin: 5% auto;
+            padding: 30px;
+            border: 1px solid var(--accent);
+            width: 90%;
+            max-width: 450px;
+            border-radius: 25px;
             text-align: center;
-            font-size: 1.5rem;
-            background: rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(6.4px);
-            -webkit-backdrop-filter: blur(6.4px);
-            border: 1px solid rgba(255, 255, 255, 0.96);
-            color: #000;
-
         }
 
-        select::-webkit-scrollbar {
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(6.4px);
-            -webkit-backdrop-filter: blur(6.4px);
-        }
+        footer { text-align: center; margin-top: 60px; opacity: 0.6; font-size: 14px; letter-spacing: 2px; }
 
-        select::-webkit-scrollbar-button {
-            background-color: #fff;
-        }
+        #hours { font-size: 20px; font-weight: 300; margin-bottom: 5px; }
 
-        select::-webkit-progress-value {
-            background-color: #000;
-        }
-
-        .fixed {
-            position: relative;
-            top: 10px;
-            overflow: hidden;
-        }
-
-
-        @media screen and (max-width: 649px) {
-            section {
-                margin: auto;
-                position: relative;
-                display: flex;
-                align-items: baseline;
-                justify-content: center;
-                flex-direction: row;
-                align-content: stretch;
-                flex-wrap: wrap;
-                top: 30px;
-            }
-
-            #tabela {
-                top: 55px;
-                position: relative;
-            }
-
-            footer {
-                top: 90px;
-            }
-
-            #dados {
-                margin-top: 60px;
-            }
-        }
     </style>
 </head>
 
 <body>
-    <header>
-        <h1>romaneio</h1>
-    </header>
-    <section>
-        <div id="tabela">
-            <table border="1">
-                <tr id="tdCenter">
-                    <td class="tdCenter" style="text-align:center;">DECORA  LETICIA♡ · ❤︎</td>
-                </tr>
-                <tr>
-                    <td>PRANCHA</td>
-                    <td class="tdCenter" style="text-align:center;"> 5 x 25 </td>
-                </tr>
-                <tr>
-                    <td>PRANCHÃO</td>
-                    <td class="tdCenter" style="text-align:center;"> 8 x 25 </td>
-                </tr>
-                <tr>
-                    <td>CAIBRO</td>
-                    <td class="tdCenter" style="text-align:center;"> 5 x 5</td>
-                </tr>
-                <tr>
-                    <td>TABUA</td>
-                    <td class="tdCenter" style="text-align:center;">2 x 15</td>
-                </tr>
-                <tr>
-                    <td>VIGA</td>
-                    <td class="tdCenter" style="text-align:center;"> 5 x 15</td>
-                </tr>
-                <tr>
-                    <td>RIPAS</td>
-                    <td class="tdCenter" style="text-align:center;"> 1 x 5</td>
-                </tr>
-                <tr>
-                    <td>VIGOTA</td>
-                    <td class="tdCenter" style="text-align:center;"> 5 x 10</td>
-                </tr>
-                <tr>
-                    <td>BLOCO</td>
-                    <td class="tdCenter" style="text-align:center;">12 x 12</td>
-                </tr>
-                <tr>
-                    <td>SARRAFOS</td>
-                    <td class="tdCenter" style="text-align:center;">3 x 5</td>
-                </tr>
-            </table>
-        </div>
-        <form id="inputs">
-            <p>Bitola: <input type="number" name="bitola" id="bitola" placeholder="Insira a Espessura"
-                    required="required" pattern="[0-9]"></p>
-            <p>Largura: <input type="number" name="largura" id="largura" placeholder="Insira a Largura"
-                    required="required" pattern="[0-9]"></p>
-            <p>Metragem: <input type="number" name="metragem" id="metragem" placeholder="Insira a Metragem"
-                    required="required" pattern="[0-9]">
-            </p>
+    <header><h1>ROMANEIO PRO</h1></header>
 
-            <section id="btao">
-                <div><input id="botao" type="button" value="ADD"></div>
-                <div><input id="sub" type="button" value="SUB"></div>
-                <div><input type="button" id="reset" value="Resetar"></div>
-                <div><input type="button" id="print" value="Imprimir" onclick="window.print()"></div>
-            </section>
-        </form>
-        <div id="tabela">
-            <table border="1">
-                <tr>
-                    <td>TIPO</td>
-                    <td>METRAGEM</td>
-                </tr>
-                <tr>
-                    <td>PRANCHA</td>
-                    <td class="textE" id="resPC"></td>
-                </tr>
-                <tr>
-                    <td>PRANCHÃO</td>
-                    <td class="textE" id="resPAO"></td>
-                </tr>
-                <tr>
-                    <td>CAIBRO</td>
-                    <td class="textE" id="resCB"></td>
-                </tr>
-                <tr>
-                    <td>TABUA</td>
-                    <td class="textE" id="resTB"></td>
-                </tr>
-                <tr>
-                    <td>VIGA</td>
-                    <td class="textE" id="resVG"></td>
-                </tr>
-                <tr>
-                    <td>RIPAS</td>
-                    <td class="textE" id="resRP"></td>
-                </tr>
-                <tr>
-                    <td>VIGOTA</td>
-                    <td class="textE" id="resVGTA"></td>
-                </tr>
-                <tr>
-                    <td>BLOCO</td>
-                    <td class="textE" id="resBC"></td>
-                </tr>
-                <tr>
-                    <td>SARRAFOS</td>
-                    <td class="textE" id="resSRRF"></td>
-                </tr>
-                <tr>
-                    <td>TOTAL:</td>
-                    <td class="textE" id="resTTL"></td>
-                </tr>
-            </table>
-        </div>
-        <!--Div Historico-->
-        <div id="dados">
-            <div class="letter">
-                <h1 class="fixed">HISTÓRICO</h1>
+    <div class="tools-container">
+        <div class="glass-panel">
+            <h3 style="margin-bottom: 15px; color: var(--accent);">FERRAMENTAS DE TEXTO</h3>
+            <textarea id="textoInput" placeholder="Insira o texto aqui..." rows="3"></textarea>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="btn btn-accent" onclick="removerTodosEspacos()">Grudar Texto</button>
+                <button class="btn btn-accent" onclick="corrigirETirarParagrafos()">Corrigir & Caps</button>
+                <button class="btn btn-blue" onclick="copiarTexto()">Copiar</button>
             </div>
-
-            <select id="metros" size="10">
-
-            </select>
         </div>
 
+        <div class="glass-panel" style="text-align: center;">
+            <h3 style="margin-bottom: 15px; color: var(--accent);">PDF & QR CODE</h3>
+            <input type="text" id="qrLink" class="qr-input" placeholder="Link do Google Drive...">
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button class="btn btn-success" onclick="gerarQR()">Gerar QR</button>
+                <button class="btn btn-blue" style="background:#555" onclick="baixarQR()">Baixar PNG</button>
+            </div>
+            <div id="qrcode-container"><div id="qrcode"></div></div>
+        </div>
+    </div>
+
+    <section>
+        <div class="glass-panel" style="text-align: center; display: flex; flex-direction: column; justify-content: center;">
+            <p style="margin-bottom: 20px; opacity: 0.8;">Consulte as medidas padrão de corte.</p>
+            <button class="btn btn-accent" style="font-size: 18px;" onclick="abrirModal()">TABELA DE BITOLAS</button>
+        </div>
+
+        <div class="glass-panel">
+            <h3 style="margin-bottom: 20px; color: var(--accent);">CALCULADORA</h3>
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+                <input type="number" id="bitola" placeholder="Bitola (Espessura)" onkeypress="return apenasNumeros(event)">
+                <input type="number" id="largura" placeholder="Largura" onkeypress="return apenasNumeros(event)">
+                <input type="number" id="metragem" placeholder="Metragem Linear" onkeypress="return apenasNumeros(event)">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+                <button class="btn btn-success" onclick="calcular()">ADICIONAR (+)</button>
+                <button class="btn btn-danger" onclick="subtrair()">REMOVER (-)</button>
+                <button class="btn btn-accent" style="grid-column: span 2; background: #888;" onclick="reset()">REINICIALIZAR</button>
+            </div>
+        </div>
+
+        <div class="glass-panel">
+            <h3 style="margin-bottom: 15px; color: var(--accent);">RESUMO M³</h3>
+            <table>
+                <tr><td>PRANCHA</td><td id="resPC" align="right">0,0000</td></tr>
+                <tr><td>PRANCHÃO</td><td id="resPAO" align="right">0,0000</td></tr>
+                <tr><td>CAIBRO</td><td id="resCB" align="right">0,0000</td></tr>
+                <tr><td>TABUA</td><td id="resTB" align="right">0,0000</td></tr>
+                <tr><td>VIGA</td><td id="resVG" align="right">0,0000</td></tr>
+                <tr><td>RIPAS</td><td id="resRP" align="right">0,0000</td></tr>
+                <tr><td>VIGOTA</td><td id="resVGTA" align="right">0,0000</td></tr>
+                <tr><td>BLOCO</td><td id="resBC" align="right">0,0000</td></tr>
+                <tr><td>SARRAFOS</td><td id="resSRRF" align="right">0,0000</td></tr>
+                <tr style="font-weight: bold;"><td>TOTAL GERAL</td><td id="resTTL" align="right">0,0000</td></tr>
+            </table>
+        </div>
+
+        <div class="glass-panel">
+            <h3 style="margin-bottom: 15px; color: var(--accent);">HISTÓRICO DE LANÇAMENTOS</h3>
+            <select id="metros" size="10"></select>
+        </div>
     </section>
 
+    <div id="meuModal" class="modal">
+        <div class="modal-content">
+            <h2 style="color: var(--accent); margin-bottom: 20px;">DECORA LETICIA ♡</h2>
+            <table style="text-align: left; margin-bottom: 20px;">
+                <tr><td>PRANCHA</td><td>5 x 25</td></tr>
+                <tr><td>PRANCHÃO</td><td>8 x 25</td></tr>
+                <tr><td>CAIBRO</td><td>5 x 5</td></tr>
+                <tr><td>TABUA</td><td>2 x 15</td></tr>
+                <tr><td>VIGA</td><td>5 x 15</td></tr>
+                <tr><td>RIPAS</td><td>1 x 5</td></tr>
+                <tr><td>VIGOTA</td><td>5 x 10</td></tr>
+                <tr><td>BLOCO</td><td>12 x 12</td></tr>
+                <tr><td>SARRAFOS</td><td>3 x 5</td></tr>
+            </table>
+            <button class="btn btn-danger" style="width: 100%;" onclick="fecharModal()">FECHAR</button>
+        </div>
+    </div>
+
     <footer>
-        <div id="erro"></div>
-        <div>&reg;RWS</div>
-        <div id="hours"></div>
+        <div id="hours">00:00:00</div>
+        <div>DESIGN BY RENK SA &bull; &reg;2026</div>
     </footer>
 
     <script>
-        const m3 = document.getElementById('metros')
-        let date = new Date()
+        // Funções de Interface
+        function abrirModal() { document.getElementById("meuModal").style.display = "block"; }
+        function fecharModal() { document.getElementById("meuModal").style.display = "none"; }
+        window.onclick = function(e) { if(e.target.className == 'modal') fecharModal(); }
 
-        let produto = [Number(0), Number(0), Number(0), Number(0),
-        Number(0), Number(0), Number(0), Number(0),
-        Number(0), Number(0)]
-        let somaTotal = Number(0)
-
-        function removerCaracteresEspeciais(input) {
-            const regex = /[^a-zA-Z0-9\s]/g;
-            const textoSemCaracteresEspeciais = input.replace(regex, '');
-            return textoSemCaracteresEspeciais;
+        // QR Code
+        function gerarQR() {
+            const link = document.getElementById('qrLink').value;
+            if (!link) return alert("Insira o link!");
+            document.getElementById('qrcode-container').style.display = "inline-block";
+            document.getElementById('qrcode').innerHTML = "";
+            new QRCode(document.getElementById('qrcode'), { text: link, width: 150, height: 150 });
         }
-        
+
+        function baixarQR() {
+            const canvas = document.querySelector('#qrcode canvas');
+            if(!canvas) return alert("Gere o QR primeiro!");
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width; tempCanvas.height = canvas.height;
+            const ctx = tempCanvas.getContext('2d');
+            const data = canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height);
+            for(let i=0; i<data.data.length; i+=4) if(data.data[i]>128) data.data[i+3]=0;
+            ctx.putImageData(data,0,0);
+            const a = document.createElement('a');
+            a.download = 'qr_transparente.png'; a.href = tempCanvas.toDataURL(); a.click();
+        }
+
+        // Texto
+        function removerTodosEspacos() {
+            let t = document.getElementById('textoInput');
+            t.value = t.value.replace(/\s/g, '');
+        }
+
+        function corrigirETirarParagrafos() {
+            let t = document.getElementById('textoInput');
+            t.value = t.value.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim().toUpperCase();
+        }
+
+        function copiarTexto() {
+            let t = document.getElementById('textoInput');
+            t.select(); document.execCommand("copy");
+        }
+
+        // Lógica de Madeira
+        let produto = [0,0,0,0,0,0,0,0,0], total = 0;
+
+        function identificar(E, L) {
+            if (E >= 12 && L >= 12 && E === L) return {i:7, n:'Bloco'};
+            if (E >= 4 && L > 20 && E <= 7) return {i:0, n:'Prancha'};
+            if (E > 7 && L > 20) return {i:1, n:'Pranchão'};
+            if (E >= 4 && L >= 4 && E <= 8 && L <= 7.9) return {i:2, n:'Caibro'};
+            if (E >= 1 && L > 10 && E <= 3.9) return {i:3, n:'Tábua'};
+            if (E >= 4 && L >= 11 && L <= 20) return {i:4, n:'Viga'};
+            if (E < 2 && L <= 10 && E > 0) return {i:5, n:'Ripas'};
+            if (E >= 4 && L >= 8 && E <= 11 && L <= 10.9) return {i:6, n:'Vigota'};
+            if (E >= 2 && L >= 2 && E <= 3.9 && L <= 10) return {i:8, n:'Sarrafos'};
+            return null;
+        }
+
+        function atualizar() {
+            const ids = ["resPC","resPAO","resCB","resTB","resVG","resRP","resVGTA","resBC","resSRRF"];
+            ids.forEach((id, i) => document.getElementById(id).innerText = produto[i].toFixed(4).replace('.',','));
+            document.getElementById("resTTL").innerText = total.toFixed(4).replace('.',',');
+        }
+
         function calcular() {
-            let E = Number(document.getElementById("bitola").value)
-            let L = Number(document.getElementById("largura").value)
-            let M = Number(document.getElementById("metragem").value)
-            let resP = document.getElementById("resPC")
-            let Total = document.getElementById("resTTL")
-
-
-
-            if ((E >= 12 && L >= 12) && (E === L)) { //condicao bloco
-                let array = produto
-                let bloco = 'Bloco'
-                array[7] = Number(array[7] + M)
-                let item = document.createElement('option')
-                somaTotal += M
-
-                Total.style.color = '#000'
-                resBC.style.color = '#000'
-
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
-                resBC.innerText = `${produto[7].toFixed(4).replace('.', ',')}`
-                item.text = `${bloco} | ${M.toFixed(4).replace('.', ',')}`
-                
-                m3.appendChild(item)
-            } else if (E >= 4 && L > 20 && E <= 7) { //condicao prancha
-                let array = produto
-                let prancha = 'Prancha'
-                let item2 = document.createElement('option')
-
-                array[0] = Number(array[0] + M)
-                somaTotal += M
-
-
-                item2.text = `${prancha} | ${M.toFixed(4).replace('.', ',')}`
-                m3.appendChild(item2)
-
-                resP.innerText = `${produto[0].toFixed(4).replace('.', ',')}`
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
-
-                Total.style.color = '#000'
-                resP.style.color = '#000'
-
-            } else if (E > 7 && L > 20) { // condicao Pranchao
-                let array = produto
-                let item3 = document.createElement('option')
-                let pao = 'Pranchão'
-                array[1] = Number(array[1] + M)
-                somaTotal += M
-
-                item3.text = `${pao} | ${M.toFixed(4).replace('.', ',')}`
-                m3.appendChild(item3)
-
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
-                resPAO.innerText = `${produto[1].toFixed(4).replace('.', ',')}`
-                Total.style.color = '#000'
-                resPAO.style.color = '#000'
-            } else if (E >= 4 && L >= 4 && E <= 8 && L <= 7.9) { //condicao caibro
-                let array = produto
-                let item4 = document.createElement('option')
-                let caibro = 'Caibro'
-                array[2] = Number(array[2] + M)
-                somaTotal += M
-
-                item4.text = `${caibro} | ${M.toFixed(4).replace('.', ',')}`
-                m3.appendChild(item4)
-
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
-                resCB.innerText = `${produto[2].toFixed(4).replace('.', ',')}`
-                
-                Total.style.color = '#000'
-                resCB.style.color = '#000'
-            } else if (E >= 1 && L > 10 && E <= 3.9) { //condicao Tábua
-                let array = produto
-                let item5 = document.createElement('option')
-                let Tba = 'Tábua'
-
-                array[3] = Number(array[3] + M)
-                somaTotal += M
-
-                item5.text = `${Tba} | ${M.toFixed(4).replace('.', ',')}`
-                m3.appendChild(item5)
-
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
-                resTB.innerText = `${produto[3].toFixed(4).replace('.', ',')}`
-                Total.style.color = '#000'
-                resTB.style.color = '#000'
-            } else if (E >= 4 && L >= 11 && L <= 20) { //Condicao Viga
-                let array = produto
-                let item6 = document.createElement('option')
-                let Vg = 'Viga'
-
-                array[4] = Number(array[4] + M)
-                somaTotal += M
-
-                item6.text = `${Vg} | ${M.toFixed(4).replace('.', ',')}`
-                m3.appendChild(item6)
-
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
-                resVG.innerText = `${produto[4].toFixed(4).replace('.', ',')}`
-
-                Total.style.color = '#000'
-                resVG.style.color = '#000'
-            } else if (E < 2 && L <= 10 && E > 0) { //condicao Ripas
-                let array = produto
-                let item7 = document.createElement('option')
-                let RP = 'Ripas'
-
-                array[5] = Number(array[5] + M)
-                somaTotal += M
-
-                item7.text = `${RP} | ${M.toFixed(4).replace('.', ',')}`
-                m3.appendChild(item7)
-
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
-                resRP.innerText = `${produto[5].toFixed(4).replace('.', ',')}`
-
-                Total.style.color = '#000'
-                resRP.style.color = '#000'
-            } else if (E >= 4 && L >= 8 && E <= 11 && L <= 10.9) { //condicao vigota
-                let array = produto
-                let item8 = document.createElement('option')
-                let vgt = 'Vigota'
-
-                array[6] = Number(array[6] + M)
-                somaTotal += M
-
-                item8.text = `${vgt} | ${M.toFixed(4).replace('.', ',')}`
-                m3.appendChild(item8)
-
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
-                resVGTA.innerText = `${produto[6].toFixed(4).replace('.', ',')}`
-
-                Total.style.color = '#000'
-                resVGTA.style.color = '#000'
-            } else if ((E >= 2 && L >= 2) && (E <= 3.9 && L <= 10)) { //condicao sarrafos
-                let array = produto
-                let item9 = document.createElement('option')
-                let srrf = 'Sarrafos'
-
-                array[8] = Number(array[8] + M)
-                somaTotal += M
-
-                item9.text = `${srrf} | ${M.toFixed(4).replace('.', ',')}`
-                m3.appendChild(item9)
-
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
-                resSRRF.innerText = `${produto[8].toFixed(4).replace('.', ',')}`
-
-                Total.style.color = '#000'
-                resSRRF.style.color = '#000'
-            } else {
-                alert('[ERRO] Por Favor insira os dados!')
+            let E = Number(document.getElementById("bitola").value);
+            let L = Number(document.getElementById("largura").value);
+            let M = Number(document.getElementById("metragem").value);
+            let res = identificar(E, L);
+            if (res && M > 0) {
+                produto[res.i] += M; total += M;
+                let opt = document.createElement('option');
+                opt.text = `${res.n} | +${M.toFixed(4).replace('.', ',')}`;
+                document.getElementById('metros').prepend(opt);
+                atualizar();
             }
-
-
-
-            function limpar() {
-                document.getElementById('bitola').value = ''
-                document.getElementById('largura').value = ''
-                document.getElementById('metragem').value = ''
-            }
-
-
-            limpar()
-
+            limpar();
         }
 
         function subtrair() {
-            let E = Number(document.getElementById("bitola").value)
-            let L = Number(document.getElementById("largura").value)
-            let M = Number(document.getElementById("metragem").value)
-            let resP = document.getElementById("resPC")
-            let Total = document.getElementById("resTTL")
-
-
-            if ((E >= 12 && L >= 12) && (E === L)) { //condicao bloco
-                let array = produto
-                array[7] = Number(array[7] - M)
-                somaTotal -= M
-                let bloco = 'Bloco'
-                let item = document.createElement('option')
-
-                item.text = `${bloco} | ${M.toFixed(4)}`
-                m3.appendChild(item)
-                item.style.color = 'red'
-
-                Total.style.color = 'red'
-                resBC.style.color = 'red'
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
-                resBC.innerText = `${produto[7].toFixed(4).replace('.', ',')}`
-
-            } else if (E >= 4 && L > 20 && E <= 7) { //condicao prancha
-                let array = produto
-                let item2 = document.createElement('option')
-                let pcha = 'Prancha'
-                array[0] = Number(array[0] - M)
-                somaTotal -= M
-
-                item2.text = `${pcha} | ${M.toFixed(4)}`
-                m3.appendChild(item2)
-                Total.style.color = 'red'
-                resP.style.color = 'red'
-                item2.style.color = 'red'
-                resP.innerText = `${produto[0].toFixed(4).replace('.', ',')}`
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
-
-            } else if (E > 7 && L > 20) { // condicao Pranchao
-                let array = produto
-                let item3 = document.createElement('option')
-                let pchao = 'Pranchão'
-                array[1] = Number(array[1] - M)
-                somaTotal -= M
-
-                item3.text = `${pchao} | ${M.toFixed(4)}`
-                m3.appendChild(item3)
-                item3.style.color = 'red'
-                Total.style.color = 'red'
-                resPAO.style.color = 'red'
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
-                resPAO.innerText = `${produto[1].toFixed(4).replace('.', ',')}`
-            } else if (E >= 4 && L >= 4 && E <= 8 && L <= 8) { //condicao caibro
-                let array = produto
-                let item4 = document.createElement('option')
-                let Cai = 'Caibro'
-                array[2] = Number(array[2] - M)
-                somaTotal -= M
-
-                item4.text = `${Cai} | ${M.toFixed(4)}`
-                m3.appendChild(item4)
-                item4.style.color = 'red'
-                Total.style.color = 'red'
-                resCB.style.color = 'red'
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
-                resCB.innerText = `${produto[2].toFixed(4).replace('.', ',')}`
-            } else if (E >= 1 && L > 10 && E <= 4) { //condicao Tábua
-                let array = produto
-                let item5 = document.createElement('option')
-                let Tba = 'Tábua'
-                array[3] = Number(array[3] - M)
-                somaTotal -= M
-
-                item5.text = `${Tba} | ${M.toFixed(4)}`
-                m3.appendChild(item5)
-                item5.style.color = 'red'
-                Total.style.color = 'red'
-                resTB.style.color = 'red'
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
-                resTB.innerText = `${produto[3].toFixed(4).replace('.', ',')}`
-            } else if (E > 4 && L >= 11 && L <= 20) { //Condicao Viga
-                let array = produto
-                let item6 = document.createElement('option')
-                let Vga = 'Viga'
-                array[4] = Number(array[4] - M)
-                somaTotal -= M
-
-                item6.text = `${Vga} | ${M.toFixed(4)}`
-                m3.appendChild(item6)
-                item6.style.color = 'red'
-                Total.style.color = 'red'
-                resVG.style.color = 'red'
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
-                resVG.innerText = `${produto[4].toFixed(4).replace('.', ',')}`
-            } else if (E < 2 && L < 10 && E > 0) { //condicao Ripas
-                let array = produto
-                let item7 = document.createElement('option')
-                let Rpa = 'Ripas'
-                array[5] = Number(array[5] - M)
-                somaTotal -= M
-
-                item7.text = `${Rpa} | ${M.toFixed(4)}`
-                m3.appendChild(item7)
-                item7.style.color = 'red'
-                Total.style.color = 'red'
-                resRP.style.color = 'red'
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
-                resRP.innerText = `${produto[5].toFixed(4).replace('.', ',')}`
-            } else if (E >= 4 && L >= 8 && E <= 8 && L <= 11) { //condicao vigota
-                let array = produto
-                let item8 = document.createElement('option')
-                let Vigo = 'Vigota'
-                array[6] = Number(array[6] - M)
-                somaTotal -= M
-
-                item8.text = `${Vigo} | ${M.toFixed(4)}`
-                m3.appendChild(item8)
-                item8.style.color = 'red'
-                Total.style.color = 'red'
-                resVGTA.style.color = 'red'
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
-                resVGTA.innerText = `${produto[6].toFixed(4).replace('.', ',')}`
-            } else if ((E >= 2 && L >= 2) && (E <= 4 && L <= 10)) { //condicao sarrafos
-                let array = produto
-                let item9 = document.createElement('option')
-                let sarra = 'Sarrafos'
-                array[8] = Number(array[8] - M)
-                somaTotal -= M
-
-                item9.text = `${sarra} | ${M.toFixed(4)}`
-                m3.appendChild(item9)
-                item9.style.color = 'red' 
-                Total.style.color = 'red'
-                resSRRF.style.color = 'red'
-                Total.innerText = `${somaTotal.toFixed(4).replace('.', ',')}`
-                resSRRF.innerText = `${produto[8].toFixed(4).replace('.', ',')}`
-            } else {
-                alert('[ERRO] Por Favor insira os dados!')
+            let E = Number(document.getElementById("bitola").value);
+            let L = Number(document.getElementById("largura").value);
+            let M = Number(document.getElementById("metragem").value);
+            let res = identificar(E, L);
+            if (res && M > 0 && produto[res.i] >= M) {
+                produto[res.i] -= M; total -= M;
+                let opt = document.createElement('option');
+                opt.text = `${res.n} | -${M.toFixed(4).replace('.', ',')}`;
+                document.getElementById('metros').prepend(opt);
+                atualizar();
             }
-
-
-
-            function limpar() {
-                document.getElementById('bitola').value = ''
-                document.getElementById('largura').value = ''
-                document.getElementById('metragem').value = ''
-            }
-
-
-            limpar()
-
+            limpar();
         }
 
-        function reset() {
-            somaTotal = 0
-            produto = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            document.getElementById("resTTL").innerHTML = ""
-            document.getElementById("resSRRF").innerHTML = ""
-            document.getElementById("resPC").innerHTML = ""
-            document.getElementById("resPAO").innerHTML = ""
-            document.getElementById("resCB").innerHTML = ""
-            document.getElementById("resTB").innerHTML = ""
-            document.getElementById("resVG").innerHTML = ""
-            document.getElementById("resRP").innerHTML = ""
-            document.getElementById("resVGTA").innerHTML = ""
-            document.getElementById("resBC").innerHTML = ""
-            document.getElementById('metros').innerHTML = ""
-            console.log(somaTotal)
-            console.log(produto)
+        function apenasNumeros(evt) {
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode !== 46 && charCode !== 44) return false;
+            return true;
         }
 
-
-
-        //eventos KEY
-        document.getElementById("reset").addEventListener("click", reset)
-        document.getElementById("botao").addEventListener("click", calcular);
-        document.getElementById('sub').addEventListener('click', subtrair)
-
-
-        document.body.addEventListener('keypress', function (event) {
-            let k = event.keyCode
-            if (k == 43) {
-                calcular()
-            } else if (k == 45) {
-                subtrair()
-            }
+        document.addEventListener('keydown', (e) => {
+            if (["textoInput", "qrLink"].includes(document.activeElement.id)) return;
+            if (e.key === '+') { e.preventDefault(); calcular(); }
+            if (e.key === '-') { e.preventDefault(); subtrair(); }
         });
 
-        // Adiciona um ouvinte de evento para verificar se a tecla "Enter" foi pressionada
-        document.addEventListener("keydown", function (event) {
-            if (event.key === "Enter") {
-                calcular(); // Chama a função quando a tecla "Enter" é pressionada
-            }
-        });
+        function limpar() { 
+            document.getElementById('bitola').value=''; 
+            document.getElementById('largura').value=''; 
+            document.getElementById('metragem').value=''; 
+            document.getElementById('bitola').focus(); 
+        }
 
+        function reset() { if(confirm("Deseja zerar todos os cálculos?")) location.reload(); }
 
-        let hour = document.getElementById("hours").innerHTML = `${date.toLocaleTimeString()} - ${date.toLocaleDateString()}`
-
-
-
+        setInterval(() => document.getElementById("hours").innerHTML = new Date().toLocaleTimeString(), 1000);
     </script>
 </body>
-
 </html>
