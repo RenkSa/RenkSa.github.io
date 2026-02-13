@@ -4,256 +4,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta author="Renk Sa">
-    <title>Romaneio Pro - Casa Rústica</title>
+    <title>MadMais - Sistema Corrigido</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         :root {
             --primary: #2d1f16; 
             --accent: #d4a373;  
-            --bg-glass: rgba(0, 0, 0, 0.65);
+            --bg-glass: rgba(0, 0, 0, 0.85);
             --border-glass: rgba(255, 255, 255, 0.15);
             --text: #fefae0;
             --success: #606c38;
             --danger: #bc6c25;
-            --blue: #457b9d;
+            --blue: #00a8ff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
         body {
-            /* Imagem de fundo: Casa Rústica de Madeira */
-            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
                               url('https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?q=80&w=2071&auto=format&fit=crop');
             background-attachment: fixed;
             background-size: cover;
             background-position: center;
             color: var(--text);
-            padding: 40px 20px;
+            padding: 20px;
         }
 
-        header h1 {
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 6px;
-            margin-bottom: 40px;
-            text-shadow: 3px 3px 15px rgba(0,0,0,0.8);
-            font-weight: 700;
-        }
+        header h1 { text-align: center; text-transform: uppercase; margin: 20px 0; letter-spacing: 4px; font-weight: 800; text-shadow: 2px 2px 10px #000; }
 
-        .glass-panel {
-            background: var(--bg-glass);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid var(--border-glass);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease;
-        }
+        .main-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; max-width: 1400px; margin: 0 auto; }
 
-        .tools-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-            max-width: 1200px;
-            margin: 0 auto 30px auto;
-        }
+        .glass-panel { background: var(--bg-glass); backdrop-filter: blur(12px); border: 1px solid var(--border-glass); border-radius: 15px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
-        textarea, .qr-input, input[type=number] {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--border-glass);
-            border-radius: 8px;
-            padding: 12px;
-            color: #fff;
-            margin-bottom: 10px;
-            outline: none;
-        }
+        input, textarea, select { width: 100%; background: rgba(255, 255, 255, 0.1); border: 1px solid var(--border-glass); border-radius: 8px; padding: 12px; color: #fff; margin-bottom: 10px; outline: none; font-weight: bold; }
 
-        .btn {
-            padding: 12px 18px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 12px;
-            transition: all 0.3s ease;
-            color: white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.2);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
-        }
+        .btn { padding: 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 11px; transition: 0.3s; color: white; text-align: center; display: block; width: 100%; margin-bottom: 8px; }
+        .btn:hover { transform: translateY(-2px); filter: brightness(1.2); }
 
         .btn-accent { background: var(--accent); color: #2d1f16; }
         .btn-success { background: var(--success); }
         .btn-danger { background: var(--danger); }
         .btn-blue { background: var(--blue); }
 
-        #qrcode-container { background: #fff; padding: 10px; border-radius: 10px; margin-top: 10px; display: none; }
-
-        section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); }
+        .modal-content { background: #1a120b; margin: 5% auto; padding: 30px; border: 1px solid var(--blue); width: 95%; max-width: 550px; border-radius: 20px; text-align: center;}
 
         table { width: 100%; border-collapse: collapse; }
-        td { padding: 10px; border-bottom: 1px solid var(--border-glass); }
-        tr:last-child td { border: none; font-size: 1.2rem; color: var(--accent); font-weight: bold; }
+        td { padding: 10px; border-bottom: 1px solid var(--border-glass); font-size: 14px; }
+        
+        .row-hidden { display: none; }
+        #row-total td { border: none; font-size: 20px; color: var(--accent); font-weight: bold; padding-top: 20px; }
 
-        #metros {
-            width: 100%; height: 250px; background: rgba(0,0,0,0.3);
-            border-radius: 8px; border: none; color: #fff; padding: 10px;
-        }
-
-        .modal {
-            display: none; position: fixed; z-index: 1000;
-            left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85);
-        }
-
-        .modal-content {
-            background: #1a120b; margin: 10% auto; padding: 30px;
-            border: 1px solid var(--accent); width: 90%; max-width: 400px; border-radius: 20px;
-        }
-
-        footer { text-align: center; margin-top: 50px; opacity: 0.8; font-size: 14px; }
-        #hours { font-size: 1.2rem; margin-bottom: 5px; color: var(--accent); }
-
+        #qrcode-container { background: #fff; padding: 10px; border-radius: 10px; display: inline-block; margin: 10px 0; }
+        footer { text-align: center; margin-top: 40px; }
     </style>
 </head>
 
 <body>
-    <header><h1>ROMANEIO RÚSTICO</h1></header>
 
-    <div class="tools-container">
-        <div class="glass-panel">
-            <h3 style="color: var(--accent); margin-bottom: 15px;">EDIÇÃO DE TEXTO</h3>
-            <textarea id="textoInput" placeholder="Cole o texto aqui..." rows="3"></textarea>
-            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+    <header><h1>FERRAMENTAS DA EMPRESA MADMAIS</h1></header>
+
+    <div class="main-grid">
+        <div class="glass-panel" style="border-top: 4px solid var(--blue);">
+            <h3 style="color: var(--blue); margin-bottom: 15px;">MÓDULO FISCAL</h3>
+            <button class="btn btn-blue" onclick="abrirModal('modalNfe')">ABRIR CONSULTA NF-E</button>
+            <hr style="opacity: 0.1; margin: 15px 0;">
+            <textarea id="textoInput" placeholder="Texto (Grudar / Caps)..." rows="2"></textarea>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
                 <button class="btn btn-accent" onclick="removerTodosEspacos()">Grudar</button>
-                <button class="btn btn-accent" onclick="corrigirETirarParagrafos()">Limpar Caps</button>
-                <button class="btn btn-blue" onclick="copiarTexto()">Copiar</button>
+                <button class="btn btn-blue" style="background:#444" onclick="corrigirETirarParagrafos()">CAPS</button>
             </div>
-        </div>
-
-        <div class="glass-panel" style="text-align: center;">
-            <h3 style="color: var(--accent); margin-bottom: 15px;">GERADOR QR DRIVE</h3>
-            <input type="text" id="qrLink" class="qr-input" placeholder="Link do PDF...">
-            <div style="display: flex; gap: 8px; justify-content: center;">
-                <button class="btn btn-success" onclick="gerarQR()">Gerar</button>
-                <button class="btn btn-blue" onclick="baixarQR()">PNG Transp.</button>
-            </div>
-            <center><div id="qrcode-container"><div id="qrcode"></div></div></center>
-        </div>
-    </div>
-
-    <section>
-        <div class="glass-panel" style="display: flex; flex-direction: column; justify-content: center;">
-            <button class="btn btn-accent" style="height: 60px; font-size: 1.1rem;" onclick="abrirModal()">TABELA BITOLAS</button>
+            <button class="btn btn-blue" style="width: 100%; margin-top: 5px; opacity: 0.8;" onclick="copiarTexto()">Copiar</button>
         </div>
 
         <div class="glass-panel">
-            <h3 style="color: var(--accent); margin-bottom: 15px;">LANÇAMENTO</h3>
-            <input type="number" id="bitola" placeholder="Bitola" onkeypress="return apenasNumeros(event)">
-            <input type="number" id="largura" placeholder="Largura" onkeypress="return apenasNumeros(event)">
-            <input type="number" id="metragem" placeholder="Metragem" onkeypress="return apenasNumeros(event)">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+            <h3 style="color: var(--accent); margin-bottom: 15px;">CALCULADORA DE ROMANEIO</h3>
+            <div style="display: flex; gap: 5px;">
+                <input type="number" id="bitola" placeholder="Bit." step="any">
+                <input type="number" id="largura" placeholder="Larg." step="any">
+                <input type="number" id="metragem" placeholder="Metragem" step="any">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                 <button class="btn btn-success" onclick="calcular()">ADD (+)</button>
                 <button class="btn btn-danger" onclick="subtrair()">SUB (-)</button>
-                <button class="btn btn-blue" style="grid-column: span 2; opacity: 0.7;" onclick="reset()">RESETAR TUDO</button>
             </div>
+            <button class="btn btn-accent" onclick="abrirModal('modalBitola')">TABELA DE BITOLAS</button>
         </div>
 
         <div class="glass-panel">
             <h3 style="color: var(--accent); margin-bottom: 10px;">RESUMO M³</h3>
-            <table>
-                <tr><td>PRANCHA</td><td id="resPC" align="right">0,0000</td></tr>
-                <tr><td>PRANCHÃO</td><td id="resPAO" align="right">0,0000</td></tr>
-                <tr><td>CAIBRO</td><td id="resCB" align="right">0,0000</td></tr>
-                <tr><td>TABUA</td><td id="resTB" align="right">0,0000</td></tr>
-                <tr><td>VIGA</td><td id="resVG" align="right">0,0000</td></tr>
-                <tr><td>RIPAS</td><td id="resRP" align="right">0,0000</td></tr>
-                <tr><td>VIGOTA</td><td id="resVGTA" align="right">0,0000</td></tr>
-                <tr><td>BLOCO</td><td id="resBC" align="right">0,0000</td></tr>
-                <tr><td>SARRAFOS</td><td id="resSRRF" align="right">0,0000</td></tr>
-                <tr><td>TOTAL</td><td id="resTTL" align="right">0,0000</td></tr>
+            <table id="tabelaResumo">
+                <tr id="row-PC" class="row-hidden"><td>PRANCHA</td><td id="resPC" align="right">0,0000</td></tr>
+                <tr id="row-PAO" class="row-hidden"><td>PRANCHÃO</td><td id="resPAO" align="right">0,0000</td></tr>
+                <tr id="row-CB" class="row-hidden"><td>CAIBRO</td><td id="resCB" align="right">0,0000</td></tr>
+                <tr id="row-TB" class="row-hidden"><td>TÁBUA</td><td id="resTB" align="right">0,0000</td></tr>
+                <tr id="row-VG" class="row-hidden"><td>VIGA</td><td id="resVG" align="right">0,0000</td></tr>
+                <tr id="row-RP" class="row-hidden"><td>RIPAS</td><td id="resRP" align="right">0,0000</td></tr>
+                <tr id="row-VGTA" class="row-hidden"><td>VIGOTA</td><td id="resVGTA" align="right">0,0000</td></tr>
+                <tr id="row-BC" class="row-hidden"><td>BLOCO</td><td id="resBC" align="right">0,0000</td></tr>
+                <tr id="row-SRRF" class="row-hidden"><td>SARRAFOS</td><td id="resSRRF" align="right">0,0000</td></tr>
+                <tr id="row-total" class="row-hidden"><td>TOTAL GERAL</td><td id="resTTL" align="right">0,0000</td></tr>
             </table>
+            <p id="msgVazia" style="font-size: 12px; opacity: 0.5; text-align: center; margin-top: 10px;">Aguardando dados...</p>
         </div>
 
-        <div class="glass-panel">
-            <h3 style="color: var(--accent); margin-bottom: 10px;">HISTÓRICO</h3>
-            <select id="metros" size="10"></select>
+        <div class="glass-panel" style="text-align: center;">
+            <h3 style="color: var(--accent); margin-bottom: 10px;">QR DRIVE & HISTÓRICO</h3>
+            <input type="text" id="qrLink" placeholder="Link do Drive">
+            <div style="display: flex; gap: 5px;">
+                <button class="btn btn-success" onclick="gerarQR()">Gerar QR</button>
+                <button class="btn btn-blue" onclick="baixarQR()">PNG</button>
+            </div>
+            <div id="qrcode-container" style="display:none;"><div id="qrcode"></div></div>
+            <select id="metros" size="5" style="margin-top:10px;"></select>
+            <button class="btn btn-danger" style="margin-top:5px; opacity:0.5" onclick="reset()">ZERAR TUDO</button>
         </div>
-    </section>
+    </div>
 
-    <div id="meuModal" class="modal">
+    <div id="modalNfe" class="modal">
         <div class="modal-content">
-            <h2 style="color: var(--accent); text-align: center;">DECORA LETICIA ♡</h2>
-            <table style="margin: 20px 0;">
-                <tr><td>PRANCHA</td><td>5 x 25</td></tr>
-                <tr><td>PRANCHÃO</td><td>8 x 25</td></tr>
-                <tr><td>CAIBRO</td><td>5 x 5</td></tr>
-                <tr><td>TABUA</td><td>2 x 15</td></tr>
-                <tr><td>VIGA</td><td>5 x 15</td></tr>
-                <tr><td>RIPAS</td><td>1 x 5</td></tr>
-                <tr><td>VIGOTA</td><td>5 x 10</td></tr>
-                <tr><td>BLOCO</td><td>12 x 12</td></tr>
+            <h2 style="color: var(--blue); margin-bottom: 15px;">CONSULTA NF-E</h2>
+            <input type="text" id="chaveAcesso" placeholder="Cole a chave aqui" oninput="limparEConsultar(this)">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <button class="btn btn-success" onclick="executarBusca('xml')">XML (FSIST)</button>
+                <button class="btn btn-accent" onclick="executarBusca('danfe')">PDF (FSIST)</button>
+            </div>
+            <button class="btn btn-danger" style="margin-top: 20px; background:none; border: 1px solid var(--danger)" onclick="fecharModal('modalNfe')">FECHAR</button>
+        </div>
+    </div>
+
+    <div id="modalBitola" class="modal">
+        <div class="modal-content">
+            <h2 style="color: var(--accent); margin-bottom: 20px;">DECORA LETICIA ♡</h2>
+            <table>
+                <tr><td>PRANCHA</td><td>5 x 25</td></tr><tr><td>PRANCHÃO</td><td>8 x 25</td></tr>
+                <tr><td>CAIBRO</td><td>5 x 5</td></tr><tr><td>TÁBUA</td><td>2 x 15</td></tr>
+                <tr><td>VIGA</td><td>5 x 15</td></tr><tr><td>RIPAS</td><td>1 x 5</td></tr>
+                <tr><td>VIGOTA</td><td>5 x 10</td></tr><tr><td>BLOCO</td><td>12 x 12</td></tr>
                 <tr><td>SARRAFOS</td><td>3 x 5</td></tr>
             </table>
-            <button class="btn btn-danger" style="width: 100%;" onclick="fecharModal()">FECHAR</button>
+            <button class="btn btn-danger" style="margin-top: 20px;" onclick="fecharModal('modalBitola')">FECHAR</button>
         </div>
     </div>
 
     <footer>
-        <div id="hours">00:00:00</div>
-        <div>&reg; RWS - ROMANEIO PRO</div>
+        <div id="hours" style="color: var(--accent); font-size: 20px;">00:00:00</div>
+        MADMAIS - &reg; 2026
     </footer>
 
     <script>
-        // Funções de Modal e Interface
-        function abrirModal() { document.getElementById("meuModal").style.display = "block"; }
-        function fecharModal() { document.getElementById("meuModal").style.display = "none"; }
-        
-        function apenasNumeros(evt) {
-            var charCode = (evt.which) ? evt.which : evt.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode !== 46 && charCode !== 44) return false;
-            return true;
+        function abrirModal(id) { document.getElementById(id).style.display = "block"; }
+        function fecharModal(id) { document.getElementById(id).style.display = "none"; }
+
+        // NF-E LÓGICA
+        function limparEConsultar(input) {
+            let v = input.value.replace(/\D/g, '');
+            input.value = v;
+            if (v.length === 44) window.open(`https://www.nfe.fazenda.gov.br/portal/consultaRecaptcha.aspx?tipoConsulta=resumo&nfe=${v}`, '_blank');
         }
 
-        // QR Code
-        function gerarQR() {
-            const link = document.getElementById('qrLink').value;
-            if (!link) return alert("Link necessário!");
-            const container = document.getElementById('qrcode-container');
-            container.style.display = "inline-block";
-            const qrDiv = document.getElementById('qrcode');
-            qrDiv.innerHTML = "";
-            new QRCode(qrDiv, { text: link, width: 140, height: 140 });
+        function executarBusca(tipo) {
+            const c = document.getElementById('chaveAcesso').value;
+            if(c.length < 44) return alert("Chave inválida!");
+            window.open(`https://www.fsist.com.br/${tipo === 'xml' ? 'consultar-nfe' : 'imprimir-danfe-nfe'}/${c}`, '_blank');
         }
 
-        function baixarQR() {
-            const canvas = document.querySelector('#qrcode canvas');
-            if(!canvas) return alert("Gere o QR primeiro!");
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = canvas.width; tempCanvas.height = canvas.height;
-            const ctx = tempCanvas.getContext('2d');
-            const data = canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height);
-            for(let i=0; i<data.data.length; i+=4) if(data.data[i]>128) data.data[i+3]=0;
-            ctx.putImageData(data,0,0);
-            const a = document.createElement('a');
-            a.download = 'qrcode_transparente.png'; a.href = tempCanvas.toDataURL(); a.click();
-        }
+        // TEXTO LÓGICA
+        function removerTodosEspacos() { document.getElementById('textoInput').value = document.getElementById('textoInput').value.replace(/\s/g, ''); }
+        function corrigirETirarParagrafos() { document.getElementById('textoInput').value = document.getElementById('textoInput').value.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim().toUpperCase(); }
+        function copiarTexto() { document.getElementById('textoInput').select(); document.execCommand("copy"); }
 
-        // Lógica de Madeira
+        // MADEIRA LÓGICA (CATEGORIAS)
         let produto = [0,0,0,0,0,0,0,0,0], total = 0;
+        const sufixos = ["PC", "PAO", "CB", "TB", "VG", "RP", "VGTA", "BC", "SRRF"];
 
         function identificar(E, L) {
             if (E >= 12 && L >= 12 && E === L) return {i:7, n:'Bloco'};
@@ -269,20 +192,28 @@
         }
 
         function atualizar() {
-            const ids = ["resPC","resPAO","resCB","resTB","resVG","resRP","resVGTA","resBC","resSRRF"];
-            ids.forEach((id, i) => document.getElementById(id).innerText = produto[i].toFixed(4).replace('.',','));
-            document.getElementById("resTTL").innerText = total.toFixed(4).replace('.',',');
+            let temItem = false;
+            sufixos.forEach((suf, i) => {
+                const row = document.getElementById("row-" + suf);
+                const cell = document.getElementById("res" + suf);
+                if (produto[i] > 0.00001) {
+                    row.style.display = "table-row";
+                    cell.innerText = produto[i].toFixed(4).replace('.', ',');
+                    temItem = true;
+                } else { row.style.display = "none"; }
+            });
+            document.getElementById("resTTL").innerText = total.toFixed(4).replace('.', ',');
+            document.getElementById("row-total").style.display = total > 0.00001 ? "table-row" : "none";
+            document.getElementById("msgVazia").style.display = temItem ? "none" : "block";
         }
 
         function calcular() {
-            let E = Number(document.getElementById("bitola").value);
-            let L = Number(document.getElementById("largura").value);
-            let M = Number(document.getElementById("metragem").value);
+            let E = Number(document.getElementById("bitola").value), L = Number(document.getElementById("largura").value), M = Number(document.getElementById("metragem").value);
             let res = identificar(E, L);
             if (res && M > 0) {
                 produto[res.i] += M; total += M;
                 let opt = document.createElement('option');
-                opt.text = `${res.n} (${E}x${L}) | +${M.toFixed(4)}`;
+                opt.text = `${res.n} | +${M.toFixed(4)}`;
                 document.getElementById('metros').prepend(opt);
                 atualizar();
             }
@@ -290,9 +221,7 @@
         }
 
         function subtrair() {
-            let E = Number(document.getElementById("bitola").value);
-            let L = Number(document.getElementById("largura").value);
-            let M = Number(document.getElementById("metragem").value);
+            let E = Number(document.getElementById("bitola").value), L = Number(document.getElementById("largura").value), M = Number(document.getElementById("metragem").value);
             let res = identificar(E, L);
             if (res && M > 0 && produto[res.i] >= M) {
                 produto[res.i] -= M; total -= M;
@@ -304,37 +233,37 @@
             limpar();
         }
 
-        // Atalhos + e -
-        document.addEventListener('keydown', (e) => {
-            if (["textoInput", "qrLink"].includes(document.activeElement.id)) return;
-            if (e.key === '+') { e.preventDefault(); calcular(); }
-            if (e.key === '-') { e.preventDefault(); subtrair(); }
+        // ESCUTADOR DE TECLAS (+ e -)
+        document.addEventListener('keydown', function(e) {
+            // Não disparar se estiver digitando em campos de texto
+            if (document.activeElement.tagName === 'TEXTAREA' || document.activeElement.id === 'chaveAcesso' || document.activeElement.id === 'qrLink') return;
+            
+            if (e.key === '+') {
+                e.preventDefault();
+                calcular();
+            }
+            if (e.key === '-') {
+                e.preventDefault();
+                subtrair();
+            }
         });
 
-        function removerTodosEspacos() {
-            let t = document.getElementById('textoInput');
-            t.value = t.value.replace(/\s/g, '');
+        function limpar() { document.getElementById('bitola').value=''; document.getElementById('largura').value=''; document.getElementById('metragem').value=''; document.getElementById('bitola').focus(); }
+        function reset() { if(confirm("Deseja zerar todos os dados?")) location.reload(); }
+
+        function gerarQR() {
+            const link = document.getElementById('qrLink').value;
+            if (!link) return alert("Insira o link!");
+            document.getElementById('qrcode-container').style.display = "inline-block";
+            document.getElementById('qrcode').innerHTML = "";
+            new QRCode(document.getElementById('qrcode'), { text: link, width: 120, height: 120 });
         }
-
-        function corrigirETirarParagrafos() {
-            let t = document.getElementById('textoInput');
-            t.value = t.value.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim().toUpperCase();
+        function baixarQR() {
+            const canvas = document.querySelector('#qrcode canvas');
+            if(!canvas) return alert("Gere o QR primeiro!");
+            const a = document.createElement('a'); a.download = 'qr_madmais.png'; a.href = canvas.toDataURL(); a.click();
         }
-
-        function copiarTexto() {
-            let t = document.getElementById('textoInput');
-            t.select(); document.execCommand("copy");
-        }
-
-        function limpar() { 
-            document.getElementById('bitola').value=''; 
-            document.getElementById('largura').value=''; 
-            document.getElementById('metragem').value=''; 
-            document.getElementById('bitola').focus(); 
-        }
-
-        function reset() { if(confirm("Zerar dados?")) location.reload(); }
-
+        
         setInterval(() => document.getElementById("hours").innerHTML = new Date().toLocaleTimeString(), 1000);
     </script>
 </body>
