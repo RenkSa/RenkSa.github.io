@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MadMais - Sistema com Reset</title>
+    <title>MadMais - Sistema Completo Oficial</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         :root {
@@ -46,6 +46,11 @@
         .btn-danger { background: var(--danger); }
         .btn-blue { background: var(--blue); }
 
+        /* Grade de Atalhos */
+        .grid-atalhos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 10px; margin-bottom: 10px; }
+        .btn-atalho { background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); color: var(--accent); padding: 10px 2px; border-radius: 5px; cursor: pointer; font-size: 10px; font-weight: bold; transition: 0.2s; }
+        .btn-atalho:hover { background: var(--accent); color: #000; }
+
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); }
         .modal-content { background: #1a120b; margin: 5% auto; padding: 30px; border: 1px solid var(--blue); width: 95%; max-width: 550px; border-radius: 20px; text-align: center;}
 
@@ -69,7 +74,7 @@
             <h3 style="color: var(--blue); margin-bottom: 15px;">MÓDULO FISCAL</h3>
             <button class="btn btn-blue" onclick="abrirModal('modalNfe')">ABRIR CONSULTA NF-E</button>
             <hr style="opacity: 0.1; margin: 15px 0;">
-            <textarea id="textoInput" placeholder="Processar texto..." rows="2"></textarea>
+            <textarea id="textoInput" placeholder="Texto para processar..." rows="2"></textarea>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
                 <button class="btn btn-accent" onclick="removerTodosEspacos()">Grudar</button>
                 <button class="btn btn-blue" style="background:#444" onclick="corrigirETirarParagrafos()">CAPS</button>
@@ -82,14 +87,25 @@
             <div style="display: flex; gap: 5px;">
                 <input type="number" id="bitola" placeholder="Bit." step="any">
                 <input type="number" id="largura" placeholder="Larg." step="any">
-                <input type="number" id="metragem" placeholder="Metragem" step="any">
+                <input type="number" id="metragem" placeholder="Met." step="any">
             </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                 <button class="btn btn-success" onclick="calcular()">ADD (+)</button>
                 <button class="btn btn-danger" onclick="subtrair()">SUB (-)</button>
             </div>
-            <button class="btn btn-blue" style="background: #333; margin-bottom: 8px;" onclick="resetCalculadora()">RESETAR VALORES</button>
-            <button class="btn btn-accent" onclick="abrirModal('modalBitola')">TABELA DE BITOLAS</button>
+            
+            <div class="grid-atalhos">
+                <button class="btn-atalho" onclick="atalho(5, 25)">PRANCHA</button>
+                <button class="btn-atalho" onclick="atalho(8, 25)">PRANCHÃO</button>
+                <button class="btn-atalho" onclick="atalho(5, 5)">CAIBRO</button>
+                <button class="btn-atalho" onclick="atalho(2, 15)">TÁBUA</button>
+                <button class="btn-atalho" onclick="atalho(5, 15)">VIGA</button>
+                <button class="btn-atalho" onclick="atalho(1, 5)">RIPAS</button>
+                <button class="btn-atalho" onclick="atalho(5, 10)">VIGOTA</button>
+                <button class="btn-atalho" onclick="atalho(12, 12)">BLOCO</button>
+                <button class="btn-atalho" onclick="atalho(3, 5)">SARRAFO</button>
+            </div>
+            <button class="btn btn-blue" style="background: #333;" onclick="resetCalculadora()">RESETAR VALORES</button>
         </div>
 
         <div class="glass-panel">
@@ -106,7 +122,7 @@
                 <tr id="row-SRRF" class="row-hidden"><td>SARRAFOS</td><td id="resSRRF" align="right">0,0000</td></tr>
                 <tr id="row-total" class="row-hidden"><td>TOTAL GERAL</td><td id="resTTL" align="right">0,0000</td></tr>
             </table>
-            <p id="msgVazia" style="font-size: 12px; opacity: 0.5; text-align: center; margin-top: 10px;">Aguardando lançamentos...</p>
+            <p id="msgVazia" style="font-size: 12px; opacity: 0.5; text-align: center; margin-top: 10px;">Aguardando dados...</p>
         </div>
 
         <div class="glass-panel" style="text-align: center;">
@@ -118,7 +134,7 @@
             </div>
             <div id="qrcode-container" style="display:none;"><div id="qrcode"></div></div>
             <select id="metros" size="5" style="margin-top:10px;"></select>
-            <button class="btn btn-danger" style="margin-top:5px; opacity:0.5" onclick="resetGeral()">RECARREGAR TUDO</button>
+            <button class="btn btn-danger" style="margin-top:5px; opacity:0.5" onclick="resetGeral()">ZERAR TUDO</button>
         </div>
     </div>
 
@@ -130,21 +146,7 @@
                 <button class="btn btn-success" onclick="executarBusca('xml')">XML (FSIST)</button>
                 <button class="btn btn-accent" onclick="executarBusca('danfe')">PDF (FSIST)</button>
             </div>
-            <button class="btn btn-danger" style="margin-top: 20px; background:none; border: 1px solid var(--danger)" onclick="fecharModal('modalNfe')">FECHAR</button>
-        </div>
-    </div>
-
-    <div id="modalBitola" class="modal">
-        <div class="modal-content">
-            <h2 style="color: var(--accent); margin-bottom: 20px;">DECORA LETICIA ♡</h2>
-            <table>
-                <tr><td>PRANCHA</td><td>5 x 25</td></tr><tr><td>PRANCHÃO</td><td>8 x 25</td></tr>
-                <tr><td>CAIBRO</td><td>5 x 5</td></tr><tr><td>TÁBUA</td><td>2 x 15</td></tr>
-                <tr><td>VIGA</td><td>5 x 15</td></tr><tr><td>RIPAS</td><td>1 x 5</td></tr>
-                <tr><td>VIGOTA</td><td>5 x 10</td></tr><tr><td>BLOCO</td><td>12 x 12</td></tr>
-                <tr><td>SARRAFOS</td><td>3 x 5</td></tr>
-            </table>
-            <button class="btn btn-danger" style="margin-top: 20px;" onclick="fecharModal('modalBitola')">FECHAR</button>
+            <button class="btn btn-danger" style="margin-top: 20px; background:none; border: 1px solid var(--danger)" onclick="fecharModal('modalNfe')">VOLTAR</button>
         </div>
     </div>
 
@@ -156,6 +158,13 @@
     <script>
         function abrirModal(id) { document.getElementById(id).style.display = "block"; }
         function fecharModal(id) { document.getElementById(id).style.display = "none"; }
+
+        // Atalhos
+        function atalho(b, l) {
+            document.getElementById('bitola').value = b;
+            document.getElementById('largura').value = l;
+            document.getElementById('metragem').focus();
+        }
 
         // NF-E LÓGICA
         function limparEConsultar(input) {
@@ -178,17 +187,18 @@
         // MADEIRA LÓGICA
         let produto = [0,0,0,0,0,0,0,0,0], total = 0;
         const sufixos = ["PC", "PAO", "CB", "TB", "VG", "RP", "VGTA", "BC", "SRRF"];
+        const nomesLog = ["Prancha", "Pranchão", "Caibro", "Tábua", "Viga", "Ripas", "Vigota", "Bloco", "SarrafOS"];
 
         function identificar(E, L) {
-            if (E >= 12 && L >= 12 && E === L) return {i:7, n:'Bloco'};
-            if (E >= 4 && L > 20 && E <= 7) return {i:0, n:'Prancha'};
-            if (E > 7 && L > 20) return {i:1, n:'Pranchão'};
-            if (E >= 4 && L >= 4 && E <= 8 && L <= 7.9) return {i:2, n:'Caibro'};
-            if (E >= 1 && L > 10 && E <= 3.9) return {i:3, n:'Tábua'};
-            if (E >= 4 && L >= 11 && L <= 20) return {i:4, n:'Viga'};
-            if (E < 2 && L <= 10 && E > 0) return {i:5, n:'Ripas'};
-            if (E >= 4 && L >= 8 && E <= 11 && L <= 10.9) return {i:6, n:'Vigota'};
-            if (E >= 2 && L >= 2 && E <= 3.9 && L <= 10) return {i:8, n:'Sarrafos'};
+            if (E >= 12 && L >= 12 && E === L) return {i:7, n:nomesLog[7]};
+            if (E >= 4 && L > 20 && E <= 7) return {i:0, n:nomesLog[0]};
+            if (E > 7 && L > 20) return {i:1, n:nomesLog[1]};
+            if (E >= 4 && L >= 4 && E <= 8 && L <= 7.9) return {i:2, n:nomesLog[2]};
+            if (E >= 1 && L > 10 && E <= 3.9) return {i:3, n:nomesLog[3]};
+            if (E >= 4 && L >= 11 && L <= 20) return {i:4, n:nomesLog[4]};
+            if (E < 2 && L <= 10 && E > 0) return {i:5, n:nomesLog[5]};
+            if (E >= 4 && L >= 8 && E <= 11 && L <= 10.9) return {i:6, n:nomesLog[6]};
+            if (E >= 2 && L >= 2 && E <= 3.9 && L <= 10) return {i:8, n:nomesLog[8]};
             return null;
         }
 
@@ -234,21 +244,17 @@
             limparFoco();
         }
 
-        // NOVO RESET ESPECIFICO DA CALCULADORA
         function resetCalculadora() {
-            if(confirm("Deseja limpar os valores do resumo e histórico?")) {
-                produto = [0,0,0,0,0,0,0,0,0];
-                total = 0;
+            if(confirm("Limpar Resumo e Histórico?")) {
+                produto = [0,0,0,0,0,0,0,0,0]; total = 0;
                 document.getElementById('metros').innerHTML = "";
-                atualizar();
-                limparFoco();
+                atualizar(); limparFoco();
             }
         }
 
+        function resetGeral() { if(confirm("Recarregar sistema?")) location.reload(); }
         function limparFoco() { document.getElementById('bitola').value=''; document.getElementById('largura').value=''; document.getElementById('metragem').value=''; document.getElementById('bitola').focus(); }
-        function resetGeral() { if(confirm("Recarregar sistema completo?")) location.reload(); }
 
-        // ATALHOS DE TECLADO (+ e -)
         document.addEventListener('keydown', function(e) {
             if (document.activeElement.tagName === 'TEXTAREA' || document.activeElement.id === 'chaveAcesso' || document.activeElement.id === 'qrLink') return;
             if (e.key === '+') { e.preventDefault(); calcular(); }
@@ -264,7 +270,7 @@
         }
         function baixarQR() {
             const canvas = document.querySelector('#qrcode canvas');
-            if(!canvas) return alert("Gere o QR primeiro!");
+            if(!canvas) return alert("Gere o QR!");
             const a = document.createElement('a'); a.download = 'qr_madmais.png'; a.href = canvas.toDataURL(); a.click();
         }
         
