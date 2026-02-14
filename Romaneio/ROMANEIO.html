@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MadMais - Sistema Profissional v4</title>
+    <title>MadMais - Sistema Profissional v13</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         :root {
@@ -16,6 +16,7 @@
             --success: #606c38;
             --danger: #bc6c25;
             --blue: #00a8ff;
+            --antt: #ffcc00;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
@@ -45,60 +46,81 @@
         .btn-success { background: var(--success); }
         .btn-danger { background: var(--danger); }
         .btn-blue { background: var(--blue); }
+        
+        /* BOTÃO ANTT COM ÍCONE */
+        .btn-antt { 
+            background: var(--antt); 
+            color: #000; 
+            font-size: 14px; 
+            letter-spacing: 1px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 15px; 
+            padding: 15px;
+            width: 100%;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .antt-logo { height: 30px; width: auto; }
 
-        /* Grade de Atalhos Madeira */
         .grid-atalhos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 10px; margin-bottom: 10px; }
         .btn-atalho { background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); color: var(--accent); padding: 10px 2px; border-radius: 5px; cursor: pointer; font-size: 10px; font-weight: bold; transition: 0.2s; }
-        .btn-atalho:hover { background: var(--accent); color: #000; }
-
-        /* Grade Sintegra */
+        
         .mapa-container { grid-column: 1 / -1; text-align: center; margin-top: 10px; }
-        .grade-estados { display: grid; grid-template-columns: repeat(auto-fit, minmax(45px, 1fr)); gap: 6px; margin-top: 15px; }
-        .btn-uf { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); color: var(--text); padding: 8px 2px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 12px; text-decoration: none; display: flex; align-items: center; justify-content: center; }
-        .btn-uf:hover { background: var(--blue); transform: scale(1.1); box-shadow: 0 0 15px var(--blue); color: #fff; }
+        .grade-estados { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 15px; margin-top: 15px; }
+        .card-uf { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; border: 1px solid var(--border-glass); transition: 0.3s; }
+        
+        .bandeira { width: 60px; height: 42px; border-radius: 4px; object-fit: contain; margin-bottom: 8px; }
+        .btn-uf { background: #333; color: #fff; padding: 6px 0; border-radius: 6px; font-weight: bold; text-decoration: none; display: block; width: 100%; font-size: 14px; text-align: center; border: 1px solid #444; }
 
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); }
-        .modal-content { background: #1a120b; margin: 5% auto; padding: 30px; border: 1px solid var(--blue); width: 95%; max-width: 550px; border-radius: 20px; text-align: center;}
+        .tag-gov { margin-top: 8px; font-size: 10px; font-weight: 900; padding: 2px 6px; border-radius: 4px; background: white; display: flex; }
+        .gov-text { background: linear-gradient(90deg, #004b82 0%, #00824a 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .antt-container { grid-column: 1 / -1; margin-top: 20px; border-top: 4px solid var(--antt); }
 
         table { width: 100%; border-collapse: collapse; }
         td { padding: 10px; border-bottom: 1px solid var(--border-glass); font-size: 14px; }
         .row-hidden { display: none; }
         #row-total td { border: none; font-size: 20px; color: var(--accent); font-weight: bold; padding-top: 20px; }
 
-        #qrcode-container { background: #fff; padding: 10px; border-radius: 10px; display: inline-block; margin: 10px 0; }
-        footer { text-align: center; margin-top: 40px; padding-bottom: 20px; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); }
+        .modal-content { background: #1a120b; margin: 5% auto; padding: 30px; border: 1px solid var(--blue); width: 95%; max-width: 550px; border-radius: 20px; text-align: center;}
+
+        footer { text-align: center; margin-top: 40px; padding-bottom: 20px; border-top: 1px solid var(--border-glass); padding-top: 20px; }
     </style>
 </head>
 
 <body>
 
-    <header><h1>FERRAMENTAS DA EMPRESA MADMAIS</h1></header>
+    <header><h1>FERRAMENTAS MADMAIS</h1></header>
 
     <div class="main-grid">
         <div class="glass-panel" style="border-top: 4px solid var(--blue);">
             <h3 style="color: var(--blue); margin-bottom: 15px;">MÓDULO FISCAL</h3>
             <button class="btn btn-blue" onclick="abrirModal('modalNfe')">ABRIR CONSULTA NF-E</button>
-            <hr style="opacity: 0.1; margin: 15px 0;">
-            <textarea id="textoInput" placeholder="Texto para processar..." rows="2"></textarea>
+            <textarea id="textoInput" placeholder="Texto para processar..." rows="2" style="margin-top: 10px;"></textarea>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
                 <button class="btn btn-accent" onclick="removerTodosEspacos()">Grudar</button>
                 <button class="btn btn-blue" style="background:#444" onclick="corrigirETirarParagrafos()">CAPS</button>
             </div>
-            <button class="btn btn-blue" style="width: 100%; margin-top: 5px; opacity: 0.8;" onclick="copiarTexto()">Copiar</button>
+            <button class="btn btn-blue" onclick="copiarTexto()">Copiar</button>
         </div>
 
         <div class="glass-panel">
             <h3 style="color: var(--accent); margin-bottom: 15px;">CALCULADORA DE ROMANEIO</h3>
             <div style="display: flex; gap: 5px;">
-                <input type="number" id="bitola" placeholder="Bit." step="any">
-                <input type="number" id="largura" placeholder="Larg." step="any">
-                <input type="number" id="metragem" placeholder="Met." step="any">
+                <input type="number" id="bitola" placeholder="Bit.">
+                <input type="number" id="largura" placeholder="Larg.">
+                <input type="number" id="metragem" placeholder="Met.">
             </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                 <button class="btn btn-success" onclick="calcular()">ADD (+)</button>
                 <button class="btn btn-danger" onclick="subtrair()">SUB (-)</button>
             </div>
-            
             <div class="grid-atalhos">
                 <button class="btn-atalho" onclick="atalho(5, 25)">PRANCHA</button>
                 <button class="btn-atalho" onclick="atalho(8, 25)">PRANCHÃO</button>
@@ -110,7 +132,6 @@
                 <button class="btn-atalho" onclick="atalho(12, 12)">BLOCO</button>
                 <button class="btn-atalho" onclick="atalho(3, 5)">SARRAFO</button>
             </div>
-            <button class="btn btn-blue" style="background: #333;" onclick="resetCalculadora()">RESETAR VALORES</button>
         </div>
 
         <div class="glass-panel">
@@ -127,52 +148,27 @@
                 <tr id="row-SRRF" class="row-hidden"><td>SARRAFOS</td><td id="resSRRF" align="right">0,0000</td></tr>
                 <tr id="row-total" class="row-hidden"><td>TOTAL GERAL</td><td id="resTTL" align="right">0,0000</td></tr>
             </table>
-            <p id="msgVazia" style="font-size: 12px; opacity: 0.5; text-align: center; margin-top: 10px;">Aguardando dados...</p>
+            <p id="msgVazia" style="font-size: 12px; opacity: 0.5; text-align: center; margin-top: 10px;">Aguardando...</p>
         </div>
 
         <div class="glass-panel" style="text-align: center;">
             <h3 style="color: var(--accent); margin-bottom: 10px;">QR DRIVE & HISTÓRICO</h3>
             <input type="text" id="qrLink" placeholder="Link do Drive">
-            <div style="display: flex; gap: 5px;">
-                <button class="btn btn-success" onclick="gerarQR()">Gerar QR</button>
-                <button class="btn btn-blue" onclick="baixarQR()">PNG</button>
-            </div>
-            <div id="qrcode-container" style="display:none;"><div id="qrcode"></div></div>
-            <select id="metros" size="5" style="margin-top:10px;"></select>
-            <button class="btn btn-danger" style="margin-top:5px; opacity:0.5" onclick="resetGeral()">ZERAR TUDO</button>
+            <button class="btn btn-success" onclick="gerarQR()">Gerar QR</button>
+            <div id="qrcode-container" style="display:none; background: #fff; padding: 10px; border-radius: 10px; margin: 10px auto; width: fit-content;"><div id="qrcode"></div></div>
+            <select id="metros" size="4" style="margin-top:10px;"></select>
         </div>
 
         <div class="glass-panel mapa-container" style="border-top: 4px solid var(--blue);">
-            <h3 style="color: var(--blue); margin-bottom: 5px;">CONSULTA CADASTRO ESTADUAL (SINTEGRA)</h3>
-            <div class="grade-estados">
-                <a href="http://www.sintegra.gov.br/Sintegra_AC.html" target="_blank" class="btn-uf">AC</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_AL.html" target="_blank" class="btn-uf">AL</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_AP.html" target="_blank" class="btn-uf">AP</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_AM.html" target="_blank" class="btn-uf">AM</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_BA.html" target="_blank" class="btn-uf">BA</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_CE.html" target="_blank" class="btn-uf">CE</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_DF.html" target="_blank" class="btn-uf">DF</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_ES.html" target="_blank" class="btn-uf">ES</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_GO.html" target="_blank" class="btn-uf">GO</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_MA.html" target="_blank" class="btn-uf">MA</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_MT.html" target="_blank" class="btn-uf">MT</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_MS.html" target="_blank" class="btn-uf">MS</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_MG.html" target="_blank" class="btn-uf">MG</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_PA.html" target="_blank" class="btn-uf">PA</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_PB.html" target="_blank" class="btn-uf">PB</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_PR.html" target="_blank" class="btn-uf">PR</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_PE.html" target="_blank" class="btn-uf">PE</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_PI.html" target="_blank" class="btn-uf">PI</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_RJ.html" target="_blank" class="btn-uf">RJ</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_RN.html" target="_blank" class="btn-uf">RN</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_RS.html" target="_blank" class="btn-uf">RS</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_RO.html" target="_blank" class="btn-uf">RO</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_RR.html" target="_blank" class="btn-uf">RR</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_SC.html" target="_blank" class="btn-uf">SC</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_SP.html" target="_blank" class="btn-uf">SP</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_SE.html" target="_blank" class="btn-uf">SE</a>
-                <a href="http://www.sintegra.gov.br/Sintegra_TO.html" target="_blank" class="btn-uf">TO</a>
-            </div>
+            <h3 style="color: var(--blue); margin-bottom: 5px;">SINTEGRA - CONSULTA ESTADUAL</h3>
+            <div class="grade-estados" id="gradeSintegra"></div>
+        </div>
+
+        <div class="glass-panel antt-container">
+            <button class="btn-antt" onclick="window.open('https://consultapublica.antt.gov.br/ConsultarTransportador/consultarTransportador.aspx', '_blank')">
+                <img src="https://i.ytimg.com/vi/QxAKQF7x5-E/sddefault.jpg" alt="ANTT" class="antt-logo">
+                CONSULTAR ANTT (SITE OFICIAL)
+            </button>
         </div>
     </div>
 
@@ -180,48 +176,68 @@
         <div class="modal-content">
             <h2 style="color: var(--blue); margin-bottom: 15px;">CONSULTA NF-E</h2>
             <input type="text" id="chaveAcesso" placeholder="Cole a chave aqui" oninput="limparEConsultar(this)">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <button class="btn btn-success" onclick="executarBusca('xml')">XML (FSIST)</button>
-                <button class="btn btn-accent" onclick="executarBusca('danfe')">PDF (FSIST)</button>
-            </div>
-            <button class="btn btn-danger" style="margin-top: 20px; background:none; border: 1px solid var(--danger)" onclick="fecharModal('modalNfe')">VOLTAR</button>
+            <button class="btn btn-success" onclick="executarBusca('xml')">XML (FSIST)</button>
+            <button class="btn btn-danger" onclick="fecharModal('modalNfe')">VOLTAR</button>
         </div>
     </div>
 
     <footer>
-        <div id="hours" style="color: var(--accent); font-size: 20px;">00:00:00</div>
+        <div id="hours" style="color: var(--accent); font-size: 20px; font-weight: bold;">00:00:00</div>
         MADMAIS - &reg; 2026
     </footer>
 
     <script>
+        const estados = [
+            {uf:"AC", flag:"https://static.wixstatic.com/media/7556fa_52f882d782154d08bfaf143ff7091ba0~mv2.png", link:"https://sefazonline.ac.gov.br/sefazonline/app.wmsintegralista"},
+            {uf:"AL", flag:"https://static.wixstatic.com/media/7556fa_d6825418c1ac4eda8272c30e7b6d3b0e~mv2.png", link:"https://sintegra.sefaz.al.gov.br/#/"},
+            {uf:"AP", flag:"https://static.wixstatic.com/media/7556fa_9f57733f53f34b769c8cc9c179717cbc~mv2.png", link:"https://www.sefaz.ap.gov.br/sate/seg/SEGf_AcessarFuncao.jsp?cdFuncao=CAD_011"},
+            {uf:"AM", flag:"https://static.wixstatic.com/media/7556fa_d98eec7cdbca42919b8449b49f0c58ac~mv2.png", link:"http://online.sefaz.am.gov.br/sintegra/index.asp"},
+            {uf:"BA", flag:"https://static.wixstatic.com/media/7556fa_dba48f3017d0466f96c4654c4cb8f345~mv2.png", link:"https://portal.sefaz.ba.gov.br/scripts/cadastro/cadastroBa/consultaBa.asp"},
+            {uf:"CE", flag:"https://static.wixstatic.com/media/7556fa_768d79e16dff410b8353e477f1c5ced8~mv2.png", link:"https://consultapublica.sefaz.ce.gov.br/sintegra/preparar-consultar"},
+            {uf:"DF", flag:"https://static.wixstatic.com/media/7556fa_64f6abc20f704dc482b5ee813e1dac3e~mv2.png", link:"https://agnet.fazenda.df.gov.br/area.cfm?id_area=1140"},
+            {uf:"ES", flag:"https://static.wixstatic.com/media/7556fa_863f13f5a720415cb9acce60e1325266~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc", gov:true},
+            {uf:"GO", flag:"https://static.wixstatic.com/media/7556fa_567f2835f5f248e6b5cbc3d19647a347~mv2.png", link:"http://appasp.sefaz.go.gov.br/Sintegra/Consulta/default.html"},
+            {uf:"MA", flag:"https://static.wixstatic.com/media/7556fa_27151d71f0d94588861e416e59d12563~mv2.png", link:"https://sistemas1.sefaz.ma.gov.br/sintegra/jsp/consultaSintegra/consultaSintegraFiltro.jsf"},
+            {uf:"MT", flag:"https://static.wixstatic.com/media/7556fa_15073c9422a849f1ad99c464e0222c10~mv2.png", link:"https://www.sefaz.mt.gov.br/cadastro/emissaocartao/emissaocartaocontribuinteacessodireto"},
+            {uf:"MS", flag:"https://static.wixstatic.com/media/7556fa_aee2232a87bf44d2b374fd952dabb27b~mv2.png", link:"https://cpe.sefaz.ms.gov.br/"},
+            {uf:"MG", flag:"https://static.wixstatic.com/media/7556fa_304a5ca21caa4e0585a89dd104cb27b1~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc", gov:true},
+            {uf:"PA", flag:"https://static.wixstatic.com/media/7556fa_bc3caf14cc0847c1858374414034ca91~mv2.png", link:"https://app.sefa.pa.gov.br/sintegra/"},
+            {uf:"PB", flag:"https://static.wixstatic.com/media/7556fa_64b32bd18fd74ac789fdbd63cbf4bfc2~mv2.png", link:"https://www4.sefaz.pb.gov.br/sintegra/SINf_ConsultaSintegra.jsp"},
+            {uf:"PR", flag:"https://static.wixstatic.com/media/7556fa_9b0a4366190b4a8cbf58f1c854f3bb79~mv2.png", link:"http://www.sintegra.fazenda.pr.gov.br/sintegra/"},
+            {uf:"PE", flag:"https://static.wixstatic.com/media/7556fa_65fa61979d18433c8216628b742d56e3~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc", gov:true},
+            {uf:"PI", flag:"https://static.wixstatic.com/media/7556fa_6ea0da33933146908683cbf305977c66~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc", gov:true},
+            {uf:"RJ", flag:"https://static.wixstatic.com/media/7556fa_4b0b4b09d47e4d33910e23e42e4748a6~mv2.png", link:"https://sucief-sincad-web.fazenda.rj.gov.br/sincad-web/index.jsf"},
+            {uf:"RN", flag:"https://static.wixstatic.com/media/7556fa_3ce859233a5f4624a39158aa932306be~mv2.png", link:"https://uvt2.set.rn.gov.br/#/services/consultaContribuinte"},
+            {uf:"RS", flag:"https://static.wixstatic.com/media/7556fa_68a3b98c60684204b78c5dd6a9a763d2~mv2.png", link:"https://www.sefaz.rs.gov.br/consultas/contribuinte"},
+            {uf:"RO", flag:"https://static.wixstatic.com/media/7556fa_77001efec3f14a07b14e1454915403f9~mv2.png", link:"https://portalcontribuinte.sefin.ro.gov.br/Publico/parametropublica.jsp"},
+            {uf:"RR", flag:"https://static.wixstatic.com/media/7556fa_a4ac05ac4172475384183b2a31bb705e~mv2.png", link:"https://portalweb.sefaz.rr.gov.br/sintegra/servlet/wp_siate_consultasintegra"},
+            {uf:"SC", flag:"https://static.wixstatic.com/media/7556fa_5c5198c2dab94124ab5606549f429f98~mv2.png", link:"https://sat.sef.sc.gov.br/tax.NET/tax.net.cadastro/conssc_sitcad.aspx"},
+            {uf:"SP", flag:"https://static.wixstatic.com/media/7556fa_4d5551676213455cbe4dbe3f58c7ac74~mv2.png", link:"https://www.cadesp.fazenda.sp.gov.br/(S(gh1x0gzmwq5esd0ijx1ygt1o))/Pages/Cadastro/Consultas/ConsultaPublica/ConsultaPublica.aspx"},
+            {uf:"SE", flag:"https://static.wixstatic.com/media/7556fa_b851288251994faeaa25b89a53580e8e~mv2.png", link:"https://security.sefaz.se.gov.br/SIC/sintegra/index.jsp"},
+            {uf:"TO", flag:"https://static.wixstatic.com/media/7556fa_ede659b6dd7c4b6ba833dd5e5bd4b9e3~mv2.png", link:"http://sintegra.sefaz.to.gov.br/sintegra/servlet/wpsico01"}
+        ];
+
+        function carregarGradeSintegra() {
+            const grid = document.getElementById('gradeSintegra');
+            estados.forEach(e => {
+                const card = document.createElement('div');
+                card.className = 'card-uf';
+                card.innerHTML = `<img src="${e.flag}" class="bandeira"><a href="${e.link}" target="_blank" class="btn-uf">${e.uf}</a>${e.gov ? '<div class="tag-gov"><span class="gov-text">GOV.BR</span></div>' : ''}`;
+                grid.appendChild(card);
+            });
+        }
+
+        // Funções Base
         function abrirModal(id) { document.getElementById(id).style.display = "block"; }
         function fecharModal(id) { document.getElementById(id).style.display = "none"; }
-
-        function atalho(b, l) {
-            document.getElementById('bitola').value = b;
-            document.getElementById('largura').value = l;
-            document.getElementById('metragem').focus();
-        }
-
-        // NF-E LÓGICA
-        function limparEConsultar(input) {
-            let v = input.value.replace(/\D/g, '');
-            input.value = v;
-            if (v.length === 44) window.open(`https://www.nfe.fazenda.gov.br/portal/consultaRecaptcha.aspx?tipoConsulta=resumo&nfe=${v}`, '_blank');
-        }
-
-        function executarBusca(tipo) {
-            const c = document.getElementById('chaveAcesso').value;
-            if(c.length < 44) return alert("Chave inválida!");
-            window.open(`https://www.fsist.com.br/${tipo === 'xml' ? 'consultar-nfe' : 'imprimir-danfe-nfe'}/${c}`, '_blank');
-        }
-
-        // TEXTO LÓGICA
+        function atalho(b, l) { document.getElementById('bitola').value = b; document.getElementById('largura').value = l; document.getElementById('metragem').focus(); }
         function removerTodosEspacos() { document.getElementById('textoInput').value = document.getElementById('textoInput').value.replace(/\s/g, ''); }
         function corrigirETirarParagrafos() { document.getElementById('textoInput').value = document.getElementById('textoInput').value.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim().toUpperCase(); }
         function copiarTexto() { document.getElementById('textoInput').select(); document.execCommand("copy"); }
+        function limparEConsultar(input) { let v = input.value.replace(/\D/g, ''); input.value = v; if (v.length === 44) executarBusca('xml'); }
+        function executarBusca(tipo) { const c = document.getElementById('chaveAcesso').value; if(c.length < 44) return alert("Chave inválida!"); window.open(`https://www.fsist.com.br/${tipo === 'xml' ? 'consultar-nfe' : 'imprimir-danfe-nfe'}/${c}`, '_blank'); }
 
-        // MADEIRA LÓGICA
+        // Calculadora
         let produto = [0,0,0,0,0,0,0,0,0], total = 0;
         const sufixos = ["PC", "PAO", "CB", "TB", "VG", "RP", "VGTA", "BC", "SRRF"];
         const nomesLog = ["Prancha", "Pranchão", "Caibro", "Tábua", "Viga", "Ripas", "Vigota", "Bloco", "SarrafOS"];
@@ -244,11 +260,8 @@
             sufixos.forEach((suf, i) => {
                 const row = document.getElementById("row-" + suf);
                 const cell = document.getElementById("res" + suf);
-                if (produto[i] > 0.00001) {
-                    row.style.display = "table-row";
-                    cell.innerText = produto[i].toFixed(4).replace('.', ',');
-                    temItem = true;
-                } else { row.style.display = "none"; }
+                if (produto[i] > 0.00001) { row.style.display = "table-row"; cell.innerText = produto[i].toFixed(4).replace('.', ','); temItem = true; } 
+                else { row.style.display = "none"; }
             });
             document.getElementById("resTTL").innerText = total.toFixed(4).replace('.', ',');
             document.getElementById("row-total").style.display = total > 0.00001 ? "table-row" : "none";
@@ -260,10 +273,8 @@
             let res = identificar(E, L);
             if (res && M > 0) {
                 produto[res.i] += M; total += M;
-                let opt = document.createElement('option');
-                opt.text = `${res.n} | +${M.toFixed(4)}`;
-                document.getElementById('metros').prepend(opt);
-                atualizar();
+                let opt = document.createElement('option'); opt.text = `${res.n} | +${M.toFixed(4)}`;
+                document.getElementById('metros').prepend(opt); atualizar();
             }
             limparFoco();
         }
@@ -273,44 +284,16 @@
             let res = identificar(E, L);
             if (res && M > 0 && produto[res.i] >= M) {
                 produto[res.i] -= M; total -= M;
-                let opt = document.createElement('option');
-                opt.text = `${res.n} | -${M.toFixed(4)}`;
-                document.getElementById('metros').prepend(opt);
-                atualizar();
+                let opt = document.createElement('option'); opt.text = `${res.n} | -${M.toFixed(4)}`;
+                document.getElementById('metros').prepend(opt); atualizar();
             }
             limparFoco();
         }
 
-        function resetCalculadora() {
-            if(confirm("Deseja limpar o resumo e histórico?")) {
-                produto = [0,0,0,0,0,0,0,0,0]; total = 0;
-                document.getElementById('metros').innerHTML = "";
-                atualizar(); limparFoco();
-            }
-        }
-
-        function resetGeral() { if(confirm("Recarregar sistema?")) location.reload(); }
         function limparFoco() { document.getElementById('bitola').value=''; document.getElementById('largura').value=''; document.getElementById('metragem').value=''; document.getElementById('bitola').focus(); }
+        function gerarQR() { const link = document.getElementById('qrLink').value; if (!link) return alert("Insira o link!"); document.getElementById('qrcode-container').style.display = "block"; document.getElementById('qrcode').innerHTML = ""; new QRCode(document.getElementById('qrcode'), { text: link, width: 120, height: 120 }); }
 
-        document.addEventListener('keydown', function(e) {
-            if (document.activeElement.tagName === 'TEXTAREA' || document.activeElement.id === 'chaveAcesso' || document.activeElement.id === 'qrLink') return;
-            if (e.key === '+') { e.preventDefault(); calcular(); }
-            if (e.key === '-') { e.preventDefault(); subtrair(); }
-        });
-
-        function gerarQR() {
-            const link = document.getElementById('qrLink').value;
-            if (!link) return alert("Insira o link!");
-            document.getElementById('qrcode-container').style.display = "inline-block";
-            document.getElementById('qrcode').innerHTML = "";
-            new QRCode(document.getElementById('qrcode'), { text: link, width: 120, height: 120 });
-        }
-        function baixarQR() {
-            const canvas = document.querySelector('#qrcode canvas');
-            if(!canvas) return alert("Gere o QR!");
-            const a = document.createElement('a'); a.download = 'qr_madmais.png'; a.href = canvas.toDataURL(); a.click();
-        }
-        
+        window.onload = carregarGradeSintegra;
         setInterval(() => document.getElementById("hours").innerHTML = new Date().toLocaleTimeString(), 1000);
     </script>
 </body>
