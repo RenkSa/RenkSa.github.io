@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MadMais - Sistema Profissional v34</title>
+    <title>MadMais - Sistema Profissional v37</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -36,7 +36,6 @@
 
         input, textarea, select { width: 100%; background: rgba(255, 255, 255, 0.1); border: 1px solid var(--border-glass); border-radius: 8px; padding: 12px; color: #fff; margin-bottom: 10px; outline: none; font-weight: bold; font-size: 16px; }
 
-        /* EFEITOS DE HOVER NOS BOTOES */
         .btn { padding: 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 11px; transition: 0.3s; color: white; text-align: center; display: block; width: 100%; margin-bottom: 8px; text-decoration: none; }
         .btn:hover { transform: translateY(-3px); filter: brightness(1.2); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
@@ -45,37 +44,26 @@
         .btn-danger { background: var(--danger); }
         .btn-blue { background: var(--blue); }
         
-        /* HOVER NAS BANDEIRAS E CARDS UF */
         .mapa-container { grid-column: 1 / -1; text-align: center; margin-top: 10px; }
         .grade-estados { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 15px; margin-top: 15px; }
         .card-uf { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; border: 1px solid var(--border-glass); transition: 0.3s; }
         .card-uf:hover { transform: translateY(-5px); border-color: var(--accent); background: rgba(255,255,255,0.1); }
-        
         .bandeira { width: 60px; height: 42px; border-radius: 4px; object-fit: contain; margin-bottom: 8px; transition: 0.3s; }
-        .card-uf:hover .bandeira { transform: scale(1.1); filter: drop-shadow(0 0 5px var(--accent)); }
-        
-        .btn-uf { background: #333; color: #fff; padding: 6px 0; border-radius: 6px; font-weight: bold; text-decoration: none; display: block; width: 100%; font-size: 14px; text-align: center; border: 1px solid #444; transition: 0.2s; }
-        .btn-uf:hover { background: var(--accent); color: #2d1f16; }
-
+        .btn-uf { background: #333; color: #fff; padding: 6px 0; border-radius: 6px; font-weight: bold; text-decoration: none; display: block; width: 100%; font-size: 14px; text-align: center; border: 1px solid #444; }
         .tag-gov { font-size: 9px; color: #ff4d4d; font-weight: bold; margin-top: 4px; }
 
-        /* RESTANTE DO LAYOUT ORIGINAL */
         .grid-custodia { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
         .btn-custodia { background: rgba(46, 204, 113, 0.15); border: 1px solid var(--semas); color: #fff; padding: 20px 10px; border-radius: 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; text-decoration: none; font-size: 10px; font-weight: bold; text-align: center; }
-        .btn-custodia:hover { background: var(--semas); color: #000; }
-        
         .btn-full-sefa { grid-column: 1 / -1; background: rgba(41, 128, 185, 0.2); border: 1px solid #3498db; color: #fff; padding: 15px; border-radius: 12px; margin-top: 5px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: bold; transition: 0.3s; }
-        .btn-full-sefa:hover { background: #2980b9; transform: scale(1.02); }
-
+        
         #printArea { padding: 15px; border-radius: 10px; background: #000; border: 1px dashed var(--accent); }
         .grid-atalhos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 10px; }
         .btn-atalho { background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); color: var(--accent); padding: 10px 2px; border-radius: 5px; cursor: pointer; font-size: 10px; font-weight: bold; transition: 0.2s; }
-        .btn-atalho:hover { background: var(--accent); color: #000; }
         
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); }
         .modal-content { background: #1a120b; margin: 5% auto; padding: 30px; border: 1px solid var(--accent); width: 95%; max-width: 550px; border-radius: 20px; text-align: center;}
         
-        #qrcode { background: white; padding: 10px; border-radius: 10px; margin: 10px auto; display: inline-block; }
+        #qrcode { background: white; padding: 15px; border-radius: 10px; margin: 10px auto; display: inline-block; }
     </style>
 </head>
 
@@ -99,9 +87,9 @@
         <div class="glass-panel">
             <h3 style="color: var(--accent); margin-bottom: 15px;">CALCULADORA DE ROMANEIO</h3>
             <div style="display: flex; gap: 5px;">
-                <input type="number" id="bitola" placeholder="Bit." step="any">
-                <input type="number" id="largura" placeholder="Larg." step="any">
-                <input type="number" id="metragem" placeholder="Metragem" step="any">
+                <input type="text" id="bitola" placeholder="Bit." oninput="validarNumero(this)">
+                <input type="text" id="largura" placeholder="Larg." oninput="validarNumero(this)">
+                <input type="text" id="metragem" placeholder="Metragem" oninput="validarNumero(this)">
             </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                 <button class="btn btn-success" onclick="calcular()">ADD (Tecla +)</button>
@@ -137,7 +125,7 @@
                     <tr id="row-total" style="display:none; font-weight:bold; color:var(--accent); font-size: 1.2em;"><td style="padding-top:10px">TOTAL GERAL</td><td id="resTTL" align="right" style="padding-top:10px">0,0000</td></tr>
                 </table>
             </div>
-            <button id="btnCapturar" class="btn" style="background:#6c5ce7; margin-top:10px" onclick="capturarResumo()">📸 PRINT RESUMO</button>
+            <button class="btn" style="background:#6c5ce7; margin-top:10px" onclick="capturarResumo()">📸 PRINT RESUMO</button>
             <select id="metros" size="4" style="margin-top:10px; font-size: 12px;"></select>
         </div>
 
@@ -147,6 +135,7 @@
             <button class="btn btn-success" onclick="gerarQR()">GERAR QR CODE</button>
             <div id="qrcode-container" style="display:none; margin-top: 10px;">
                 <div id="qrcode"></div>
+                <button class="btn btn-blue" style="background: #2980b9; margin-top:10px" onclick="baixarQR()">💾 BAIXAR QR PNG</button>
             </div>
         </div>
 
@@ -183,7 +172,22 @@
     </footer>
 
     <script>
-        // Restauração das funções de lógica originais
+        // BLOQUEIO DE LETRAS
+        function validarNumero(input) {
+            input.value = input.value.replace(/[^0-9.]/g, '');
+        }
+
+        // ESCUTADOR DE TECLAS (+ e -)
+        document.addEventListener('keydown', function(event) {
+            if (event.key === '+') {
+                event.preventDefault();
+                calcular();
+            } else if (event.key === '-') {
+                event.preventDefault();
+                subtrair();
+            }
+        });
+
         function abrirModal(id) { document.getElementById(id).style.display = "block"; }
         function fecharModal(id) { document.getElementById(id).style.display = "none"; }
         
@@ -192,7 +196,16 @@
             if (!link) return alert("Cole o link!");
             document.getElementById('qrcode-container').style.display = "block";
             document.getElementById('qrcode').innerHTML = "";
-            new QRCode(document.getElementById("qrcode"), { text: link, width: 150, height: 150 });
+            new QRCode(document.getElementById("qrcode"), { text: link, width: 300, height: 300, colorDark : "#000000", colorLight : "#ffffff", correctLevel : QRCode.CorrectLevel.H });
+        }
+
+        function baixarQR() {
+            const canvas = document.querySelector('#qrcode canvas');
+            if (!canvas) return alert("Gere o QR primeiro!");
+            const link = document.createElement('a');
+            link.download = 'qrcode-madmais.png';
+            link.href = canvas.toDataURL("image/png");
+            link.click();
         }
 
         const estados = [
@@ -265,23 +278,13 @@
         function calcular() {
             let E = parseFloat(document.getElementById("bitola").value), L = parseFloat(document.getElementById("largura").value), M = parseFloat(document.getElementById("metragem").value);
             let res = identificar(E, L);
-            if (res && M > 0) { 
-                produto[res.i] += M; total += M; 
-                let opt = document.createElement('option'); opt.text = `[+] ${res.n}: ${M.toFixed(4)}`;
-                document.getElementById('metros').prepend(opt);
-                atualizar(); 
-            }
+            if (res && M > 0) { produto[res.i] += M; total += M; let opt = document.createElement('option'); opt.text = `[+] ${res.n}: ${M.toFixed(4)}`; document.getElementById('metros').prepend(opt); atualizar(); }
             limparFoco();
         }
         function subtrair() {
             let E = parseFloat(document.getElementById("bitola").value), L = parseFloat(document.getElementById("largura").value), M = parseFloat(document.getElementById("metragem").value);
             let res = identificar(E, L);
-            if (res && M > 0 && produto[res.i] >= (M - 0.0001)) { 
-                produto[res.i] -= M; total -= M; 
-                let opt = document.createElement('option'); opt.text = `[-] ${res.n}: ${M.toFixed(4)}`;
-                document.getElementById('metros').prepend(opt);
-                atualizar(); 
-            }
+            if (res && M > 0 && produto[res.i] >= (M - 0.0001)) { produto[res.i] -= M; total -= M; let opt = document.createElement('option'); opt.text = `[-] ${res.n}: ${M.toFixed(4)}`; document.getElementById('metros').prepend(opt); atualizar(); }
             limparFoco();
         }
         function atalho(b, l) { document.getElementById('bitola').value = b; document.getElementById('largura').value = l; document.getElementById('metragem').focus(); }
@@ -294,12 +297,9 @@
         async function capturarResumo() {
             const area = document.getElementById('printArea');
             const canvas = await html2canvas(area, { backgroundColor: '#000' });
-            canvas.toBlob(blob => {
-                const item = new ClipboardItem({ "image/png": blob });
-                navigator.clipboard.write([item]);
-                alert("Resumo copiado como imagem!");
-            });
+            canvas.toBlob(blob => { const item = new ClipboardItem({ "image/png": blob }); navigator.clipboard.write([item]); alert("Imagem copiada!"); });
         }
+        function resetarCalculadora() { if(confirm("Zerar resumo?")) { produto=[0,0,0,0,0,0,0,0,0]; total=0; document.getElementById('metros').innerHTML=""; atualizar(); } }
     </script>
 </body>
 </html>
