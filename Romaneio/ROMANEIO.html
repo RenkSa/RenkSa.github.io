@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MadMais - Wood Premium v44</title>
+    <title>MadMais - Wood Premium v45</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -65,11 +65,6 @@
         .btn-op-calc { background: #5d4037 !important; color: var(--wood-light); }
         #visorCalc { text-align: right; font-size: 26px; background: #0c0806; border: 2px solid #3d2b1f; color: #00ff00; font-family: 'Courier New', monospace; height: 60px; }
 
-        .grade-estados { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-top: 15px; }
-        .card-uf { display: flex; flex-direction: column; align-items: center; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; border: 1px solid #4a3427; }
-        .bandeira { width: 50px; height: 35px; border-radius: 3px; object-fit: contain; margin-bottom: 5px; }
-        .btn-uf { background: #2a1b12; color: var(--wood-light); padding: 5px 0; border-radius: 4px; text-decoration: none; display: block; width: 100%; font-size: 12px; text-align: center; font-weight: bold; border: 1px solid #4a3427; }
-
         #printArea { padding: 15px; background: #0c0806; border: 2px double var(--wood-light); }
         .grid-atalhos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 10px; }
         .btn-atalho { background: #2a1b12; border: 1px solid #4a3427; color: var(--wood-light); padding: 10px 2px; border-radius: 5px; cursor: pointer; font-size: 10px; font-weight: bold; border: none; }
@@ -79,13 +74,17 @@
 
         .grid-custodia { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
         .btn-custodia { background: rgba(62, 77, 42, 0.4); border: 1px solid var(--success-wood); color: #fff; padding: 15px; border-radius: 10px; text-decoration: none; font-size: 10px; font-weight: bold; text-align: center; display: flex; align-items: center; justify-content: center; }
-        .btn-custodia:hover { background: var(--success-wood); }
+        
+        .grade-estados { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-top: 15px; }
+        .card-uf { display: flex; flex-direction: column; align-items: center; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; border: 1px solid #4a3427; }
+        .bandeira { width: 50px; height: 35px; border-radius: 3px; object-fit: contain; margin-bottom: 5px; }
+        .btn-uf { background: #2a1b12; color: var(--wood-light); padding: 5px 0; border-radius: 4px; text-decoration: none; display: block; width: 100%; font-size: 12px; text-align: center; font-weight: bold; border: 1px solid #4a3427; }
     </style>
 </head>
 
 <body>
 
-    <header><h1>MADEIREIRA MADMAIS v44</h1></header>
+    <header><h1>MADEIREIRA MADMAIS v45</h1></header>
 
     <div class="main-grid">
         
@@ -104,9 +103,9 @@
         <div class="glass-panel">
             <h3>📏 ROMANEIO (M³)</h3>
             <div style="display: flex; gap: 5px;">
-                <input type="text" id="bitola" placeholder="Bit." onkeydown="bloquearLetras(event)">
-                <input type="text" id="largura" placeholder="Larg." onkeydown="bloquearLetras(event)">
-                <input type="text" id="metragem" placeholder="Metros" onkeydown="bloquearLetras(event)">
+                <input type="text" id="bitola" placeholder="Bit." onkeydown="bloquearLetras(event)" oninput="soNumeros(this)">
+                <input type="text" id="largura" placeholder="Larg." onkeydown="bloquearLetras(event)" oninput="soNumeros(this)">
+                <input type="text" id="metragem" placeholder="Metros" onkeydown="bloquearLetras(event)" oninput="soNumeros(this)">
             </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                 <button class="btn btn-success" onclick="calcular()">SOMAR (+)</button>
@@ -208,20 +207,27 @@
     </footer>
 
     <script>
-        // Bloqueio de letras nos inputs
+        // --- BLOQUEIO E FILTRO DE CARACTERES (PERMITE COLAR) ---
         function bloquearLetras(e) {
-            const keys = ['0','1','2','3','4','5','6','7','8','9',',','.', 'Backspace', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight', 'Delete'];
-            if (!keys.includes(e.key)) { e.preventDefault(); }
+            const permitidas = ['0','1','2','3','4','5','6','7','8','9',',','.', 'Backspace', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight', 'Delete'];
+            // Se for Ctrl ou Alt, libera para permitir atalhos (Ctrl+V, Ctrl+C)
+            if (e.ctrlKey || e.altKey || permitidas.includes(e.key)) { return; }
+            e.preventDefault();
         }
 
-        // Calculadora Auxiliar
+        function soNumeros(input) {
+            // Limpa qualquer coisa que não seja número, ponto ou vírgula (útil ao colar com mouse)
+            input.value = input.value.replace(/[^0-9,.]/g, '');
+        }
+
+        // --- CALCULADORA AUXILIAR ---
         let vCalc = document.getElementById("visorCalc");
         function addCalc(v) { if(vCalc.value=="0" && v!=".") vCalc.value=v; else vCalc.value+=v; }
         function limparCalc() { vCalc.value="0"; }
         function apagarUltimo() { vCalc.value=vCalc.value.slice(0,-1); if(vCalc.value=="") vCalc.value="0"; }
         function executarCalc() { try { vCalc.value = eval(vCalc.value.replace(',', '.')).toString().replace('.', ','); } catch { vCalc.value="Erro"; setTimeout(limparCalc,1000); } }
 
-        // Escutador de Teclado
+        // --- ESCUTADOR DE TECLADO ---
         document.addEventListener('keydown', function(event) {
             const inputsRomaneio = ['bitola', 'largura', 'metragem'];
             const estaNoRomaneio = inputsRomaneio.includes(document.activeElement.id);
@@ -241,7 +247,7 @@
             }
         });
 
-        // Funções Romaneio
+        // --- ROMANEIO ---
         let produto=[0,0,0,0,0,0,0,0,0], total=0;
         function identificar(E, L) {
             if (E >= 12 && L >= 12 && E === L) return {i:7, n:"Bloco"};
@@ -283,7 +289,7 @@
         function limparFoco() { document.getElementById('bitola').value=''; document.getElementById('largura').value=''; document.getElementById('metragem').value=''; document.getElementById('bitola').focus(); }
         function resetarCalculadora() { if(confirm("Limpar resumo?")) { produto=[0,0,0,0,0,0,0,0,0]; total=0; document.getElementById('metros').innerHTML=""; atualizar(); } }
 
-        // Utilitários
+        // --- UTILITÁRIOS ---
         function removerTodosEspacos() { document.getElementById('textoInput').value = document.getElementById('textoInput').value.replace(/\s/g, ''); }
         function corrigirETirarParagrafos() { document.getElementById('textoInput').value = document.getElementById('textoInput').value.trim().toUpperCase(); }
         function copiarTexto() { document.getElementById('textoInput').select(); document.execCommand("copy"); }
@@ -294,7 +300,7 @@
         function gerarQR() { const link = document.getElementById('qrLink').value; document.getElementById('qrcode').innerHTML = ""; new QRCode(document.getElementById("qrcode"), { text: link, width: 120, height: 120 }); }
         async function capturarResumo() { const area = document.getElementById('printArea'); const canvas = await html2canvas(area, { backgroundColor: '#0c0806' }); canvas.toBlob(blob => { const item = new ClipboardItem({ "image/png": blob }); navigator.clipboard.write([item]); alert("Copiado!"); }); }
 
-        // Sintegra
+        // --- SINTEGRA ---
         const estados = [{uf:"AC", flag:"https://static.wixstatic.com/media/7556fa_52f882d782154d08bfaf143ff7091ba0~mv2.png", link:"https://sefazonline.ac.gov.br/sefazonline/app.wmsintegralista"},{uf:"AL", flag:"https://static.wixstatic.com/media/7556fa_d6825418c1ac4eda8272c30e7b6d3b0e~mv2.png", link:"https://sintegra.sefaz.al.gov.br/#/"},{uf:"AP", flag:"https://static.wixstatic.com/media/7556fa_9f57733f53f34b769c8cc9c179717cbc~mv2.png", link:"https://www.sefaz.ap.gov.br/sate/seg/SEGf_AcessarFuncao.jsp?cdFuncao=CAD_011"},{uf:"AM", flag:"https://static.wixstatic.com/media/7556fa_d98eec7cdbca42919b8449b49f0c58ac~mv2.png", link:"http://online.sefaz.am.gov.br/sintegra/index.asp"},{uf:"BA", flag:"https://static.wixstatic.com/media/7556fa_dba48f3017d0466f96c4654c4cb8f345~mv2.png", link:"https://portal.sefaz.ba.gov.br/scripts/cadastro/cadastroBa/consultaBa.asp"},{uf:"CE", flag:"https://static.wixstatic.com/media/7556fa_768d79e16dff410b8353e477f1c5ced8~mv2.png", link:"https://consultapublica.sefaz.ce.gov.br/sintegra/preparar-consultar"},{uf:"DF", flag:"https://static.wixstatic.com/media/7556fa_64f6abc20f704dc482b5ee813e1dac3e~mv2.png", link:"http://agnet.fazenda.df.gov.br/area.cfm?id_area=1140"},{uf:"ES", flag:"https://static.wixstatic.com/media/7556fa_863f13f5a720415cb9acce60e1325266~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc"},{uf:"GO", flag:"https://static.wixstatic.com/media/7556fa_567f2835f5f248e6b5cbc3d19647a347~mv2.png", link:"http://appasp.sefaz.go.gov.br/Sintegra/Consulta/default.html"},{uf:"MA", flag:"https://static.wixstatic.com/media/7556fa_27151d71f0d94588861e416e59d12563~mv2.png", link:"https://sistemas1.sefaz.ma.gov.br/sintegra/jsp/consultaSintegra/consultaSintegraFiltro.jsf"},{uf:"MT", flag:"https://static.wixstatic.com/media/7556fa_15073c9422a849f1ad99c464e0222c10~mv2.png", link:"https://www.sefaz.mt.gov.br/cadastro/emissaocartao/emissaocartaocontribuinteacessodireto"},{uf:"MS", flag:"https://static.wixstatic.com/media/7556fa_aee2232a87bf44d2b374fd952dabb27b~mv2.png", link:"https://cpe.sefaz.ms.gov.br/"},{uf:"MG", flag:"https://static.wixstatic.com/media/7556fa_304a5ca21caa4e0585a89dd104cb27b1~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc"},{uf:"PA", flag:"https://static.wixstatic.com/media/7556fa_bc3caf14cc0847c1858374414034ca91~mv2.png", link:"https://app.sefa.pa.gov.br/sintegra/"},{uf:"PB", flag:"https://static.wixstatic.com/media/7556fa_64b32bd18fd74ac789fdbd63cbf4bfc2~mv2.png", link:"https://www4.sefaz.pb.gov.br/sintegra/SINf_ConsultaSintegra.jsp"},{uf:"PR", flag:"https://static.wixstatic.com/media/7556fa_9b0a4366190b4a8cbf58f1c854f3bb79~mv2.png", link:"http://www.sintegra.fazenda.pr.gov.br/sintegra/"},{uf:"PE", flag:"https://static.wixstatic.com/media/7556fa_65fa61979d18433c8216628b742d56e3~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc"},{uf:"PI", flag:"https://static.wixstatic.com/media/7556fa_6ea0da33933146908683cbf305977c66~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc"},{uf:"RJ", flag:"https://static.wixstatic.com/media/7556fa_4b0b4b09d47e4d33910e23e42e4748a6~mv2.png", link:"https://sucief-sincad-web.fazenda.rj.gov.br/sincad-web/index.jsf"},{uf:"RN", flag:"https://static.wixstatic.com/media/7556fa_3ce859233a5f4624a39158aa932306be~mv2.png", link:"https://uvt2.set.rn.gov.br/#/services/consultaContribuinte"},{uf:"RS", flag:"https://static.wixstatic.com/media/7556fa_68a3b98c60684204b78c5dd6a9a763d2~mv2.png", link:"https://www.sefaz.rs.gov.br/consultas/contribuinte"},{uf:"RO", flag:"https://static.wixstatic.com/media/7556fa_77001efec3f14a07b14e1454915403f9~mv2.png", link:"https://portalcontribuinte.sefin.ro.gov.br/Publico/parametropublica.jsp"},{uf:"RR", flag:"https://static.wixstatic.com/media/7556fa_a4ac05ac4172475384183b2a31bb705e~mv2.png", link:"https://portalweb.sefaz.rr.gov.br/sintegra/servlet/wp_siate_consultasintegra"},{uf:"SC", flag:"https://static.wixstatic.com/media/7556fa_5c5198c2dab94124ab5606549f429f98~mv2.png", link:"https://sat.sef.sc.gov.br/tax.NET/tax.net.cadastro/conssc_sitcad.aspx"},{uf:"SP", flag:"https://static.wixstatic.com/media/7556fa_4d5551676213455cbe4dbe3f58c7ac74~mv2.png", link:"https://www.cadesp.fazenda.sp.gov.br/"},{uf:"SE", flag:"https://static.wixstatic.com/media/7556fa_b851288251994faeaa25b89a53580e8e~mv2.png", link:"https://security.sefaz.se.gov.br/SIC/sintegra/index.jsp"},{uf:"TO", flag:"https://static.wixstatic.com/media/7556fa_ede659b6dd7c4b6ba833dd5e5bd4b9e3~mv2.png", link:"http://sintegra.sefaz.to.gov.br/sintegra/servlet/wpsico01"}];
         function carregarGradeSintegra() { const grid = document.getElementById('gradeSintegra'); estados.forEach(e => { const card = document.createElement('div'); card.className = 'card-uf'; card.innerHTML = `<img src="${e.flag}" class="bandeira"><a href="${e.link}" target="_blank" class="btn-uf">${e.uf}</a>`; grid.appendChild(card); }); }
 
