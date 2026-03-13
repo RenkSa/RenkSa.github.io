@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MadMais - Ferramenta v45.5</title>
+    <title>MadMais - Ferramenta v45.6</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -60,10 +60,11 @@
         .btn-danger { background: var(--danger-wood); }
         .btn-blue { background: var(--blue-wood); }
 
-        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
-        .btn-num { background: #3d2b1f; border: 1px solid #5a4030; font-size: 18px; color: white; height: 50px; border-radius: 4px; cursor: pointer; }
+        /* Estilos Calculadora */
+        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .btn-num { background: #3d2b1f; border: 1px solid #5a4030; font-size: 18px; color: white; height: 55px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .btn-op-calc { background: #5d4037 !important; color: var(--wood-light); }
-        #visorCalc { text-align: right; font-size: 26px; background: #0c0806; border: 2px solid #3d2b1f; color: #00ff00; font-family: 'Courier New', monospace; height: 60px; }
+        #visorCalc { text-align: right; font-size: 28px; background: #0c0806; border: 2px solid #3d2b1f; color: #00ff00; font-family: 'Courier New', monospace; height: 65px; margin-bottom: 15px; padding: 10px; }
 
         #printArea { padding: 15px; background: #0c0806; border: 2px double var(--wood-light); }
         
@@ -78,11 +79,7 @@
             font-style: italic;
             margin-bottom: 10px;
             border-radius: 4px;
-            word-wrap: break-word;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            display: flex; align-items: center; justify-content: center; text-align: center;
         }
 
         .grid-custodia { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
@@ -105,7 +102,7 @@
 
 <body>
 
-    <header><h1>MADEIREIRA MADMAIS v45.5</h1></header>
+    <header><h1>FERRAMENTAS DO GRUPO MADMAIS</h1></header>
 
     <div class="main-grid">
         
@@ -162,16 +159,8 @@
             <select id="metros" size="4" style="margin-top:10px; font-size:11px"></select>
         </div>
 
-        <div class="glass-panel">
-            <h3>📜 MÓDULO FISCAL</h3>
-            <button class="btn btn-accent" onclick="abrirModal('modalNfe')">CONSULTA NF-E / DANFE</button>
-            <textarea id="textoInput" placeholder="Processar texto..." rows="2"></textarea>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
-                <button class="btn btn-accent" onclick="removerTodosEspacos()">Grudar</button>
-                <button class="btn btn-blue" onclick="corrigirETirarParagrafos()">CAIXA ALTA</button>
-            </div>
-            <button class="btn btn-blue" onclick="copiarTexto()">Copiar Resultado</button>
-            <h3 style="margin-top: 15px;">🧮 CALCULADORA</h3>
+        <div class="glass-panel" style="border-top: 4px solid var(--blue-wood);">
+            <h3>🧮 CALCULADORA AUXILIAR</h3>
             <input type="text" id="visorCalc" readonly value="0">
             <div class="calc-grid">
                 <button class="btn-num btn-op-calc" onclick="limparCalc()">C</button>
@@ -185,8 +174,23 @@
                 <button class="btn-num" onclick="addCalc('4')">4</button>
                 <button class="btn-num" onclick="addCalc('5')">5</button>
                 <button class="btn-num" onclick="addCalc('6')">6</button>
-                <button class="btn btn-success" onclick="executarCalc()">=</button>
+                <button class="btn-num" style="background:var(--success-wood)" onclick="executarCalc()">=</button>
+                <button class="btn-num" onclick="addCalc('1')">1</button>
+                <button class="btn-num" onclick="addCalc('2')">2</button>
+                <button class="btn-num" onclick="addCalc('3')">3</button>
+                <button class="btn-num" onclick="addCalc('0')">0</button>
             </div>
+        </div>
+
+        <div class="glass-panel">
+            <h3>📜 MÓDULO FISCAL</h3>
+            <button class="btn btn-accent" onclick="abrirModal('modalNfe')">CONSULTA NF-E / DANFE</button>
+            <textarea id="textoInput" placeholder="Processar texto..." rows="2"></textarea>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+                <button class="btn btn-accent" onclick="removerTodosEspacos()">Grudar</button>
+                <button class="btn btn-blue" onclick="corrigirETirarParagrafos()">CAIXA ALTA</button>
+            </div>
+            <button class="btn btn-blue" onclick="copiarTexto()">Copiar Resultado</button>
         </div>
 
         <div class="glass-panel" style="border-top: 4px solid var(--success-wood);">
@@ -226,14 +230,13 @@
     </footer>
 
     <script>
-        // --- NÚCLEO CONVERSOR (REAIS E M3) ---
+        // --- NÚCLEO CONVERSOR ---
         function numParaExtenso(valor, tipo) {
             if (isNaN(valor) || valor === 0) return "";
             const unidades = ["zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove"];
             const dezenas_10 = ["dez", "onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"];
             const dezenas = ["", "", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"];
             const centenas = ["", "cem", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"];
-            
             function converter(n) {
                 if (n === 0) return ""; if (n === 100) return "cem"; let s = "";
                 if (n >= 100) { s += centenas[Math.floor(n / 100)]; n %= 100; if (n > 0) s += " e "; }
@@ -241,12 +244,10 @@
                 else if (n >= 10) { s += dezenas_10[n - 10]; n = 0; }
                 if (n > 0) s += unidades[n]; return s;
             }
-            
             let numStr = valor.toFixed(tipo === 'M3' ? 4 : 2);
             let partes = numStr.split('.');
             let inteiro = parseInt(partes[0]), decimal = parseInt(partes[1]);
             let resultado = (inteiro === 0) ? "zero" : converter(inteiro);
-            
             if (tipo === 'M3') {
                 resultado += (inteiro === 1) ? " metro cúbico" : " metros cúbicos";
                 if (decimal > 0) resultado += " e " + converter(decimal) + " décimos de milésimos";
@@ -257,16 +258,21 @@
             return resultado.toUpperCase();
         }
 
-        // --- FUNÇÕES ESPECÍFICAS CONVERSOR MANUAL ---
+        // --- FUNÇÕES ESPECÍFICAS ---
         function converterManual() {
             let val = parseFloat(document.getElementById('inputManualExtenso').value.replace(',', '.'));
             document.getElementById('resExtensoManual').innerText = numParaExtenso(val, 'RS') || "R$ 0,00";
         }
         function copiarExtensoManual() { 
             let t = document.getElementById('resExtensoManual').innerText; 
-            if(t !== "R$ 0,00") { navigator.clipboard.writeText(t); alert("Valor em Reais Copiado!"); } 
+            if(t !== "R$ 0,00") { navigator.clipboard.writeText(t); alert("Copiado!"); } 
         }
         
+        // --- CALCULADORA ---
+        function limparCalc() { document.getElementById('visorCalc').value="0"; }
+        function addCalc(v) { let vc = document.getElementById('visorCalc'); if(vc.value=="0" && v!=".") vc.value=v; else vc.value+=v; }
+        function executarCalc() { try { let vc = document.getElementById('visorCalc'); vc.value = eval(vc.value.replace(',', '.')).toString().replace('.', ','); } catch { } }
+
         // --- ROMANEIO ---
         let produto=[0,0,0,0,0,0,0,0,0], total=0;
         function identificar(E, L) {
@@ -310,13 +316,10 @@
         function bloquearLetras(e) { if(!['0','1','2','3','4','5','6','7','8','9',',','.', 'Backspace', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight', 'Delete'].includes(e.key)) e.preventDefault(); }
         function atalho(b, l) { document.getElementById('bitola').value=b; document.getElementById('largura').value=l; document.getElementById('metragem').focus(); }
         function resetarCalculadora() { if(confirm("Limpar?")) { produto=[0,0,0,0,0,0,0,0,0]; total=0; document.getElementById('metros').innerHTML=""; atualizar(); } }
-        function fecharModal(id) { document.getElementById(id).style.display="none"; }
         function abrirModal(id) { document.getElementById(id).style.display="block"; }
+        function fecharModal(id) { document.getElementById(id).style.display="none"; }
         function gerarQR() { document.getElementById('qrcode').innerHTML=""; new QRCode(document.getElementById("qrcode"), { text: document.getElementById('qrLink').value, width: 100, height: 100 }); }
         async function capturarResumo() { const canvas = await html2canvas(document.getElementById('printArea'), { backgroundColor: '#0c0806' }); canvas.toBlob(b => navigator.clipboard.write([new ClipboardItem({"image/png": b})])); alert("Copiado!"); }
-        function limparCalc() { document.getElementById('visorCalc').value="0"; }
-        function addCalc(v) { let vc = document.getElementById('visorCalc'); if(vc.value=="0" && v!=".") vc.value=v; else vc.value+=v; }
-        function executarCalc() { try { let vc = document.getElementById('visorCalc'); vc.value = eval(vc.value.replace(',', '.')).toString().replace('.', ','); } catch { } }
         function irParaDanfe() { let c = document.getElementById('chaveAcesso').value; if(c.length==44) window.open(`https://consultadanfe.com/?chave=${c}`, '_blank'); }
         function removerTodosEspacos() { document.getElementById('textoInput').value = document.getElementById('textoInput').value.replace(/\s/g, ''); }
         function corrigirETirarParagrafos() { document.getElementById('textoInput').value = document.getElementById('textoInput').value.trim().toUpperCase(); }
