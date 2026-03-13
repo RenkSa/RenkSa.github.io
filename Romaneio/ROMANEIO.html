@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MadMais - Ferramenta v45.6</title>
+    <title>MadMais - Ferramenta v46.4</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -60,41 +60,21 @@
         .btn-danger { background: var(--danger-wood); }
         .btn-blue { background: var(--blue-wood); }
 
-        /* Estilos Calculadora */
         .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
         .btn-num { background: #3d2b1f; border: 1px solid #5a4030; font-size: 18px; color: white; height: 55px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .btn-op-calc { background: #5d4037 !important; color: var(--wood-light); }
-        #visorCalc { text-align: right; font-size: 28px; background: #0c0806; border: 2px solid #3d2b1f; color: #00ff00; font-family: 'Courier New', monospace; height: 65px; margin-bottom: 15px; padding: 10px; }
-
-        #printArea { padding: 15px; background: #0c0806; border: 2px double var(--wood-light); }
         
-        #resExtensoManual {
-            background: rgba(0,0,0,0.6);
-            border: 1px solid var(--accent-gold);
-            padding: 10px;
-            min-height: 50px;
-            color: var(--accent-gold);
-            font-size: 13px;
-            text-transform: uppercase;
-            font-style: italic;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            display: flex; align-items: center; justify-content: center; text-align: center;
+        #visorCalc { 
+            text-align: right; font-size: 28px; background: #0c0806; 
+            border: 2px solid #3d2b1f; color: #00ff00; 
+            font-family: 'Courier New', monospace; height: 65px; 
+            margin-bottom: 15px; padding: 10px; 
         }
 
-        .grid-custodia { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .btn-custodia { background: rgba(62, 77, 42, 0.4); border: 1px solid var(--success-wood); color: #fff; padding: 15px; border-radius: 10px; text-decoration: none; font-size: 10px; font-weight: bold; text-align: center; display: flex; align-items: center; justify-content: center; }
-        
-        .grade-estados { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-top: 15px; }
-        .card-uf { display: flex; flex-direction: column; align-items: center; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; border: 1px solid #4a3427; }
-        .bandeira { width: 45px; height: 30px; object-fit: contain; margin-bottom: 5px; }
-        .btn-uf { background: #2a1b12; color: var(--wood-light); padding: 5px 0; border-radius: 4px; text-decoration: none; display: block; width: 100%; font-size: 11px; text-align: center; font-weight: bold; border: 1px solid #4a3427; }
-
-        #extensoTexto { font-size: 10px; color: #fff; margin-top: 12px; font-style: italic; text-align: center; border-top: 1px dashed var(--wood-light); padding-top: 8px; text-transform: uppercase; }
-        
         .grid-atalhos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 10px; }
         .btn-atalho { background: #2a1b12; border: 1px solid #4a3427; color: var(--wood-light); padding: 10px 2px; border-radius: 5px; cursor: pointer; font-size: 10px; font-weight: bold; }
 
+        #printArea { padding: 15px; background: #0c0806; border: 2px double var(--wood-light); }
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); }
         .modal-content { background: #1a0f0a; margin: 10% auto; padding: 20px; border: 2px solid var(--wood-light); width: 90%; max-width: 400px; border-radius: 15px; text-align: center; }
     </style>
@@ -102,27 +82,27 @@
 
 <body>
 
-    <header><h1>FERRAMENTAS DO GRUPO MADMAIS</h1></header>
+    <header><h1>MADEIREIRA MADMAIS v46.4</h1></header>
 
     <div class="main-grid">
         
         <div class="glass-panel" style="border-top: 4px solid var(--accent-gold);">
             <h3>💰 EXTENSO DE VALORES (R$)</h3>
-            <input type="text" id="inputManualExtenso" placeholder="Valor em Dinheiro (Ex: 1550,20)" oninput="converterManual()">
-            <div id="resExtensoManual">R$ 0,00</div>
+            <input type="text" id="inputManualExtenso" placeholder="Ex: 1550,20" oninput="converterManual()" onpaste="permitirPaste(event)">
+            <div id="resExtensoManual" style="background: rgba(0,0,0,0.6); border: 1px solid var(--accent-gold); padding: 10px; min-height: 50px; color: var(--accent-gold); font-size: 13px; text-transform: uppercase; font-style: italic; margin-bottom: 10px; border-radius: 4px; display: flex; align-items: center; justify-content: center; text-align: center;">R$ 0,00</div>
             <button class="btn btn-blue" onclick="copiarExtensoManual()">COPIAR VALOR POR EXTENSO</button>
         </div>
 
         <div class="glass-panel">
             <h3>📏 ROMANEIO (M³)</h3>
             <div style="display: flex; gap: 5px;">
-                <input type="text" id="bitola" placeholder="Bit." onkeydown="bloquearLetras(event)" oninput="soNumeros(this)">
-                <input type="text" id="largura" placeholder="Larg." onkeydown="bloquearLetras(event)" oninput="soNumeros(this)">
-                <input type="text" id="metragem" placeholder="Metros" onkeydown="bloquearLetras(event)" oninput="soNumeros(this)">
+                <input type="text" id="bitola" placeholder="Bit." onkeydown="gerenciarTeclasRomaneio(event)" onpaste="permitirPaste(event)">
+                <input type="text" id="largura" placeholder="Larg." onkeydown="gerenciarTeclasRomaneio(event)" onpaste="permitirPaste(event)">
+                <input type="text" id="metragem" placeholder="Metros" onkeydown="gerenciarTeclasRomaneio(event)" onpaste="permitirPaste(event)">
             </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <button class="btn btn-success" onclick="calcular()">SOMAR (+)</button>
-                <button class="btn btn-danger" onclick="subtrair()">SUBTRAIR (-)</button>
+                <button class="btn btn-success" onclick="operar('+')" style="font-size: 16px;">ADICIONAR (+)</button>
+                <button class="btn btn-danger" onclick="operar('-')" style="font-size: 16px;">SUBTRAIR (-)</button>
             </div>
             <div class="grid-atalhos">
                 <button class="btn-atalho" onclick="atalho(5, 25)">PRANCHA</button>
@@ -153,7 +133,6 @@
                     <tr id="row-SRRF" style="display:none;"><td>SARRAFOS</td><td id="resSRRF" align="right">0,0000</td></tr>
                     <tr id="row-total" style="display:none; font-weight:bold; color:#fff;"><td style="padding-top:10px">TOTAL GERAL</td><td id="resTTL" align="right" style="padding-top:10px">0,0000</td></tr>
                 </table>
-                <div id="extensoTexto"></div>
             </div>
             <button class="btn btn-blue" style="margin-top:10px" onclick="capturarResumo()">📸 COPIAR PRINT</button>
             <select id="metros" size="4" style="margin-top:10px; font-size:11px"></select>
@@ -161,7 +140,7 @@
 
         <div class="glass-panel" style="border-top: 4px solid var(--blue-wood);">
             <h3>🧮 CALCULADORA AUXILIAR</h3>
-            <input type="text" id="visorCalc" readonly value="0">
+            <input type="text" id="visorCalc" value="0" onkeydown="checkEnterCalc(event)" onpaste="permitirPaste(event)">
             <div class="calc-grid">
                 <button class="btn-num btn-op-calc" onclick="limparCalc()">C</button>
                 <button class="btn-num btn-op-calc" onclick="addCalc('/')">/</button>
@@ -195,14 +174,14 @@
 
         <div class="glass-panel" style="border-top: 4px solid var(--success-wood);">
             <h3>🛡️ CADEIA DE CUSTÓDIA</h3>
-            <div class="grid-custodia">
-                <a href="https://portaldatransparencia.semas.pa.gov.br/#/visao-publica" target="_blank" class="btn-custodia">AUTEF</a>
-                <a href="https://monitoramento.semas.pa.gov.br/simlam/ListarEmpreendimento.aspx" target="_blank" class="btn-custodia">SIMLAM</a>
-                <a href="https://app.sefa.pa.gov.br/pservicos/autenticacao" target="_blank" class="btn btn-success" style="grid-column: span 2; height: 50px; display: flex; align-items: center; justify-content: center;">HOMOLOGAR SEFA-PA</a>
+            <div class="grid-custodia" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <a href="https://portaldatransparencia.semas.pa.gov.br/#/visao-publica" target="_blank" class="btn btn-blue" style="font-size: 10px;">AUTEF</a>
+                <a href="https://monitoramento.semas.pa.gov.br/simlam/ListarEmpreendimento.aspx" target="_blank" class="btn btn-blue" style="font-size: 10px;">SIMLAM</a>
+                <a href="https://app.sefa.pa.gov.br/pservicos/autenticacao" target="_blank" class="btn btn-success" style="grid-column: span 2;">HOMOLOGAR SEFA-PA</a>
             </div>
             <div style="margin-top: 15px; text-align: center;">
                 <h3>🔗 QR CODE DRIVE</h3>
-                <input type="text" id="qrLink" placeholder="Link do Drive..." style="margin-bottom: 5px;">
+                <input type="text" id="qrLink" placeholder="Link do Drive...">
                 <button class="btn btn-success" onclick="gerarQR()">GERAR QR</button>
                 <div id="qrcode" style="background:white; padding:10px; display:inline-block; margin-top:10px"></div>
             </div>
@@ -210,7 +189,7 @@
 
         <div class="glass-panel" style="grid-column: 1 / -1; border-top: 4px solid #3498db;">
             <h3>🌐 SINTEGRA - CONSULTA NACIONAL</h3>
-            <div class="grade-estados" id="gradeSintegra"></div>
+            <div class="grade-estados" id="gradeSintegra" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px;"></div>
         </div>
     </div>
 
@@ -218,7 +197,6 @@
         <div class="modal-content">
             <h3>CONSULTA NF-E</h3>
             <input type="text" id="chaveAcesso" placeholder="Chave (44 dígitos)" maxlength="44">
-            <button class="btn" style="background:#004481" onclick="window.open('https://www.nfe.fazenda.gov.br/portal/consultaRecaptcha.aspx', '_blank')">PORTAL GOV</button>
             <button class="btn btn-success" onclick="irParaDanfe()">GERAR DANFE</button>
             <button class="btn btn-danger" onclick="fecharModal('modalNfe')">FECHAR</button>
         </div>
@@ -230,50 +208,69 @@
     </footer>
 
     <script>
-        // --- NÚCLEO CONVERSOR ---
-        function numParaExtenso(valor, tipo) {
+        // --- FUNÇÕES DE EXTENSO ---
+        function numParaExtenso(valor) {
             if (isNaN(valor) || valor === 0) return "";
-            const unidades = ["zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove"];
+            const unidades = ["", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove"];
             const dezenas_10 = ["dez", "onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"];
             const dezenas = ["", "", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"];
-            const centenas = ["", "cem", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"];
-            function converter(n) {
-                if (n === 0) return ""; if (n === 100) return "cem"; let s = "";
-                if (n >= 100) { s += centenas[Math.floor(n / 100)]; n %= 100; if (n > 0) s += " e "; }
-                if (n >= 20) { s += dezenas[Math.floor(n / 10)]; n %= 10; if (n > 0) s += " e "; }
-                else if (n >= 10) { s += dezenas_10[n - 10]; n = 0; }
-                if (n > 0) s += unidades[n]; return s;
+            const centenas = ["", "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"];
+            function converter999(n) {
+                if (n === 0) return ""; if (n === 100) return "cem";
+                let s = "", c = Math.floor(n / 100), d = Math.floor((n % 100) / 10), u = n % 10;
+                if (c > 0) s += centenas[c];
+                if (n % 100 > 0) {
+                    if (s !== "") s += " e ";
+                    if (d === 1) s += dezenas_10[u];
+                    else { s += dezenas[d]; if (d > 0 && u > 0) s += " e "; s += unidades[u]; }
+                }
+                return s;
             }
-            let numStr = valor.toFixed(tipo === 'M3' ? 4 : 2);
+            let numStr = valor.toFixed(2);
             let partes = numStr.split('.');
             let inteiro = parseInt(partes[0]), decimal = parseInt(partes[1]);
-            let resultado = (inteiro === 0) ? "zero" : converter(inteiro);
-            if (tipo === 'M3') {
-                resultado += (inteiro === 1) ? " metro cúbico" : " metros cúbicos";
-                if (decimal > 0) resultado += " e " + converter(decimal) + " décimos de milésimos";
-            } else {
-                resultado += (inteiro === 1) ? " real" : " reais";
-                if (decimal > 0) resultado += " e " + converter(decimal) + " centavos";
+            let milhares = Math.floor(inteiro / 1000), resto = inteiro % 1000, final = "";
+            if (milhares > 0) {
+                if (milhares === 1) final = "mil";
+                else final = converter999(milhares) + " mil";
+                if (resto > 0) final += (resto <= 100 || resto % 100 === 0) ? " e " : " ";
             }
-            return resultado.toUpperCase();
+            if (resto > 0 || inteiro === 0) final += (inteiro === 0 ? "zero" : converter999(resto));
+            final += (inteiro === 1) ? " real" : " reais";
+            if (decimal > 0) final += " e " + converter999(decimal) + " centavos";
+            return final.toUpperCase();
         }
 
-        // --- FUNÇÕES ESPECÍFICAS ---
-        function converterManual() {
-            let val = parseFloat(document.getElementById('inputManualExtenso').value.replace(',', '.'));
-            document.getElementById('resExtensoManual').innerText = numParaExtenso(val, 'RS') || "R$ 0,00";
+        // --- CONTROLES DE INPUT ---
+        function permitirPaste(e) {
+            e.preventDefault();
+            let text = (e.clipboardData || window.clipboardData).getData('text');
+            text = text.replace('.', ',');
+            document.execCommand('insertText', false, text);
         }
-        function copiarExtensoManual() { 
-            let t = document.getElementById('resExtensoManual').innerText; 
-            if(t !== "R$ 0,00") { navigator.clipboard.writeText(t); alert("Copiado!"); } 
-        }
-        
-        // --- CALCULADORA ---
-        function limparCalc() { document.getElementById('visorCalc').value="0"; }
-        function addCalc(v) { let vc = document.getElementById('visorCalc'); if(vc.value=="0" && v!=".") vc.value=v; else vc.value+=v; }
-        function executarCalc() { try { let vc = document.getElementById('visorCalc'); vc.value = eval(vc.value.replace(',', '.')).toString().replace('.', ','); } catch { } }
 
-        // --- ROMANEIO ---
+        function gerenciarTeclasRomaneio(e) { 
+            // Permite atalhos de sistema e navegação
+            if (e.ctrlKey || e.metaKey || ['Backspace', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight', 'Delete', ',', '.'].includes(e.key)) return;
+            
+            // Tecla + (Adicionar)
+            if (e.key === '+') {
+                e.preventDefault();
+                operar('+');
+                return;
+            }
+            // Tecla - (Subtrair)
+            if (e.key === '-') {
+                e.preventDefault();
+                operar('-');
+                return;
+            }
+
+            // Bloqueia qualquer outra coisa que não seja número
+            if (!/[0-9]/.test(e.key)) e.preventDefault(); 
+        }
+
+        // --- LÓGICA DO ROMANEIO ---
         let produto=[0,0,0,0,0,0,0,0,0], total=0;
         function identificar(E, L) {
             if (E >= 12 && L >= 12 && E === L) return {i:7, n:"Bloco"};
@@ -287,6 +284,34 @@
             if (E >= 2 && L >= 2 && E <= 3.9 && L <= 10) return {i:8, n:"Sarrafo"};
             return null;
         }
+
+        function operar(op) {
+            const b = document.getElementById('bitola').value.replace(',', '.');
+            const l = document.getElementById('largura').value.replace(',', '.');
+            const m = document.getElementById('metragem').value.replace(',', '.');
+            const E = parseFloat(b), L = parseFloat(l), M = parseFloat(m);
+            const res = identificar(E, L);
+
+            if (res && !isNaN(M) && M > 0) {
+                if (op === '+') {
+                    produto[res.i] += M; total += M;
+                    addLog(`[+] ${res.n}: ${M.toFixed(4).replace('.', ',')}`);
+                } else {
+                    if (produto[res.i] >= (M - 0.0001)) {
+                        produto[res.i] -= M; total -= M;
+                        addLog(`[-] ${res.n}: ${M.toFixed(4).replace('.', ',')}`);
+                    }
+                }
+                atualizar(); 
+                limparCampos();
+            } else { 
+                if (isNaN(E) || isNaN(L) || isNaN(M)) alert("Preencha Bitola, Largura e Metros antes de calcular.");
+            }
+        }
+
+        function addLog(txt) { let opt = document.createElement('option'); opt.text = txt; document.getElementById('metros').prepend(opt); }
+        function limparCampos() { document.getElementById('bitola').value=''; document.getElementById('largura').value=''; document.getElementById('metragem').value=''; document.getElementById('bitola').focus(); }
+        
         function atualizar() {
             const suf = ["PC", "PAO", "CB", "TB", "VG", "RP", "VGTA", "BC", "SRRF"];
             suf.forEach((s, i) => {
@@ -296,26 +321,25 @@
             });
             document.getElementById("resTTL").innerText = total.toFixed(4).replace('.', ',');
             document.getElementById("row-total").style.display = total > 0.0001 ? "table-row" : "none";
-            document.getElementById("extensoTexto").innerText = total > 0 ? "( " + numParaExtenso(total, 'M3') + " )" : "";
-        }
-        function calcular() {
-            let E=parseFloat(document.getElementById('bitola').value.replace(',','.')), L=parseFloat(document.getElementById('largura').value.replace(',','.')), M=parseFloat(document.getElementById('metragem').value.replace(',','.'));
-            let res = identificar(E, L);
-            if (res && M > 0) { produto[res.i] += M; total += M; let opt = document.createElement('option'); opt.text = `[+] ${res.n}: ${M.toFixed(4).replace('.', ',')}`; document.getElementById('metros').prepend(opt); atualizar(); }
-            document.getElementById('bitola').value=''; document.getElementById('largura').value=''; document.getElementById('metragem').value=''; document.getElementById('bitola').focus();
-        }
-        function subtrair() {
-            let E=parseFloat(document.getElementById('bitola').value.replace(',','.')), L=parseFloat(document.getElementById('largura').value.replace(',','.')), M=parseFloat(document.getElementById('metragem').value.replace(',','.'));
-            let res = identificar(E, L);
-            if (res && M > 0 && produto[res.i] >= (M - 0.0001)) { produto[res.i] -= M; total -= M; let opt = document.createElement('option'); opt.text = `[-] ${res.n}: ${M.toFixed(4).replace('.', ',')}`; document.getElementById('metros').prepend(opt); atualizar(); }
-            document.getElementById('bitola').value=''; document.getElementById('largura').value=''; document.getElementById('metragem').value=''; document.getElementById('bitola').focus();
         }
 
-        // --- AUXILIARES GERAIS ---
-        function soNumeros(i) { i.value = i.value.replace(/[^0-9,.]/g, ''); }
-        function bloquearLetras(e) { if(!['0','1','2','3','4','5','6','7','8','9',',','.', 'Backspace', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight', 'Delete'].includes(e.key)) e.preventDefault(); }
+        // --- CALCULADORA ---
+        function checkEnterCalc(e) { if (e.key === "Enter") { e.preventDefault(); executarCalc(); } }
+        function limparCalc() { document.getElementById('visorCalc').value="0"; }
+        function addCalc(v) { let vc = document.getElementById('visorCalc'); if(vc.value === "0" && !isNaN(v)) vc.value = v; else vc.value += v; }
+        function executarCalc() { 
+            try { 
+                let vc = document.getElementById('visorCalc'); 
+                let res = eval(vc.value.replace(/,/g, '.'));
+                vc.value = res.toString().replace('.', ','); 
+            } catch { alert("Erro no cálculo"); } 
+        }
+
+        // --- AUXILIARES ---
         function atalho(b, l) { document.getElementById('bitola').value=b; document.getElementById('largura').value=l; document.getElementById('metragem').focus(); }
-        function resetarCalculadora() { if(confirm("Limpar?")) { produto=[0,0,0,0,0,0,0,0,0]; total=0; document.getElementById('metros').innerHTML=""; atualizar(); } }
+        function converterManual() { let val = parseFloat(document.getElementById('inputManualExtenso').value.replace(',', '.')); document.getElementById('resExtensoManual').innerText = numParaExtenso(val) || "R$ 0,00"; }
+        function copiarExtensoManual() { let t = document.getElementById('resExtensoManual').innerText; if(t !== "R$ 0,00") { navigator.clipboard.writeText(t); alert("Copiado!"); } }
+        function resetarCalculadora() { if(confirm("Zerar?")) { produto=[0,0,0,0,0,0,0,0,0]; total=0; document.getElementById('metros').innerHTML=""; atualizar(); } }
         function abrirModal(id) { document.getElementById(id).style.display="block"; }
         function fecharModal(id) { document.getElementById(id).style.display="none"; }
         function gerarQR() { document.getElementById('qrcode').innerHTML=""; new QRCode(document.getElementById("qrcode"), { text: document.getElementById('qrLink').value, width: 100, height: 100 }); }
@@ -325,9 +349,8 @@
         function corrigirETirarParagrafos() { document.getElementById('textoInput').value = document.getElementById('textoInput').value.trim().toUpperCase(); }
         function copiarTexto() { document.getElementById('textoInput').select(); document.execCommand("copy"); }
 
-        // --- SINTEGRA ---
         const estados = [{uf:"AC", flag:"https://static.wixstatic.com/media/7556fa_52f882d782154d08bfaf143ff7091ba0~mv2.png", link:"https://sefazonline.ac.gov.br/sefazonline/app.wmsintegralista"},{uf:"AL", flag:"https://static.wixstatic.com/media/7556fa_d6825418c1ac4eda8272c30e7b6d3b0e~mv2.png", link:"https://sintegra.sefaz.al.gov.br/#/"},{uf:"AP", flag:"https://static.wixstatic.com/media/7556fa_9f57733f53f34b769c8cc9c179717cbc~mv2.png", link:"https://www.sefaz.ap.gov.br/sate/seg/SEGf_AcessarFuncao.jsp?cdFuncao=CAD_011"},{uf:"AM", flag:"https://static.wixstatic.com/media/7556fa_d98eec7cdbca42919b8449b49f0c58ac~mv2.png", link:"http://online.sefaz.am.gov.br/sintegra/index.asp"},{uf:"BA", flag:"https://static.wixstatic.com/media/7556fa_dba48f3017d0466f96c4654c4cb8f345~mv2.png", link:"https://portal.sefaz.ba.gov.br/scripts/cadastro/cadastroBa/consultaBa.asp"},{uf:"CE", flag:"https://static.wixstatic.com/media/7556fa_768d79e16dff410b8353e477f1c5ced8~mv2.png", link:"https://consultapublica.sefaz.ce.gov.br/sintegra/preparar-consultar"},{uf:"DF", flag:"https://static.wixstatic.com/media/7556fa_64f6abc20f704dc482b5ee813e1dac3e~mv2.png", link:"http://agnet.fazenda.df.gov.br/area.cfm?id_area=1140"},{uf:"ES", flag:"https://static.wixstatic.com/media/7556fa_863f13f5a720415cb9acce60e1325266~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc"},{uf:"GO", flag:"https://static.wixstatic.com/media/7556fa_567f2835f5f248e6b5cbc3d19647a347~mv2.png", link:"http://appasp.sefaz.go.gov.br/Sintegra/Consulta/default.html"},{uf:"MA", flag:"https://static.wixstatic.com/media/7556fa_27151d71f0d94588861e416e59d12563~mv2.png", link:"https://sistemas1.sefaz.ma.gov.br/sintegra/jsp/consultaSintegra/consultaSintegraFiltro.jsf"},{uf:"MT", flag:"https://static.wixstatic.com/media/7556fa_15073c9422a849f1ad99c464e0222c10~mv2.png", link:"https://www.sefaz.mt.gov.br/cadastro/emissaocartao/emissaocartaocontribuinteacessodireto"},{uf:"MS", flag:"https://static.wixstatic.com/media/7556fa_aee2232a87bf44d2b374fd952dabb27b~mv2.png", link:"https://cpe.sefaz.ms.gov.br/"},{uf:"MG", flag:"https://static.wixstatic.com/media/7556fa_304a5ca21caa4e0585a89dd104cb27b1~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc"},{uf:"PA", flag:"https://static.wixstatic.com/media/7556fa_bc3caf14cc0847c1858374414034ca91~mv2.png", link:"https://app.sefa.pa.gov.br/sintegra/"},{uf:"PB", flag:"https://static.wixstatic.com/media/7556fa_64b32bd18fd74ac789fdbd63cbf4bfc2~mv2.png", link:"https://www4.sefaz.pb.gov.br/sintegra/SINf_ConsultaSintegra.jsp"},{uf:"PR", flag:"https://static.wixstatic.com/media/7556fa_9b0a4366190b4a8cbf58f1c854f3bb79~mv2.png", link:"http://www.sintegra.fazenda.pr.gov.br/sintegra/"},{uf:"PE", flag:"https://static.wixstatic.com/media/7556fa_65fa61979d18433c8216628b742d56e3~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc"},{uf:"PI", flag:"https://static.wixstatic.com/media/7556fa_6ea0da33933146908683cbf305977c66~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc"},{uf:"RJ", flag:"https://static.wixstatic.com/media/7556fa_4b0b4b09d47e4d33910e23e42e4748a6~mv2.png", link:"https://sucief-sincad-web.fazenda.rj.gov.br/sincad-web/index.jsf"},{uf:"RN", flag:"https://static.wixstatic.com/media/7556fa_3ce859233a5f4624a39158aa932306be~mv2.png", link:"https://uvt2.set.rn.gov.br/#/services/consultaContribuinte"},{uf:"RS", flag:"https://static.wixstatic.com/media/7556fa_68a3b98c60684204b78c5dd6a9a763d2~mv2.png", link:"https://www.sefaz.rs.gov.br/consultas/contribuinte"},{uf:"RO", flag:"https://static.wixstatic.com/media/7556fa_77001efec3f14a07b14e1454915403f9~mv2.png", link:"https://portalcontribuinte.sefin.ro.gov.br/Publico/parametropublica.jsp"},{uf:"RR", flag:"https://static.wixstatic.com/media/7556fa_a4ac05ac4172475384183b2a31bb705e~mv2.png", link:"https://portalweb.sefaz.rr.gov.br/sintegra/servlet/wp_siate_consultasintegra"},{uf:"SC", flag:"https://static.wixstatic.com/media/7556fa_5c5198c2dab94124ab5606549f429f98~mv2.png", link:"https://sat.sef.sc.gov.br/tax.NET/tax.net.cadastro/conssc_sitcad.aspx"},{uf:"SP", flag:"https://static.wixstatic.com/media/7556fa_4d5551676213455cbe4dbe3f58c7ac74~mv2.png", link:"https://www.cadesp.fazenda.sp.gov.br/"},{uf:"SE", flag:"https://static.wixstatic.com/media/7556fa_b851288251994faeaa25b89a53580e8e~mv2.png", link:"https://security.sefaz.se.gov.br/SIC/sintegra/index.jsp"},{uf:"TO", flag:"https://static.wixstatic.com/media/7556fa_ede659b6dd7c4b6ba833dd5e5bd4b9e3~mv2.png", link:"http://sintegra.sefaz.to.gov.br/sintegra/servlet/wpsico01"},{uf:"Receita", flag:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQieCEEcsZP5_DreEnscKALv6JpRnmaMQ0Fjw&s", link:"https://solucoes.receita.fazenda.gov.br/servicos/cnpjreva/cnpjreva_solicitacao.asp"}];
-        function carregarGradeSintegra() { const grid = document.getElementById('gradeSintegra'); estados.forEach(e => { const card = document.createElement('div'); card.className = 'card-uf'; card.innerHTML = `<img src="${e.flag}" class="bandeira"><a href="${e.link}" target="_blank" class="btn-uf">${e.uf}</a>`; grid.appendChild(card); }); }
+        function carregarGradeSintegra() { const grid = document.getElementById('gradeSintegra'); estados.forEach(e => { const card = document.createElement('div'); card.className = 'card-uf'; card.innerHTML = `<img src="${e.flag}" style="width: 45px; height: 30px; margin-bottom: 5px;"><a href="${e.link}" target="_blank" class="btn btn-blue" style="font-size: 11px; padding: 5px 0; width: 80px;">${e.uf}</a>`; grid.appendChild(card); }); }
 
         window.onload = carregarGradeSintegra;
         setInterval(() => document.getElementById("hours").innerHTML = new Date().toLocaleTimeString(), 1000);
