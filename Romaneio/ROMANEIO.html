@@ -75,6 +75,26 @@
         #qrcode canvas, #qrcode img {
             display: block;
         }
+/* Estilo da Calculadora MadMais */
+    .calc-container { 
+        background: linear-gradient(145deg, #2a1b12, #1a0f0a);
+        border: 2px solid #4a3427; border-radius: 12px; padding: 20px; 
+        max-width: 320px; box-shadow: 8px 8px 20px rgba(0,0,0,0.7);
+    }
+    .calc-display { 
+        background: #1a1a1a; color: #0f0; text-align: right; 
+        padding: 15px; font-size: 24px; font-family: 'Courier New', monospace; 
+        border-radius: 4px; margin-bottom: 10px; border: 1px inset #444; 
+        height: 60px; overflow: hidden; 
+    }
+    .calc-btns { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+    .cbtn { 
+        background: #2a1b12; border: 1px solid #4a3427; color: #d4a373; 
+        padding: 15px 5px; border-radius: 4px; cursor: pointer; 
+        font-weight: bold; font-size: 16px; transition: 0.2s;
+    }
+    .cbtn:hover { background: #d4a373; color: #000; }
+    .cbtn-op { background: #2c3e50; color: #fff; }
 
         .grade-estados { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 15px; margin-top: 15px; }
         .card-uf { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.03); padding: 12px; border-radius: 12px; border: 1px solid #4a3427; transition: 0.3s; }
@@ -103,6 +123,33 @@
             <div id="resExtensoManual" style="background: rgba(0,0,0,0.6); border: 1px solid var(--accent-gold); padding: 10px; min-height: 50px; color: var(--accent-gold); font-size: 13px; text-transform: uppercase; font-style: italic; margin-bottom: 10px; border-radius: 4px; display: flex; align-items: center; justify-content: center; text-align: center;">R$ 0,00</div>
             <button class="btn btn-blue" onclick="copiarExtensoManual()">COPIAR VALOR POR EXTENSO</button>
         </div>
+	<div class="calc-container">
+    <div class="calc-display" id="calc-display">0</div>
+    <div class="calc-btns">
+        <button class="cbtn cbtn-op" onclick="clearCalc()">C</button>
+        <button class="cbtn cbtn-op" onclick="delCalc()">DEL</button>
+        <button class="cbtn cbtn-op" onclick="pressCalc('/')">/</button>
+        <button class="cbtn cbtn-op" onclick="pressCalc('*')">X</button>
+        
+        <button class="cbtn" onclick="pressCalc('7')">7</button>
+        <button class="cbtn" onclick="pressCalc('8')">8</button>
+        <button class="cbtn" onclick="pressCalc('9')">9</button>
+        <button class="cbtn cbtn-op" onclick="pressCalc('-')">-</button>
+        
+        <button class="cbtn" onclick="pressCalc('4')">4</button>
+        <button class="cbtn" onclick="pressCalc('5')">5</button>
+        <button class="cbtn" onclick="pressCalc('6')">6</button>
+        <button class="cbtn cbtn-op" onclick="pressCalc('+')">+</button>
+        
+        <button class="cbtn" onclick="pressCalc('1')">1</button>
+        <button class="cbtn" onclick="pressCalc('2')">2</button>
+        <button class="cbtn" onclick="pressCalc('3')">3</button>
+        <button class="cbtn cbtn-op" style="background: #3e4d2a;" onclick="calculate()">=</button>
+        
+        <button class="cbtn" style="grid-column: span 2" onclick="pressCalc('0')">0</button>
+        <button class="cbtn" onclick="pressCalc('.')">,</button>
+    </div>
+</div>
 
         <div class="glass-panel">
             <h3>📏 ROMANEIO (M³)</h3>
@@ -278,6 +325,34 @@
         function atalho(b, l) { document.getElementById('bitola').value=b; document.getElementById('largura').value=l; document.getElementById('metragem').focus(); }
         function permitirPaste(e) { e.preventDefault(); let text = (e.clipboardData || window.clipboardData).getData('text'); text = text.replace('.', ','); document.execCommand('insertText', false, text); }
         function gerenciarTeclasRomaneio(e) { if (e.ctrlKey || e.metaKey || ['Backspace', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight', 'Delete', ',', '.'].includes(e.key)) return; if (e.key === '+') { e.preventDefault(); operar('+'); return; } if (e.key === '-') { e.preventDefault(); operar('-'); return; } if (!/[0-9]/.test(e.key)) e.preventDefault(); }
+let currentExp = "";
+    const visor = document.getElementById('calc-display');
+
+    function pressCalc(v) { 
+        currentExp += v; 
+        visor.innerText = currentExp; 
+    }
+
+    function clearCalc() { 
+        currentExp = ""; 
+        visor.innerText = "0"; 
+    }
+
+    function delCalc() { 
+        currentExp = currentExp.slice(0, -1); 
+        visor.innerText = currentExp || "0"; 
+    }
+
+    function calculate() { 
+        try { 
+            // Resolve a conta e atualiza a variável para continuar operando
+            currentExp = eval(currentExp).toString(); 
+            visor.innerText = currentExp; 
+        } catch { 
+            visor.innerText = "ERRO"; 
+            currentExp = ""; 
+        } 
+    }
         function resetarCalculadora() { if(confirm("Zerar?")) { produto=[0,0,0,0,0,0,0,0,0]; total=0; document.getElementById('metros').innerHTML=""; atualizar(); } }
         function numParaExtenso(valor) {
             if (isNaN(valor) || valor === 0) return "";
