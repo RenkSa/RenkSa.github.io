@@ -229,27 +229,30 @@
         </div>
     </div>
 
-    <div class="glass-panel">
-        <h3><span style="font-size: 1.2rem;">📏</span> Calculadora de Romaneio</h3>
-        <div style="display: flex; gap: 8px;">
-            <input type="text" id="bitola" placeholder="Bitola" onkeydown="gerenciarTeclasRomaneio(event)">
-            <input type="text" id="largura" placeholder="Largura" onkeydown="gerenciarTeclasRomaneio(event)">
-            <input type="text" id="metragem" placeholder="Metros" onkeydown="gerenciarTeclasRomaneio(event)">
+<div class="glass-panel">
+            <h3>📏 ROMANEIO (M³)</h3>
+            <div style="display: flex; gap: 5px;">
+                <input type="text" id="bitola" placeholder="Bit." onkeydown="gerenciarTeclasRomaneio(event)" onpaste="permitirPaste(event)">
+                <input type="text" id="largura" placeholder="Larg." onkeydown="gerenciarTeclasRomaneio(event)" onpaste="permitirPaste(event)">
+                <input type="text" id="metragem" placeholder="Metros" onkeydown="gerenciarTeclasRomaneio(event)" onpaste="permitirPaste(event)">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <button class="btn btn-success" onclick="operar('+')" style="font-size: 16px;">ADICIONAR (+)</button>
+                <button class="btn btn-danger" onclick="operar('-')" style="font-size: 16px;">SUBTRAIR (-)</button>
+            </div>
+            <div class="grid-atalhos">
+                <button class="btn-atalho" onclick="atalho(5, 25)">PRANCHA</button>
+                <button class="btn-atalho" onclick="atalho(8, 25)">PRANCHÃO</button>
+                <button class="btn-atalho" onclick="atalho(5, 5)">CAIBRO</button>
+                <button class="btn-atalho" onclick="atalho(2, 15)">TÁBUA</button>
+                <button class="btn-atalho" onclick="atalho(5, 15)">VIGA</button>
+                <button class="btn-atalho" onclick="atalho(1, 5)">RIPAS</button>
+                <button class="btn-atalho" onclick="atalho(5, 10)">VIGOTA</button>
+                <button class="btn-atalho" onclick="atalho(12, 12)">BLOCO</button>
+                <button class="btn-atalho" onclick="atalho(3, 5)">SARRAFO</button>
+            </div>
+            <button class="btn" style="margin-top: 15px; background: #4b0000;" onclick="resetarCalculadora()">ZERAR TUDO</button>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <button class="btn btn-success" onclick="operar('+')">ADICIONAR (+)</button>
-            <button class="btn btn-danger" onclick="operar('-')">REMOVER (-)</button>
-        </div>
-        <div class="grid-atalhos">
-            <button class="btn-atalho" onclick="atalho(5, 25)">PRANCHA</button>
-            <button class="btn-atalho" onclick="atalho(8, 25)">PRANCHÃO</button>
-            <button class="btn-atalho" onclick="atalho(5, 5)">CAIBRO</button>
-            <button class="btn-atalho" onclick="atalho(2, 15)">TÁBUA</button>
-            <button class="btn-atalho" onclick="atalho(5, 15)">VIGA</button>
-            <button class="btn-atalho" onclick="atalho(1, 5)">RIPAS</button>
-        </div>
-        <button class="btn btn-outline" onclick="resetarCalculadora()">Limpar Romaneio</button>
-    </div>
 
     <div class="glass-panel">
         <h3><span style="font-size: 1.2rem;">📋</span> Resumo da Carga</h3>
@@ -343,182 +346,185 @@
     <p>Desenvolvido por Renk Sá &reg; 2026 | Sistema de Apoio Logístico MadMais</p>
 </footer>
 
-<script>
-    // Toda a sua lógica original foi mantida e integrada aqui
-    let produto=[0,0,0,0,0,0,0,0,0], total=0;
-    
-    function identificar(E, L) {
-        if (E >= 12 && L >= 12 && E === L) return {i:7, n:"Bloco"};
-        if (E >= 4 && L > 20 && E <= 7) return {i:0, n:"Prancha"};
-        if (E > 7 && L > 20) return {i:1, n:"Pranchão"};
-        if (E >= 4 && L >= 4 && E <= 8 && L <= 7.9) return {i:2, n:"Caibro"};
-        if (E >= 1 && L > 10 && E <= 3.9) return {i:3, n:"Tábua"};
-        if (E >= 4 && L >= 11 && L <= 20) return {i:4, n:"Viga"};
-        if (E < 2 && L <= 10 && E > 0) return {i:5, n:"Ripas"};
-        if (E >= 4 && L >= 8 && E <= 11 && L <= 10.9) return {i:6, n:"Vigota"};
-        if (E >= 2 && L >= 2 && E <= 3.9 && L <= 10) return {i:8, n:"Sarrafo"};
-        return null;
-    }
+    <script>
+        // --- FUNÇÃO DE PROCESSAMENTO DE ROTAS INTEGRADA ---
+        function processarRotaEmpresa(empresa, rotaId) {
+            const campo = document.getElementById('textoInput');
+            let textoOriginal = campo.value;
+            if (!textoOriginal.trim()) { alert("COLE O TEXTO DA ROTA NO CAMPO ABAIXO PRIMEIRO!"); return; }
 
-    function operar(op) {
-        const b = document.getElementById('bitola').value.replace(',', '.');
-        const l = document.getElementById('largura').value.replace(',', '.');
-        const m = document.getElementById('metragem').value.replace(',', '.');
-        const E = parseFloat(b), L = parseFloat(l), M = parseFloat(m);
-        const res = identificar(E, L);
-        if (res && !isNaN(M) && M > 0) {
-            if (op === '+') { produto[res.i] += M; total += M; addLog(`[+] ${res.n}: ${M.toFixed(4)}`); } 
-            else { if (produto[res.i] >= (M - 0.0001)) { produto[res.i] -= M; total -= M; addLog(`[-] ${res.n}: ${M.toFixed(4)}`); } }
-            atualizar(); limparCampos();
+            const NOME_MAD = "MADMAIS INDUSTRIA COMERCIO BENEFICIAMENTO E EXPORTACAO LTDA";
+            const NOME_WOOD = "WOOD BRASIL NORTE IND COMERCIO E EXPORTACAO DE MADEIRAS LTDA";
+            const NOME = (empresa === 'MADMAIS') ? NOME_MAD : NOME_WOOD;
+
+            const rotas_db = {
+                'PA370': `SAINDO DO PÁTIO DA EMPRESA ${NOME} EM MOJUÍ DOS CAMPOS-PA, SEGUE PELA PA-431, SEGUE PELA PA 370 CURUAUNA, PASSANDO POR `,
+                'BR163': `SAINDO DO PATIO DA EMPRESA ${NOME} EM MOJUI DOS CAMPOS-PA, PELA PA-431, ENTRANDO NA BR-163, PASSANDO POR RUROPOLIS-PA, SEGUE PELA ROD BR 230, PLACAS-PA, `,
+                'MT': `SAINDO DO PATIO DA EMPRESA ${NOME} EM MOJUI DOS CAMPOS-PA, PELA PA-431, ENTRANDO NA BR-163, PASSANDO POR RUROPOLIS, SEGUE PELA ROD BR-230, DIVINOPOLIS, PELO KM 30, ENTRANDO NA BR-163, TRAIRAO BR-163, NOVO PROGRESSO BR-163, ENTRANDO NO MATO GROSSO(MT) PASSANDO POR `,
+                'MT230': `SAINDO DO PATIO DA EMPRESA ${NOME} EM MOJUI DOS CAMPOS-PA, PELA PA-431, SEGUE PELA PA 370 CURUAUNA, PASSANDO POR URUARA-PA, SEGUE PELA ROD BR 230, PLACAS-PA, RUROPOLIS-PA, DIVINOPOLIS-PA, PELO KM 30, ENTRANDO NA BR-163, TRAIRAO BR-163, NOVO PROGRESSO BR-163, ENTRANDO NO MATO GROSSO(MT), PASSANDO POR `,
+                'UNIRIOS': `SAINDO DO PATIO DA ${NOME} EM MOJUI DOS CAMPO-PA, SEGUE PELA PA 431, ENTRANDO NA PA 370 CURUAUNA, SEGUE ATE A SAÍDA PORTO UNIRIOS, EM SANTARÉM-PA, PELO RIO TAPAJÓS, SENTIDO RIO AMAZÔNAS, PASSANDO PELOS MUNICÍPIOS DE MONTE ALEGRE-PA, PRAINHA-PA, ALMEIRIM-PA, GURUPÁ-PA, ATÉ O RIO ITUQUARA, RIO LIMÃO E RIO TAJAPURU (BASE FLUVIAL ANTÔNIO LEMOS, EM BREVES-PA), SEGUINDO SENTIDO RIO BOIUÇU E RIO PARÁ, QUE PASSA PELOS MUNICÍPIOS DE BAGRE-PA, CURRALINHO-PA, SÃO SEBASTIÃO DA BOA VISTA-PA, SÃO FRANCISCO DO JARARACA - MUANA-PA E VILA PONTA NEGRA EM MUANA-PA, ATINGINDO A BAIA DO MARAJÓ, PASSANDO PELO PORTO VILA DE CONDE EM BARCARENA-PA, SENTIDO CANAL DE COTIJUBA OU CANAL DO CARNAPIJÓ, ATINGINDO O RIO FURO DO MAMÃO E BAIA DO GUAJARÁ EM ICOARACI-PA, CHEGANDO AO RIO MAGUARI E ATRACANDO NO PORTO UNIRIOS, EM ICOARACI, BELÉM-PA, SEGUINDO PELA BR-316, PASSANDO POR `,
+                'REICON': `SAINDO DO PATIO DA ${NOME} EM MOJUI DOS CAMPO-PA, SEGUE PELA PA 431, ENTRANDO NA PA 370 CURUAUNA, SEGUE ATE A SAÍDA PORTO EM SANTAREM(PA) DE ONDE SEGUIRÁ VIA FLUVIAL DE BALSA E EMPURRADOR A CONTRATAR SEGUE BAIXA O RIO AMAZONAS, PASSANDO PELOS MUNICÍPIOS DE MONTE ALEGRE-PA, PRAINHA-PA e ALMEIRIM-PA; SEGUINDO PELO CANAL DO VIEIRA, PASSANDO POR GURUPÁ-PA e PELO RIO ITUQUARÁ; ATRAVESSANDO O ESTREITO DE BREVES E O RIO TAJAPURU, PASSANDO PELA BASE ANTÔNIO LEMOS; SEGUINDO PELO RIO PARÁ, PASSANDO PELOS MUNICÍPIOS DE BREVES-PA, BAGRE-PA, CURRALINHO-PA E SÃO SEBASTIÃO DA BOA VISTA-PA; ATRAVESSANDO A BAÍA DO MARAJÓ; SEGUINDO PELO FURO DO CARNAPIJÓ OU COTIJUBA; PELO FURO DA MUCURA E PELA BAÍA DO GUAJARÁ ATÉ O PORTO DA REICON EM BELÉM-PA ONDE SEGUIRA TRANSPORTE RODOVIARIO SEGUINDO PELA BR 316, PASSANDO POR `,
+                'SAMAL': `SAINDO DO PATIO DA EMPRESA ${NOME} EM MOJUI DOS CAMPOS-PA, SEGUE PELA PA 431, ENTRANDO NA PA 370 CURUAUNA, ATE O PORTO EM SANTAREM, SEGUE VIA FLUVIAL DE BALSA E EMPURRADORA A CONTRATAR, SEGUINDO PELO RIO AMAZONAS, COM PARADA NO PORTO DO PENA, SEGUINDO PELO RIO AMAZONAS, FURO DO ITUQUARA, FURO DO LIMÃO, RIO TAJAPURU, ESTREITO DO BUIUÇU, RIO PARÁ, FURO DO CANAPIJÓ, FURO DA MUCURA, FURO DO MAMÃO, BAIA DO GUAJARÁ, RIO MAGUARI ATÉ O PORTO DA EMPRESA SAMAL VERDE EM BELÉM, DE ONDE SEGUE PELA RODOVIA ARTHUR BERNARDES, PASSANDO POR `
+            };
+
+            let p = textoOriginal.toUpperCase().replace(/\r?\n|\r/g, " ").replace(/\s\s+/g, " ");
+            const corr = {"URUARA": "URUARÁ-PA", "MEDICILANDIA": "MEDICILÂNDIA-PA", "PACAJA": "PACAJÁ-PA", "RUROPOLIS": "RURÓPOLIS-PA", "PLACAS": "PLACAS-PA", "TRAIRAO": "TRAIRÃO-PA", "DIVINOPOLIS": "DIVINÓPOLIS-PA", "NOVO PROGRESSO": "NOVO PROGRESSO-PA", "BELEM": "BELÉM-PA", "SANTAREM": "SANTARÉM-PA"};
+            for (let e in corr) { p = p.replace(new RegExp("\\b" + e + "\\b", "g"), corr[e]); }
+
+            campo.value = rotas_db[rotaId] + p.trim();
+            campo.focus(); campo.select();
+            try { document.execCommand('copy'); alert("ROTA " + empresa + " PROCESSADA E COPIADA!"); } catch (err) {}
         }
-    }
 
-    function atualizar() {
-        const suf = ["PC", "PAO", "CB", "TB", "VG", "RP", "VGTA", "BC", "SRRF"];
-        suf.forEach((s, i) => {
-            let row = document.getElementById("row-" + s);
-            if (produto[i] > 0.0001) { row.style.display="table-row"; document.getElementById("res"+s).innerText = produto[i].toFixed(4).replace('.', ','); }
-            else row.style.display="none";
-        });
-        document.getElementById("resTTL").innerText = total.toFixed(4).replace('.', ',');
-        document.getElementById("row-total").style.display = total > 0.0001 ? "table-row" : "none";
-    }
+        // --- QR CODE SISTEMA ---
+        function gerarQR() { 
+            const container = document.getElementById('qr-container');
+            const qrDiv = document.getElementById('qrcode');
+            qrDiv.innerHTML = ""; 
+            let link = document.getElementById('qrLink').value;
+            
+            if(!link) { alert("Insira o link!"); return; }
+            
+            new QRCode(qrDiv, { 
+                text: link, 
+                width: 250, 
+                height: 250, 
+                colorDark: "#000000", 
+                colorLight: "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H 
+            }); 
+            
+            container.style.display = "flex";
+            document.getElementById('btnDownloadQR').style.display = "block";
+        }
 
-    function addLog(txt) { let opt = document.createElement('option'); opt.text = txt; document.getElementById('metros').prepend(opt); }
-    function limparCampos() { document.getElementById('bitola').value=''; document.getElementById('largura').value=''; document.getElementById('metragem').value=''; document.getElementById('bitola').focus(); }
-    function atalho(b, l) { document.getElementById('bitola').value=b; document.getElementById('largura').value=l; document.getElementById('metragem').focus(); }
-    
-    // Calculadora
-    let currentExp = "";
-    const visor = document.getElementById('calc-display');
-    function pressCalc(v) { currentExp += v; visor.innerText = currentExp; }
-    function clearCalc() { currentExp = ""; visor.innerText = "0"; }
-    function delCalc() { currentExp = currentExp.slice(0, -1); visor.innerText = currentExp || "0"; }
-    function calculate() { try { currentExp = eval(currentExp).toString(); visor.innerText = currentExp; } catch { visor.innerText = "ERRO"; currentExp = ""; } }
+        async function baixarQR() {
+            const container = document.getElementById('qr-container');
+            const canvas = await html2canvas(container, {
+                scale: 2, 
+                backgroundColor: "#ffffff"
+            });
+            
+            const finalCanvas = document.createElement('canvas');
+            finalCanvas.width = 312;
+            finalCanvas.height = 312;
+            const ctx = finalCanvas.getContext('2d');
+            ctx.drawImage(canvas, 0, 0, 312, 312);
+            
+            const link = document.createElement('a');
+            link.download = 'QR_CODE_MADMAIS_312px.png';
+            link.href = finalCanvas.toDataURL("image/png");
+            link.click();
+        }
 
-    // QR Code
-    function gerarQR() { 
-        const qrDiv = document.getElementById('qrcode');
-        qrDiv.innerHTML = ""; 
-        let link = document.getElementById('qrLink').value;
-        if(!link) return;
-        new QRCode(qrDiv, { text: link, width: 200, height: 200 }); 
-        document.getElementById('qr-container').style.display = "block";
-        document.getElementById('btnDownloadQR').style.display = "block";
-    }
-
-    // Extenso
-    function numParaExtenso(valor) {
-        if (isNaN(valor) || valor === 0) return "";
-        const unidades = ["", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove"];
-        const dezenas_10 = ["dez", "onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"];
-        const dezenas = ["", "", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"];
-        const centenas = ["", "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"];
-        function converter999(n) {
-            if (n === 0) return ""; if (n === 100) return "cem";
-            let s = "", c = Math.floor(n / 100), d = Math.floor((n % 100) / 10), u = n % 10;
-            if (c > 0) s += centenas[c];
-            if (n % 100 > 0) {
-                if (s !== "") s += " e ";
-                if (d === 1) s += dezenas_10[u];
-                else { s += dezenas[d]; if (d > 0 && u > 0) s += " e "; s += unidades[u]; }
+        // --- ROMANEIO, EXTENSO E CALCULADORA ---
+        let produto=[0,0,0,0,0,0,0,0,0], total=0;
+        function identificar(E, L) {
+            if (E >= 12 && L >= 12 && E === L) return {i:7, n:"Bloco"};
+            if (E >= 4 && L > 20 && E <= 7) return {i:0, n:"Prancha"};
+            if (E > 7 && L > 20) return {i:1, n:"Pranchão"};
+            if (E >= 4 && L >= 4 && E <= 8 && L <= 7.9) return {i:2, n:"Caibro"};
+            if (E >= 1 && L > 10 && E <= 3.9) return {i:3, n:"Tábua"};
+            if (E >= 4 && L >= 11 && L <= 20) return {i:4, n:"Viga"};
+            if (E < 2 && L <= 10 && E > 0) return {i:5, n:"Ripas"};
+            if (E >= 4 && L >= 8 && E <= 11 && L <= 10.9) return {i:6, n:"Vigota"};
+            if (E >= 2 && L >= 2 && E <= 3.9 && L <= 10) return {i:8, n:"Sarrafo"};
+            return null;
+        }
+        function operar(op) {
+            const b = document.getElementById('bitola').value.replace(',', '.');
+            const l = document.getElementById('largura').value.replace(',', '.');
+            const m = document.getElementById('metragem').value.replace(',', '.');
+            const E = parseFloat(b), L = parseFloat(l), M = parseFloat(m);
+            const res = identificar(E, L);
+            if (res && !isNaN(M) && M > 0) {
+                if (op === '+') { produto[res.i] += M; total += M; addLog(`[+] ${res.n}: ${M.toFixed(4).replace('.', ',')}`); } 
+                else { if (produto[res.i] >= (M - 0.0001)) { produto[res.i] -= M; total -= M; addLog(`[-] ${res.n}: ${M.toFixed(4).replace('.', ',')}`); } }
+                atualizar(); limparCampos();
             }
-            return s;
         }
-        let numStr = valor.toFixed(2), partes = numStr.split('.');
-        let inteiro = parseInt(partes[0]), decimal = parseInt(partes[1]);
-        let milhares = Math.floor(inteiro / 1000), resto = inteiro % 1000, final = "";
-        if (milhares > 0) {
-            if (milhares === 1) final = "mil";
-            else final = converter999(milhares) + " mil";
-            if (resto > 0) final += (resto <= 100 || resto % 100 === 0) ? " e " : " ";
+        function atualizar() {
+            const suf = ["PC", "PAO", "CB", "TB", "VG", "RP", "VGTA", "BC", "SRRF"];
+            suf.forEach((s, i) => {
+                let row = document.getElementById("row-" + s);
+                if (produto[i] > 0.0001) { row.style.display="table-row"; document.getElementById("res"+s).innerText = produto[i].toFixed(4).replace('.', ','); }
+                else row.style.display="none";
+            });
+            document.getElementById("resTTL").innerText = total.toFixed(4).replace('.', ',');
+            document.getElementById("row-total").style.display = total > 0.0001 ? "table-row" : "none";
         }
-        if (resto > 0 || inteiro === 0) final += (inteiro === 0 ? "zero" : converter999(resto));
-        final += (inteiro === 1) ? " real" : " reais";
-        if (decimal > 0) final += " e " + converter999(decimal) + " centavos";
-        return final.toUpperCase();
-    }
-    function converterManual() { 
-        let val = parseFloat(document.getElementById('inputManualExtenso').value.replace(/\./g, '').replace(',', '.'));
-        document.getElementById('resExtensoManual').innerText = numParaExtenso(val) || "R$ 0,00"; 
-    }
-
-    // Funções de Interface
-    function abrirModal(id) { document.getElementById(id).style.display="block"; }
-    function fecharModal(id) { document.getElementById(id).style.display="none"; }
-    function copiarTexto() { document.getElementById('textoInput').select(); document.execCommand("copy"); alert("Copiado!"); }
-    function removerTodosEspacos() { document.getElementById('textoInput').value = document.getElementById('textoInput').value.replace(/\s/g, ''); }
-    function corrigirETirarParagrafos() { document.getElementById('textoInput').value = document.getElementById('textoInput').value.trim().toUpperCase(); }
-    
-    // Sintegra Config
-   const estados = [
-    {uf:"AC", flag:"https://static.wixstatic.com/media/7556fa_52f882d782154d08bfaf143ff7091ba0~mv2.png", link:"https://sefazonline.ac.gov.br/sefazonline/app.wmsintegralista"},
-    {uf:"AL", flag:"https://static.wixstatic.com/media/7556fa_d6825418c1ac4eda8272c30e7b6d3b0e~mv2.png", link:"https://sintegra.sefaz.al.gov.br/#/"},
-    {uf:"AP", flag:"https://static.wixstatic.com/media/7556fa_9f57733f53f34b769c8cc9c179717cbc~mv2.png", link:"https://www.sefaz.ap.gov.br/sate/seg/SEGf_AcessarFuncao.jsp?cdFuncao=CAD_011"},
-    {uf:"AM", flag:"https://static.wixstatic.com/media/7556fa_d98eec7cdbca42919b8449b49f0c58ac~mv2.png", link:"http://online.sefaz.am.gov.br/sintegra/index.asp"},
-    {uf:"BA", flag:"https://static.wixstatic.com/media/7556fa_dba48f3017d0466f96c4654c4cb8f345~mv2.png", link:"https://portal.sefaz.ba.gov.br/scripts/cadastro/cadastroBa/consultaBa.asp"},
-    {uf:"CE", flag:"https://static.wixstatic.com/media/7556fa_768d79e16dff410b8353e477f1c5ced8~mv2.png", link:"https://consultapublica.sefaz.ce.gov.br/sintegra/preparar-consultar"},
-    {uf:"DF", flag:"https://static.wixstatic.com/media/7556fa_64f6abc20f704dc482b5ee813e1dac3e~mv2.png", link:"http://agnet.fazenda.df.gov.br/area.cfm?id_area=1140"},
-    {uf:"ES", flag:"https://static.wixstatic.com/media/7556fa_863f13f5a720415cb9acce60e1325266~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc"},
-    {uf:"GO", flag:"https://static.wixstatic.com/media/7556fa_567f2835f5f248e6b5cbc3d19647a347~mv2.png", link:"http://appasp.sefaz.go.gov.br/Sintegra/Consulta/default.html"},
-    {uf:"MA", flag:"https://static.wixstatic.com/media/7556fa_27151d71f0d94588861e416e59d12563~mv2.png", link:"https://sistemas1.sefaz.ma.gov.br/sintegra/jsp/consultaSintegra/consultaSintegraFiltro.jsf"},
-    {uf:"MT", flag:"https://static.wixstatic.com/media/7556fa_15073c9422a849f1ad99c464e0222c10~mv2.png", link:"https://www.sefaz.mt.gov.br/cadastro/emissaocartao/emissaocartaocontribuinteacessodireto"},
-    {uf:"MS", flag:"https://static.wixstatic.com/media/7556fa_aee2232a87bf44d2b374fd952dabb27b~mv2.png", link:"https://cpe.sefaz.ms.gov.br/"},
-    {uf:"MG", flag:"https://static.wixstatic.com/media/7556fa_304a5ca21caa4e0585a89dd104cb27b1~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc"},
-    {uf:"PA", flag:"https://static.wixstatic.com/media/7556fa_bc3caf14cc0847c1858374414034ca91~mv2.png", link:"https://app.sefa.pa.gov.br/sintegra/"},
-    {uf:"PB", flag:"https://static.wixstatic.com/media/7556fa_64b32bd18fd74ac789fdbd63cbf4bfc2~mv2.png", link:"https://www4.sefaz.pb.gov.br/sintegra/SINf_ConsultaSintegra.jsp"},
-    {uf:"PR", flag:"https://static.wixstatic.com/media/7556fa_9b0a4366190b4a8cbf58f1c854f3bb79~mv2.png", link:"http://www.sintegra.fazenda.pr.gov.br/sintegra/"},
-    {uf:"PE", flag:"https://static.wixstatic.com/media/7556fa_65fa61979d18433c8216628b742d56e3~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc"},
-    {uf:"PI", flag:"https://static.wixstatic.com/media/7556fa_6ea0da33933146908683cbf305977c66~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc"},
-    {uf:"RJ", flag:"https://static.wixstatic.com/media/7556fa_4b0b4b09d47e4d33910e23e42e4748a6~mv2.png", link:"https://sucief-sincad-web.fazenda.rj.gov.br/sincad-web/index.jsf"},
-    {uf:"RN", flag:"https://static.wixstatic.com/media/7556fa_3ce859233a5f4624a39158aa932306be~mv2.png", link:"https://uvt2.set.rn.gov.br/#/services/consultaContribuinte"},
-    {uf:"RS", flag:"https://static.wixstatic.com/media/7556fa_68a3b98c60684204b78c5dd6a9a763d2~mv2.png", link:"https://www.sefaz.rs.gov.br/consultas/contribuinte"},
-    {uf:"RO", flag:"https://static.wixstatic.com/media/7556fa_77001efec3f14a07b14e1454915403f9~mv2.png", link:"https://portalcontribuinte.sefin.ro.gov.br/Publico/parametropublica.jsp"},
-    {uf:"RR", flag:"https://static.wixstatic.com/media/7556fa_a4ac05ac4172475384183b2a31bb705e~mv2.png", link:"https://portalweb.sefaz.rr.gov.br/sintegra/servlet/wp_siate_consultasintegra"},
-    {uf:"SC", flag:"https://static.wixstatic.com/media/7556fa_5c5198c2dab94124ab5606549f429f98~mv2.png", link:"https://sat.sef.sc.gov.br/tax.NET/tax.net.cadastro/conssc_sitcad.aspx"},
-    {uf:"SP", flag:"https://static.wixstatic.com/media/7556fa_4d5551676213455cbe4dbe3f58c7ac74~mv2.png", link:"https://www.cadesp.fazenda.sp.gov.br/"},
-    {uf:"SE", flag:"https://static.wixstatic.com/media/7556fa_b851288251994faeaa25b89a53580e8e~mv2.png", link:"https://security.sefaz.se.gov.br/SIC/sintegra/index.jsp"},
-    {uf:"TO", flag:"https://static.wixstatic.com/media/7556fa_ede659b6dd7c4b6ba833dd5e5bd4b9e3~mv2.png", link:"http://sintegra.sefaz.to.gov.br/sintegra/servlet/wpsico01"},
-    {uf:"Receita", flag:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQieCEEcsZP5_DreEnscKALv6JpRnmaMQ0Fjw&s", link:"https://solucoes.receita.fazenda.gov.br/servicos/cnpjreva/cnpjreva_solicitacao.asp"}
-];
-
-function carregarGradeSintegra() { 
-    const grid = document.getElementById('gradeSintegra'); 
-    const estadosGov = ["ES", "MG", "PE", "PI"]; 
-    grid.innerHTML = ""; 
-    estados.forEach(e => { 
-        const card = document.createElement('div'); card.className = 'card-uf'; 
-        let tagGov = estadosGov.includes(e.uf) ? `<div class="tag-gov">GOV.BR</div>` : '';
-        if(e.uf === "Receita") tagGov = `<div class="tag-gov">FEDERAL</div>`;
+        function addLog(txt) { let opt = document.createElement('option'); opt.text = txt; document.getElementById('metros').prepend(opt); }
+        function limparCampos() { document.getElementById('bitola').value=''; document.getElementById('largura').value=''; document.getElementById('metragem').value=''; document.getElementById('bitola').focus(); }
+        function atalho(b, l) { document.getElementById('bitola').value=b; document.getElementById('largura').value=l; document.getElementById('metragem').focus(); }
+        function permitirPaste(e) { e.preventDefault(); let text = (e.clipboardData || window.clipboardData).getData('text'); text = text.replace('.', ','); document.execCommand('insertText', false, text); }
+        function gerenciarTeclasRomaneio(e) { if (e.ctrlKey || e.metaKey || ['Backspace', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight', 'Delete', ',', '.'].includes(e.key)) return; if (e.key === '+') { e.preventDefault(); operar('+'); return; } if (e.key === '-') { e.preventDefault(); operar('-'); return; } if (!/[0-9]/.test(e.key)) e.preventDefault(); }
         
-        card.innerHTML = `
-            <img src="${e.flag}" class="bandeira">
-            <a href="${e.link}" target="_blank" class="btn-uf">${e.uf}</a>
-            ${tagGov}
-        `; 
-        grid.appendChild(card); 
-    }); 
-}
-    function processar(empresa, rota) {
-        const campo = document.getElementById('inputRota');
-        let texto = campo.value;
-        if (!texto.trim()) { alert("COLE O DESTINO PRIMEIRO!"); return; }
-        const NOME = (empresa === 'MADMAIS') ? "MADMAIS INDUSTRIA COMERCIO BENEFICIAMENTO E EXPORTACAO LTDA" : "WOOD BRASIL NORTE IND COMERCIO E EXPORTACAO DE MADEIRAS LTDA";
-        const rotas = {
-            'PA370': `SAINDO DO PÁTIO DA EMPRESA ${NOME} EM MOJUÍ DOS CAMPOS-PA, SEGUE PELA PA-431, SEGUE PELA PA 370 CURUAUNA, PASSANDO POR `,
-            'BR163': `SAINDO DO PATIO DA EMPRESA ${NOME} EM MOJUI DOS CAMPOS-PA, PELA PA-431, ENTRANDO NA BR-163, PASSANDO POR RUROPOLIS-PA, SEGUE PELA ROD BR 230, PLACAS-PA, `,
-            'MT': `SAINDO DO PATIO DA EMPRESA ${NOME} EM MOJUI DOS CAMPOS-PA, PELA PA-431, ENTRANDO NA BR-163, PASSANDO POR RUROPOLIS, SEGUE PELA ROD BR-230, DIVINOPOLIS, PELO KM 30, ENTRANDO NA BR-163, TRAIRAO BR-163, NOVO PROGRESSO BR-163, ENTRANDO NO MATO GROSSO(MT) PASSANDO POR `,
-            'UNIRIOS': `SAINDO DO PATIO DA ${NOME} EM MOJUI DOS CAMPO-PA, SEGUE PELA PA 431, ENTRANDO NA PA 370 CURUAUNA... `,
-            'REICON': `SAINDO DO PATIO DA ${NOME} EM MOJUI DOS CAMPO-PA, SEGUE PELA PA 431, ENTRANDO NA PA 370 CURUAUNA... `
-        };
-        campo.value = rotas[rota] + texto.toUpperCase().trim();
-        campo.select();
-        document.execCommand('copy');
-        alert("ROTA COPIADA!");
-    }
+        let currentExp = "";
+        const visor = document.getElementById('calc-display');
+        function pressCalc(v) { currentExp += v; visor.innerText = currentExp; }
+        function clearCalc() { currentExp = ""; visor.innerText = "0"; }
+        function delCalc() { currentExp = currentExp.slice(0, -1); visor.innerText = currentExp || "0"; }
+        function calculate() { try { currentExp = eval(currentExp).toString(); visor.innerText = currentExp; } catch { visor.innerText = "ERRO"; currentExp = ""; } }
+        
+        function resetarCalculadora() { if(confirm("Zerar?")) { produto=[0,0,0,0,0,0,0,0,0]; total=0; document.getElementById('metros').innerHTML=""; atualizar(); } }
+        function numParaExtenso(valor) {
+            if (isNaN(valor) || valor === 0) return "";
+            const unidades = ["", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove"];
+            const dezenas_10 = ["dez", "onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"];
+            const dezenas = ["", "", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"];
+            const centenas = ["", "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"];
+            function converter999(n) {
+                if (n === 0) return ""; if (n === 100) return "cem";
+                let s = "", c = Math.floor(n / 100), d = Math.floor((n % 100) / 10), u = n % 10;
+                if (c > 0) s += centenas[c];
+                if (n % 100 > 0) {
+                    if (s !== "") s += " e ";
+                    if (d === 1) s += dezenas_10[u];
+                    else { s += dezenas[d]; if (d > 0 && u > 0) s += " e "; s += unidades[u]; }
+                }
+                return s;
+            }
+            let numStr = valor.toFixed(2), partes = numStr.split('.');
+            let inteiro = parseInt(partes[0]), decimal = parseInt(partes[1]);
+            let milhares = Math.floor(inteiro / 1000), resto = inteiro % 1000, final = "";
+            if (milhares > 0) {
+                if (milhares === 1) final = "mil";
+                else final = converter999(milhares) + " mil";
+                if (resto > 0) final += (resto <= 100 || resto % 100 === 0) ? " e " : " ";
+            }
+            if (resto > 0 || inteiro === 0) final += (inteiro === 0 ? "zero" : converter999(resto));
+            final += (inteiro === 1) ? " real" : " reais";
+            if (decimal > 0) final += " e " + converter999(decimal) + " centavos";
+            return final.toUpperCase();
+        }
+        function converterManual() { 
+            let val = parseFloat(document.getElementById('inputManualExtenso').value.replace(/\./g, '').replace(',', '.'));
+            document.getElementById('resExtensoManual').innerText = numParaExtenso(val) || "R$ 0,00"; 
+        }
+        function copiarExtensoManual() { navigator.clipboard.writeText(document.getElementById('resExtensoManual').innerText); alert("Copiado!"); }
+        function abrirModal(id) { document.getElementById(id).style.display="block"; }
+        function fecharModal(id) { document.getElementById(id).style.display="none"; }
+        async function capturarResumo() { const canvas = await html2canvas(document.getElementById('printArea'), { backgroundColor: '#0c0806' }); canvas.toBlob(b => navigator.clipboard.write([new ClipboardItem({"image/png": b})])); alert("Copiado!"); }
+        function irParaDanfe() { let c = document.getElementById('chaveAcesso').value; if(c.length==44) window.open(`https://consultadanfe.com/?chave=${c}`, '_blank'); }
+        function removerTodosEspacos() { document.getElementById('textoInput').value = document.getElementById('textoInput').value.replace(/\s/g, ''); }
+        function corrigirETirarParagrafos() { document.getElementById('textoInput').value = document.getElementById('textoInput').value.trim().toUpperCase(); }
+        function copiarTexto() { document.getElementById('textoInput').select(); document.execCommand("copy"); }
 
-    window.onload = carregarGradeSintegra;
-    setInterval(() => document.getElementById("hours").innerHTML = new Date().toLocaleTimeString(), 1000);
-</script>
+        const estados = [{uf:"AC", flag:"https://static.wixstatic.com/media/7556fa_52f882d782154d08bfaf143ff7091ba0~mv2.png", link:"https://sefazonline.ac.gov.br/sefazonline/app.wmsintegralista"},{uf:"AL", flag:"https://static.wixstatic.com/media/7556fa_d6825418c1ac4eda8272c30e7b6d3b0e~mv2.png", link:"https://sintegra.sefaz.al.gov.br/#/"},{uf:"AP", flag:"https://static.wixstatic.com/media/7556fa_9f57733f53f34b769c8cc9c179717cbc~mv2.png", link:"https://www.sefaz.ap.gov.br/sate/seg/SEGf_AcessarFuncao.jsp?cdFuncao=CAD_011"},{uf:"AM", flag:"https://static.wixstatic.com/media/7556fa_d98eec7cdbca42919b8449b49f0c58ac~mv2.png", link:"http://online.sefaz.am.gov.br/sintegra/index.asp"},{uf:"BA", flag:"https://static.wixstatic.com/media/7556fa_dba48f3017d0466f96c4654c4cb8f345~mv2.png", link:"https://portal.sefaz.ba.gov.br/scripts/cadastro/cadastroBa/consultaBa.asp"},{uf:"CE", flag:"https://static.wixstatic.com/media/7556fa_768d79e16dff410b8353e477f1c5ced8~mv2.png", link:"https://consultapublica.sefaz.ce.gov.br/sintegra/preparar-consultar"},{uf:"DF", flag:"https://static.wixstatic.com/media/7556fa_64f6abc20f704dc482b5ee813e1dac3e~mv2.png", link:"http://agnet.fazenda.df.gov.br/area.cfm?id_area=1140"},{uf:"ES", flag:"https://static.wixstatic.com/media/7556fa_863f13f5a720415cb9acce60e1325266~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc"},{uf:"GO", flag:"https://static.wixstatic.com/media/7556fa_567f2835f5f248e6b5cbc3d19647a347~mv2.png", link:"http://appasp.sefaz.go.gov.br/Sintegra/Consulta/default.html"},{uf:"MA", flag:"https://static.wixstatic.com/media/7556fa_27151d71f0d94588861e416e59d12563~mv2.png", link:"https://sistemas1.sefaz.ma.gov.br/sintegra/jsp/consultaSintegra/consultaSintegraFiltro.jsf"},{uf:"MT", flag:"https://static.wixstatic.com/media/7556fa_15073c9422a849f1ad99c464e0222c10~mv2.png", link:"https://www.sefaz.mt.gov.br/cadastro/emissaocartao/emissaocartaocontribuinteacessodireto"},{uf:"MS", flag:"https://static.wixstatic.com/media/7556fa_aee2232a87bf44d2b374fd952dabb27b~mv2.png", link:"https://cpe.sefaz.ms.gov.br/"},{uf:"MG", flag:"https://static.wixstatic.com/media/7556fa_304a5ca21caa4e0585a89dd104cb27b1~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc"},{uf:"PA", flag:"https://static.wixstatic.com/media/7556fa_bc3caf14cc0847c1858374414034ca91~mv2.png", link:"https://app.sefa.pa.gov.br/sintegra/"},{uf:"PB", flag:"https://static.wixstatic.com/media/7556fa_64b32bd18fd74ac789fdbd63cbf4bfc2~mv2.png", link:"https://www4.sefaz.pb.gov.br/sintegra/SINf_ConsultaSintegra.jsp"},{uf:"PR", flag:"https://static.wixstatic.com/media/7556fa_9b0a4366190b4a8cbf58f1c854f3bb79~mv2.png", link:"http://www.sintegra.fazenda.pr.gov.br/sintegra/"},{uf:"PE", flag:"https://static.wixstatic.com/media/7556fa_65fa61979d18433c8216628b742d56e3~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc"},{uf:"PI", flag:"https://static.wixstatic.com/media/7556fa_6ea0da33933146908683cbf305977c66~mv2.png", link:"https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc"},{uf:"RJ", flag:"https://static.wixstatic.com/media/7556fa_4b0b4b09d47e4d33910e23e42e4748a6~mv2.png", link:"https://sucief-sincad-web.fazenda.rj.gov.br/sincad-web/index.jsf"},{uf:"RN", flag:"https://static.wixstatic.com/media/7556fa_3ce859233a5f4624a39158aa932306be~mv2.png", link:"https://uvt2.set.rn.gov.br/#/services/consultaContribuinte"},{uf:"RS", flag:"https://static.wixstatic.com/media/7556fa_68a3b98c60684204b78c5dd6a9a763d2~mv2.png", link:"https://www.sefaz.rs.gov.br/consultas/contribuinte"},{uf:"RO", flag:"https://static.wixstatic.com/media/7556fa_77001efec3f14a07b14e1454915403f9~mv2.png", link:"https://portalcontribuinte.sefin.ro.gov.br/Publico/parametropublica.jsp"},{uf:"RR", flag:"https://static.wixstatic.com/media/7556fa_a4ac05ac4172475384183b2a31bb705e~mv2.png", link:"https://portalweb.sefaz.rr.gov.br/sintegra/servlet/wp_siate_consultasintegra"},{uf:"SC", flag:"https://static.wixstatic.com/media/7556fa_5c5198c2dab94124ab5606549f429f98~mv2.png", link:"https://sat.sef.sc.gov.br/tax.NET/tax.net.cadastro/conssc_sitcad.aspx"},{uf:"SP", flag:"https://static.wixstatic.com/media/7556fa_4d5551676213455cbe4dbe3f58c7ac74~mv2.png", link:"https://www.cadesp.fazenda.sp.gov.br/"},{uf:"SE", flag:"https://static.wixstatic.com/media/7556fa_b851288251994faeaa25b89a53580e8e~mv2.png", link:"https://security.sefaz.se.gov.br/SIC/sintegra/index.jsp"},{uf:"TO", flag:"https://static.wixstatic.com/media/7556fa_ede659b6dd7c4b6ba833dd5e5bd4b9e3~mv2.png", link:"http://sintegra.sefaz.to.gov.br/sintegra/servlet/wpsico01"},{uf:"Receita", flag:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQieCEEcsZP5_DreEnscKALv6JpRnmaMQ0Fjw&s", link:"https://solucoes.receita.fazenda.gov.br/servicos/cnpjreva/cnpjreva_solicitacao.asp"}];
+        function carregarGradeSintegra() { 
+            const grid = document.getElementById('gradeSintegra'); 
+            const estadosGov = ["ES", "MG", "PE", "PI"]; 
+            grid.innerHTML = ""; 
+            estados.forEach(e => { 
+                const card = document.createElement('div'); card.className = 'card-uf'; 
+                let tagGov = estadosGov.includes(e.uf) ? `<div class="tag-gov">GOV.BR</div>` : '';
+                if(e.uf === "Receita") tagGov = `<div class="tag-gov">FEDERAL</div>`;
+                card.innerHTML = `<img src="${e.flag}" class="bandeira"><a href="${e.link}" target="_blank" class="btn-uf">${e.uf}</a>${tagGov}`; 
+                grid.appendChild(card); 
+            }); 
+        }
+        window.onload = carregarGradeSintegra;
+        setInterval(() => document.getElementById("hours").innerHTML = new Date().toLocaleTimeString(), 1000);
+  </script>
 </body>
 </html>
