@@ -1,241 +1,187 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MadMais - Gestão Industrial v46.8</title>
+    <title>MadMais - Ferramenta v46.8</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
-            --primary: #d4a373;
-            --bg-dark: #0f0a08;
-            --panel-bg: rgba(30, 20, 15, 0.95);
+            --wood-dark: #1a0f0a;
+            --wood-mid: #3d2b1f;
+            --wood-light: #d4a373;
+            --text: #f4ece2;
             --accent-gold: #b8860b;
-            --success: #588157;
-            --danger: #9c3c3c;
-            --blue: #3a5a78;
-            --text-main: #f4ece2;
-            --text-dim: #a09080;
+            --success-wood: #3e4d2a;
+            --danger-wood: #7a2d2d;
+            --blue-wood: #2c3e50;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', serif; }
 
         body {
-            background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.8)), 
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), 
                         url('https://images.unsplash.com/photo-1541123439598-107765a78ad0?q=80&w=2070&auto=format&fit=crop');
             background-attachment: fixed; background-size: cover;
-            color: var(--text-main); padding: 20px; line-height: 1.6;
+            color: var(--text); padding: 20px;
         }
 
-        /* Header Estilizado */
-        header {
-            text-align: center; margin-bottom: 30px; padding: 20px;
-            border-bottom: 1px solid rgba(212, 163, 115, 0.3);
-        }
         header h1 { 
-            font-size: 2.2rem; letter-spacing: 8px; color: var(--primary);
-            text-shadow: 0 4px 10px rgba(0,0,0,0.5); font-weight: 900;
+            text-align: center; text-transform: uppercase; margin: 20px 0; 
+            letter-spacing: 6px; color: var(--wood-light);
+            text-shadow: 3px 3px 0px #000; border-bottom: 2px solid var(--wood-light);
+            padding-bottom: 10px; font-weight: 900;
         }
 
-        /* Grid Principal */
-        .main-grid { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
-            gap: 25px; max-width: 1500px; margin: 0 auto; 
-        }
+        .main-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; max-width: 1400px; margin: 0 auto; }
 
-        /* Painéis (Glassmorphism) */
         .glass-panel { 
-            background: var(--panel-bg); border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px; padding: 24px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px); transition: 0.3s;
+            background: linear-gradient(145deg, #2a1b12, #1a0f0a);
+            border: 2px solid #4a3427; border-radius: 12px; padding: 20px; 
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.5), 8px 8px 20px rgba(0,0,0,0.7);
+            position: relative; overflow: hidden;
         }
-        .glass-panel:hover { border-color: var(--primary); transform: translateY(-5px); }
-
-        h3 { 
-            color: var(--primary); font-size: 0.85rem; letter-spacing: 2px;
-            margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
-            text-transform: uppercase; border-left: 3px solid var(--primary); padding-left: 10px;
-        }
-
-        /* Inputs e Botões */
-        input, textarea, select { 
-            width: 100%; background: rgba(0,0,0,0.5); border: 1px solid #3d2b1f; 
-            border-radius: 8px; padding: 12px; color: #fff; 
-            margin-bottom: 12px; font-size: 0.95rem; transition: 0.3s;
-        }
-        input:focus { border-color: var(--primary); outline: none; background: #000; }
-
-        .btn { 
-            padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 700;
-            text-transform: uppercase; font-size: 0.75rem; transition: 0.3s;
-            border: none; color: white; display: block; width: 100%; margin-bottom: 10px;
-            text-align: center; text-decoration: none;
-        }
-        .btn:active { transform: scale(0.98); }
-
-        .btn-primary { background: var(--primary); color: #000; }
-        .btn-success { background: var(--success); }
-        .btn-danger { background: var(--danger); }
-        .btn-blue { background: var(--blue); }
-        .btn-outline { border: 1px solid var(--primary); color: var(--primary); background: transparent; }
-        .btn-outline:hover { background: var(--primary); color: #000; }
-
-        /* Calculadora Estilo Industrial */
-        .calc-container { background: #1a1512; border-radius: 12px; padding: 15px; border: 2px solid #2a1b12; }
-        .calc-display { 
-            background: #000; color: #4ade80; text-align: right; 
-            padding: 15px; font-size: 1.5rem; font-family: monospace; 
-            border-radius: 8px; margin-bottom: 10px; border: 1px solid #333; height: 60px;
-        }
-        .calc-btns { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .cbtn { 
-            background: #2a201a; border: none; color: var(--primary); 
-            padding: 15px 5px; border-radius: 6px; cursor: pointer; font-weight: bold;
-        }
-        .cbtn:hover { background: var(--primary); color: #000; }
-
-        /* Romaneio e Tabela */
-        .grid-atalhos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px 0; }
-        .btn-atalho { 
-            background: rgba(212, 163, 115, 0.1); border: 1px solid rgba(212, 163, 115, 0.2);
-            color: var(--primary); padding: 8px; border-radius: 6px; font-size: 0.65rem; font-weight: bold; cursor: pointer;
-        }
-        .btn-atalho:hover { background: var(--primary); color: #000; }
-
-        #printArea { 
-            background: #0a0705; border-radius: 12px; padding: 20px; 
-            border: 1px dashed var(--primary); margin: 10px 0;
-        }
-        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-        td { padding: 8px 0; border-bottom: 1px solid #2a1b12; }
-
-        /* Sintegra Grid */
-.grade-estados { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); 
-    gap: 15px; 
-    margin-top: 20px; 
-}
-.card-uf { 
-    background: rgba(255, 255, 255, 0.03); 
-    padding: 15px 10px; 
-    border-radius: 12px; 
-    text-align: center; 
-    border: 1px solid rgba(212, 163, 115, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: 0.3s;
-}
-.card-uf:hover { 
-    background: rgba(212, 163, 115, 0.1); 
-    border-color: var(--primary);
-}
-.bandeira { 
-    width: 50px; 
-    height: auto; 
-    margin-bottom: 10px; 
-    border-radius: 4px; 
-}
-.btn-uf { 
-    background: var(--primary); 
-    color: #000; 
-    text-decoration: none; 
-    font-weight: 900; 
-    font-size: 0.9rem; 
-    display: inline-block; 
-    width: 60px;
-    padding: 4px 0;
-    border-radius: 4px;
-}
-.tag-gov { 
-    font-size: 0.65rem; 
-    color: #ffd700; 
-    margin-top: 8px; 
+	.btn-homologar {
+    background: #e67e22; /* Laranja Sefa */
+    color: white;
+    padding: 12px;
+    border-radius: 6px;
     font-weight: bold;
-    letter-spacing: 1px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    border: 1px solid #d35400;
+    transition: 0.3s;
+    margin-bottom: 10px;
 }
 
-        /* Rota Section */
-        .rota-container { grid-column: 1 / -1; margin-top: 20px; }
-        .dropdown { position: relative; display: inline-block; width: 100%; }
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
-        .dropdown-content {
-            display: none; position: absolute; background: #2a1b12; width: 100%;
-            z-index: 100; border: 1px solid var(--primary); border-radius: 8px;
-            max-height: 300px; overflow-y: auto; box-shadow: 0 10px 20px #000;
-        }
-        .dropdown-content button {
-            width: 100%; padding: 12px; background: none; border: none;
-            color: #fff; text-align: left; border-bottom: 1px solid #3d2b1f; cursor: pointer;
-        }
-        .dropdown:hover .dropdown-content { display: block; }
+.btn-homologar:hover {
+    background: #d35400;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
 
-	/* Garante que o painel de rotas fique na frente de todos quando o mouse estiver sobre ele */
-	.rota-container:hover {
-    	z-index: 999; 
-    	position: relative;
-	}
+        h3 { color: var(--wood-light); text-transform: uppercase; font-size: 14px; margin-bottom: 15px; border-left: 4px solid var(--wood-light); padding-left: 10px; letter-spacing: 1px; }
 
-        /* Modal */
+        input, textarea, select { 
+            width: 100%; background: #000; border: 1px solid #4a3427; 
+            border-radius: 6px; padding: 12px; color: var(--wood-light); 
+            margin-bottom: 10px; outline: none; font-weight: bold; font-size: 16px;
+        }
+
+        .btn { padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 11px; transition: 0.3s; color: white; text-align: center; display: block; width: 100%; margin-bottom: 8px; text-decoration: none; border: none; }
+        .btn:hover { transform: translateY(-3px); filter: brightness(1.2); }
+
+        .btn-accent { background: #8b4513; }
+        .btn-success { background: var(--success-wood); }
+        .btn-danger { background: var(--danger-wood); }
+        .btn-blue { background: var(--blue-wood); }
+
+        /* QR Code Estético e Funcional */
+        #qr-container {
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin: 15px auto;
+            width: fit-content;
+            border: 4px double var(--wood-light);
+        }
+        #qrcode canvas, #qrcode img {
+            display: block;
+        }
+/* Estilo da Calculadora MadMais */
+    .calc-container { 
+        background: linear-gradient(145deg, #2a1b12, #1a0f0a);
+        border: 2px solid #4a3427; border-radius: 12px; padding: 20px; 
+        max-width: 320px; box-shadow: 8px 8px 20px rgba(0,0,0,0.7);
+    }
+    .calc-display { 
+        background: #1a1a1a; color: #0f0; text-align: right; 
+        padding: 15px; font-size: 24px; font-family: 'Courier New', monospace; 
+        border-radius: 4px; margin-bottom: 10px; border: 1px inset #444; 
+        height: 60px; overflow: hidden; 
+    }
+    .calc-btns { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+    .cbtn { 
+        background: #2a1b12; border: 1px solid #4a3427; color: #d4a373; 
+        padding: 15px 5px; border-radius: 4px; cursor: pointer; 
+        font-weight: bold; font-size: 16px; transition: 0.2s;
+    }
+    .cbtn:hover { background: #d4a373; color: #000; }
+    .cbtn-op { background: #2c3e50; color: #fff; }
+
+        .grade-estados { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 15px; margin-top: 15px; }
+        .card-uf { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.03); padding: 12px; border-radius: 12px; border: 1px solid #4a3427; transition: 0.3s; }
+        .card-uf:hover { transform: translateY(-5px); border-color: var(--wood-light); background: rgba(255,255,255,0.08); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .bandeira { width: 50px; height: 35px; border-radius: 4px; object-fit: contain; margin-bottom: 8px; filter: drop-shadow(2px 2px 2px #000); }
+        .btn-uf { background: #2a1b12; color: var(--wood-light); padding: 6px 0; border-radius: 6px; font-weight: bold; text-decoration: none; display: block; width: 100%; font-size: 13px; text-align: center; border: 1px solid #4a3427; transition: 0.2s; }
+        .btn-uf:hover { background: var(--wood-light); color: #000; }
+        .tag-gov { font-size: 9px; color: #ffb300; font-weight: bold; margin-top: 4px; text-shadow: 1px 1px 1px #000; }
+
+        #printArea { padding: 15px; background: #0c0806; border: 2px double var(--wood-light); }
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); }
-        .modal-content { background: #1a0f0a; margin: 10% auto; padding: 30px; border: 1px solid var(--primary); width: 90%; max-width: 450px; border-radius: 20px; text-align: center; }
+        .modal-content { background: #1a0f0a; margin: 10% auto; padding: 20px; border: 2px solid var(--wood-light); width: 90%; max-width: 400px; border-radius: 15px; text-align: center; }
+        .grid-atalhos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 10px; }
+        .btn-atalho { background: #2a1b12; border: 1px solid #4a3427; color: var(--wood-light); padding: 10px 2px; border-radius: 5px; cursor: pointer; font-size: 10px; font-weight: bold; }
 
-        footer { text-align: center; margin-top: 50px; padding: 30px; border-top: 1px solid #2a1b12; color: var(--text-dim); }
-        #hours { font-size: 1.8rem; color: var(--primary); font-family: monospace; margin-bottom: 10px; }
-
-        @media (max-width: 600px) {
-            .main-grid { grid-template-columns: 1fr; }
-            header h1 { font-size: 1.5rem; letter-spacing: 4px; }
-        }
+        /* Estilo Adicional para os Menus de Rotas */
+        .menu-grid-rotas { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+        .dropdown { position: relative; display: inline-block; }
+        .dropbtn-rota { color: white; padding: 12px; font-size: 12px; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; width: 100%; text-transform: uppercase; transition: 0.3s; }
+        .btn-mad-menu { background: #3e4d2a; border-bottom: 3px solid #2a341c; }
+        .btn-wood-menu { background: #5d4037; border-bottom: 3px solid #3e2723; }
+        .dropdown-content-rotas { display: none; position: absolute; background-color: #2a1b12; width: 100%; box-shadow: 0px 8px 16px rgba(0,0,0,0.5); z-index: 50; border: 1px solid #4a3427; border-radius: 0 0 8px 8px; max-height: 250px; overflow-y: auto; }
+        .dropdown-content-rotas button { color: #f4ece2; padding: 10px; text-decoration: none; display: block; background: none; border: none; width: 100%; text-align: left; cursor: pointer; font-weight: bold; font-size: 9px; border-bottom: 1px solid #3d2b1f; text-transform: uppercase; }
+        .dropdown-content-rotas button:hover { background-color: #4e6135; }
+        .dropdown:hover .dropdown-content-rotas { display: block; }
     </style>
 </head>
+
 <body>
 
-<header>
-    <h1>MADREIREIRA MADMAIS <span style="font-weight: 300; font-size: 1rem; vertical-align: middle;">v46.8</span></h1>
-</header>
+    <header><h1>MADEIREIRA MADMAIS v46.8</h1></header>
 
-<div class="main-grid">
-    <div class="glass-panel">
-        <h3><span style="font-size: 1.2rem;">💰</span> Conversor de Extenso</h3>
-        <input type="text" id="inputManualExtenso" placeholder="Ex: 1.550,20" oninput="converterManual()">
-        <div id="resExtensoManual" style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; color: var(--accent-gold); font-size: 0.85rem; text-align: center; margin-bottom: 15px; border: 1px solid rgba(184, 134, 11, 0.2); min-height: 60px; display: flex; align-items: center; justify-content: center; text-transform: uppercase;">
-            R$ 0,00
+    <div class="main-grid">
+        <div class="glass-panel" style="border-top: 4px solid var(--accent-gold);">
+            <h3>💰 EXTENSO DE VALORES (R$)</h3>
+            <input type="text" id="inputManualExtenso" placeholder="Ex: 1.550,20" oninput="converterManual()" onpaste="permitirPaste(event)">
+            <div id="resExtensoManual" style="background: rgba(0,0,0,0.6); border: 1px solid var(--accent-gold); padding: 10px; min-height: 50px; color: var(--accent-gold); font-size: 13px; text-transform: uppercase; font-style: italic; margin-bottom: 10px; border-radius: 4px; display: flex; align-items: center; justify-content: center; text-align: center;">R$ 0,00</div>
+            <button class="btn btn-blue" onclick="copiarExtensoManual()">COPIAR VALOR POR EXTENSO</button>
         </div>
-        <button class="btn btn-primary" onclick="copiarExtensoManual()">Copiar Extenso</button>
+	<div class="calc-container">
+    <div class="calc-display" id="calc-display">0</div>
+    <div class="calc-btns">
+        <button class="cbtn cbtn-op" onclick="clearCalc()">C</button>
+        <button class="cbtn cbtn-op" onclick="delCalc()">DEL</button>
+        <button class="cbtn cbtn-op" onclick="pressCalc('/')">/</button>
+        <button class="cbtn cbtn-op" onclick="pressCalc('*')">X</button>
+        
+        <button class="cbtn" onclick="pressCalc('7')">7</button>
+        <button class="cbtn" onclick="pressCalc('8')">8</button>
+        <button class="cbtn" onclick="pressCalc('9')">9</button>
+        <button class="cbtn cbtn-op" onclick="pressCalc('-')">-</button>
+        
+        <button class="cbtn" onclick="pressCalc('4')">4</button>
+        <button class="cbtn" onclick="pressCalc('5')">5</button>
+        <button class="cbtn" onclick="pressCalc('6')">6</button>
+        <button class="cbtn cbtn-op" onclick="pressCalc('+')">+</button>
+        
+        <button class="cbtn" onclick="pressCalc('1')">1</button>
+        <button class="cbtn" onclick="pressCalc('2')">2</button>
+        <button class="cbtn" onclick="pressCalc('3')">3</button>
+        <button class="cbtn cbtn-op" style="background: #3e4d2a;" onclick="calculate()">=</button>
+        
+        <button class="cbtn" style="grid-column: span 2" onclick="pressCalc('0')">0</button>
+        <button class="cbtn" onclick="pressCalc('.')">,</button>
     </div>
+</div>
 
-    <div class="glass-panel">
-        <h3><span style="font-size: 1.2rem;">🧮</span> Calculadora Rápida</h3>
-        <div class="calc-container">
-            <div class="calc-display" id="calc-display">0</div>
-            <div class="calc-btns">
-                <button class="cbtn" onclick="clearCalc()" style="color: var(--danger);">C</button>
-                <button class="cbtn" onclick="delCalc()">DEL</button>
-                <button class="cbtn" onclick="pressCalc('/')">/</button>
-                <button class="cbtn" onclick="pressCalc('*')">×</button>
-                <button class="cbtn" onclick="pressCalc('7')">7</button>
-                <button class="cbtn" onclick="pressCalc('8')">8</button>
-                <button class="cbtn" onclick="pressCalc('9')">9</button>
-                <button class="cbtn" onclick="pressCalc('-')">-</button>
-                <button class="cbtn" onclick="pressCalc('4')">4</button>
-                <button class="cbtn" onclick="pressCalc('5')">5</button>
-                <button class="cbtn" onclick="pressCalc('6')">6</button>
-                <button class="cbtn" onclick="pressCalc('+')">+</button>
-                <button class="cbtn" onclick="pressCalc('1')">1</button>
-                <button class="cbtn" onclick="pressCalc('2')">2</button>
-                <button class="cbtn" onclick="pressCalc('3')">3</button>
-                <button class="cbtn" onclick="calculate()" style="background: var(--success); color: #fff;">=</button>
-                <button class="cbtn" style="grid-column: span 2" onclick="pressCalc('0')">0</button>
-                <button class="cbtn" onclick="pressCalc('.')">,</button>
-            </div>
-        </div>
-    </div>
-
-<div class="glass-panel">
+        <div class="glass-panel">
             <h3>📏 ROMANEIO (M³)</h3>
             <div style="display: flex; gap: 5px;">
                 <input type="text" id="bitola" placeholder="Bit." onkeydown="gerenciarTeclasRomaneio(event)" onpaste="permitirPaste(event)">
@@ -260,97 +206,104 @@
             <button class="btn" style="margin-top: 15px; background: #4b0000;" onclick="resetarCalculadora()">ZERAR TUDO</button>
         </div>
 
-    <div class="glass-panel">
-        <h3><span style="font-size: 1.2rem;">📋</span> Resumo da Carga</h3>
-        <div id="printArea">
-            <table id="tabelaResumo">
-                <tr id="row-PC" style="display:none;"><td>PRANCHA</td><td id="resPC" align="right">0,0000</td></tr>
-                <tr id="row-PAO" style="display:none;"><td>PRANCHÃO</td><td id="resPAO" align="right">0,0000</td></tr>
-                <tr id="row-CB" style="display:none;"><td>CAIBRO</td><td id="resCB" align="right">0,0000</td></tr>
-                <tr id="row-TB" style="display:none;"><td>TÁBUA</td><td id="resTB" align="right">0,0000</td></tr>
-                <tr id="row-VG" style="display:none;"><td>VIGA</td><td id="resVG" align="right">0,0000</td></tr>
-                <tr id="row-RP" style="display:none;"><td>RIPAS</td><td id="resRP" align="right">0,0000</td></tr>
-                <tr id="row-VGTA" style="display:none;"><td>VIGOTA</td><td id="resVGTA" align="right">0,0000</td></tr>
-                <tr id="row-BC" style="display:none;"><td>BLOCO</td><td id="resBC" align="right">0,0000</td></tr>
-                <tr id="row-SRRF" style="display:none;"><td>SARRAFOS</td><td id="resSRRF" align="right">0,0000</td></tr>
-                <tr id="row-total" style="display:none; font-weight:bold; color:var(--primary);"><td style="padding-top:15px; border:none;">TOTAL GERAL M³</td><td id="resTTL" align="right" style="padding-top:15px; border:none;">0,0000</td></tr>
-            </table>
+        <div class="glass-panel">
+            <h3>📊 RESUMO DE CARGA</h3>
+            <div id="printArea">
+                <table id="tabelaResumo" style="width:100%; color:var(--wood-light); border-collapse: collapse;">
+                    <tr id="row-PC" style="display:none;"><td>PRANCHA</td><td id="resPC" align="right">0,0000</td></tr>
+                    <tr id="row-PAO" style="display:none;"><td>PRANCHÃO</td><td id="resPAO" align="right">0,0000</td></tr>
+                    <tr id="row-CB" style="display:none;"><td>CAIBRO</td><td id="resCB" align="right">0,0000</td></tr>
+                    <tr id="row-TB" style="display:none;"><td>TÁBUA</td><td id="resTB" align="right">0,0000</td></tr>
+                    <tr id="row-VG" style="display:none;"><td>VIGA</td><td id="resVG" align="right">0,0000</td></tr>
+                    <tr id="row-RP" style="display:none;"><td>RIPAS</td><td id="resRP" align="right">0,0000</td></tr>
+                    <tr id="row-VGTA" style="display:none;"><td>VIGOTA</td><td id="resVGTA" align="right">0,0000</td></tr>
+                    <tr id="row-BC" style="display:none;"><td>BLOCO</td><td id="resBC" align="right">0,0000</td></tr>
+                    <tr id="row-SRRF" style="display:none;"><td>SARRAFOS</td><td id="resSRRF" align="right">0,0000</td></tr>
+                    <tr id="row-total" style="display:none; font-weight:bold; color:#fff;"><td style="padding-top:10px">TOTAL GERAL</td><td id="resTTL" align="right" style="padding-top:10px">0,0000</td></tr>
+                </table>
+            </div>
+            <button class="btn btn-blue" style="margin-top:10px" onclick="capturarResumo()">📸 COPIAR PRINT</button>
+            <select id="metros" size="4" style="margin-top:10px; font-size:11px"></select>
         </div>
-        <button class="btn btn-blue" onclick="capturarResumo()">📸 Copiar Imagem do Resumo</button>
-        <select id="metros" size="3" style="margin-top:10px;"></select>
-    </div>
 
-    <div class="glass-panel">
-        <h3><span style="font-size: 1.2rem;">⚖️</span> Módulo Fiscal</h3>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
-            <button class="btn btn-outline" onclick="abrirModal('modalNfe')">Consulta NF-e</button>
-            <a href="https://consultapublica.antt.gov.br/Site/ConsultaRNTRC.aspx" target="_blank" class="btn btn-blue">ANTT</a>
-        </div>
-        <textarea id="textoInput" placeholder="Cole textos para limpar/formatar..." rows="3"></textarea>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-            <button class="btn btn-outline" onclick="removerTodosEspacos()">Grudar</button>
-            <button class="btn btn-outline" onclick="corrigirETirarParagrafos()">CAIXA ALTA</button>
-        </div>
-        <button class="btn btn-primary" style="margin-top:10px" onclick="copiarTexto()">Copiar Texto Formatado</button>
-        <a href="https://app.sefa.pa.gov.br/homologacao/" target="_blank" class="btn btn-success">🏠 SEFA Homologação</a>
-    </div>
-
-    <div class="glass-panel">
-        <h3><span style="font-size: 1.2rem;">🔗</span> QR Drive Generator</h3>
-        <input type="text" id="qrLink" placeholder="Cole o link do Google Drive...">
-        <button class="btn btn-primary" onclick="gerarQR()">Gerar Código QR</button>
-        <div id="qr-container" style="display:none; background: #fff; padding: 15px; border-radius: 10px; margin: 15px auto; width: fit-content;">
-            <div id="qrcode"></div>
-        </div>
-        <button id="btnDownloadQR" class="btn btn-blue" style="display:none;" onclick="baixarQR()">Baixar QR PNG</button>
-    </div>
-
-    <div class="glass-panel rota-container">
-        <h3><span style="font-size: 1.2rem;">🚛</span> Gerador de Rotas Logísticas</h3>
-        <textarea id="inputRota" placeholder="COLE O DESTINO AQUI (Ex: SAO PAULO, RUA X...)" rows="3" style="text-transform: uppercase; border-color: var(--primary);"></textarea>
-        <div class="menu-grid">
-            <div class="dropdown">
-                <button class="btn btn-success">Sair como: MADMAIS ▼</button>
-                <div class="dropdown-content">
-                    <button onclick="processar('MADMAIS', 'PA370')">VIA PA 370 CURUAÚNA</button>
-                    <button onclick="processar('MADMAIS', 'BR163')">VIA BR 163/230 (RURÓPOLIS)</button>
-                    <button onclick="processar('MADMAIS', 'MT')">VIA MATO GROSSO (BR-163)</button>
-                    <button onclick="processar('MADMAIS', 'UNIRIOS')">PORTO UNIRIOS</button>
-                    <button onclick="processar('MADMAIS', 'REICON')">PORTO REICON</button>
+        <div class="glass-panel">
+            <h3>📜 MÓDULO FISCAL & ROTAS</h3>
+            
+            <div class="menu-grid-rotas">
+                <div class="dropdown">
+                    <button class="dropbtn-rota btn-mad-menu">MADMAIS ▼</button>
+                    <div class="dropdown-content-rotas">
+                        <button onclick="processarRotaEmpresa('MADMAIS', 'PA370')">VIA PA 370 CURUAÚNA</button>
+                        <button onclick="processarRotaEmpresa('MADMAIS', 'BR163')">VIA BR 163/230</button>
+                        <button onclick="processarRotaEmpresa('MADMAIS', 'MT')">VIA MATO GROSSO (BR-163)</button>
+                        <button onclick="processarRotaEmpresa('MADMAIS', 'MT230')">VIA MT (PA 370 / BR 230)</button>
+                        <button onclick="processarRotaEmpresa('MADMAIS', 'UNIRIOS')">MAD+ (UNIRIOS)</button>
+                        <button onclick="processarRotaEmpresa('MADMAIS', 'REICON')">MAD+ (REICON)</button>
+                        <button onclick="processarRotaEmpresa('MADMAIS', 'SAMAL')">MAD+ (SAMAL)</button>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn-rota btn-wood-menu">WOOD ▼</button>
+                    <div class="dropdown-content-rotas">
+                        <button onclick="processarRotaEmpresa('WOOD', 'PA370')">VIA PA 370 CURUAÚNA</button>
+                        <button onclick="processarRotaEmpresa('WOOD', 'BR163')">VIA BR 163/230</button>
+                        <button onclick="processarRotaEmpresa('WOOD', 'MT')">VIA MATO GROSSO (BR-163)</button>
+                        <button onclick="processarRotaEmpresa('WOOD', 'MT230')">VIA MT (PA 370 / BR 230)</button>
+                        <button onclick="processarRotaEmpresa('WOOD', 'UNIRIOS')">WOOD+ (UNIRIOS)</button>
+                        <button onclick="processarRotaEmpresa('WOOD', 'REICON')">WOOD+ (REICON)</button>
+                        <button onclick="processarRotaEmpresa('WOOD', 'SAMAL')">WOOD+ (SAMAL)</button>
+                    </div>
                 </div>
             </div>
-            <div class="dropdown">
-                <button class="btn btn-danger" style="background: #5d4037;">Sair como: WOOD BRASIL ▼</button>
-                <div class="dropdown-content">
-                    <button onclick="processar('WOOD', 'PA370')">VIA PA 370 CURUAÚNA</button>
-                    <button onclick="processar('WOOD', 'BR163')">VIA BR 163/230 (RURÓPOLIS)</button>
-                    <button onclick="processar('WOOD', 'MT')">VIA MATO GROSSO (BR-163)</button>
-                    <button onclick="processar('WOOD', 'UNIRIOS')">PORTO UNIRIOS</button>
-                    <button onclick="processar('WOOD', 'REICON')">PORTO REICON</button>
-                </div>
+
+            <textarea id="textoInput" placeholder="Processar texto ou rotas..." rows="2"></textarea>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+                <button class="btn btn-accent" onclick="removerTodosEspacos()">Grudar</button>
+                <button class="btn btn-blue" onclick="corrigirETirarParagrafos()">CAIXA ALTA</button>
             </div>
+            
+            <button class="btn btn-blue" onclick="copiarTexto()">Copiar Resultado</button>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 5px;">
+                <button class="btn btn-accent" onclick="abrirModal('modalNfe')">CONSULTA NF-E</button>
+                <a href="https://consultapublica.antt.gov.br/Site/ConsultaRNTRC.aspx" target="_blank" class="btn btn-blue">ANTT</a>
+            </div>
+            
+	    <a href="https://app.sefa.pa.gov.br/homologacao/" target="_blank" class="btn btn-homologar">🏠 HOMOLOGAR NFe</a>
+        </div>
+
+        <div class="glass-panel" style="border-top: 4px solid var(--success-wood);">
+            <h3>🛡️ QR DRIVE</h3>
+            <input type="text" id="qrLink" placeholder="Link do Drive...">
+            <button class="btn btn-success" onclick="gerarQR()">GERAR QR CODE</button>
+            
+            <div id="qr-container">
+                <div id="qrcode"></div>
+            </div>
+            
+            <button id="btnDownloadQR" class="btn btn-blue" style="display:none; margin-top:10px" onclick="baixarQR()">BAIXAR QR (312px)</button>
+        </div>
+
+        <div class="glass-panel" style="grid-column: 1 / -1; border-top: 4px solid #3498db;">
+            <h3>🌐 SINTEGRA - CONSULTA NACIONAL</h3>
+            <div class="grade-estados" id="gradeSintegra"></div>
         </div>
     </div>
 
-    <div class="glass-panel" style="grid-column: 1 / -1;">
-        <h3><span style="font-size: 1.2rem;">🌐</span> Sintegra & Cadastro Nacional</h3>
-        <div class="grade-estados" id="gradeSintegra"></div>
+    <div id="modalNfe" class="modal">
+        <div class="modal-content">
+            <h3>CONSULTA NF-E</h3>
+            <input type="text" id="chaveAcesso" placeholder="Chave (44 dígitos)" maxlength="44">
+            <button class="btn btn-success" onclick="irParaDanfe()">GERAR DANFE</button>
+            <button class="btn btn-danger" onclick="fecharModal('modalNfe')">FECHAR</button>
+        </div>
     </div>
-</div>
 
-<div id="modalNfe" class="modal">
-    <div class="modal-content">
-        <h3>Consulta NF-e</h3>
-        <input type="text" id="chaveAcesso" placeholder="Chave de Acesso (44 dígitos)" maxlength="44">
-        <button class="btn btn-success" onclick="irParaDanfe()">Visualizar DANFE</button>
-        <button class="btn btn-outline" onclick="fecharModal('modalNfe')">Voltar</button>
-    </div>
-</div>
-
-<footer>
-    <div id="hours">00:00:00</div>
-    <p>Desenvolvido por Renk Sá &reg; 2026 | Sistema de Apoio Logístico MadMais</p>
-</footer>
+    <footer style="text-align: center; margin-top: 40px; color: var(--wood-light);">
+        <div id="hours" style="font-size: 24px; font-weight: bold;">00:00:00</div>
+        Dev Renk Sá &reg; 2026
+    </footer>
 
     <script>
         // --- FUNÇÃO DE PROCESSAMENTO DE ROTAS INTEGRADA ---
@@ -531,6 +484,6 @@
         }
         window.onload = carregarGradeSintegra;
         setInterval(() => document.getElementById("hours").innerHTML = new Date().toLocaleTimeString(), 1000);
-  </script>
+    </script>
 </body>
 </html>
