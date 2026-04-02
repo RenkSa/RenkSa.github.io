@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MadMais - Ferramenta v46.8</title>
+    <title>MadMais - Ferramenta v1,0</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -144,7 +144,7 @@
 
 <body>
 
-    <header><h1>MADEIREIRA MADMAIS v46.8</h1></header>
+    <header><h1>FERRAMENTAS MADMAIS V1.0</h1></header>
 
     <div class="main-grid">
         <div class="glass-panel" style="border-top: 4px solid var(--accent-gold);">
@@ -227,8 +227,31 @@
         </div>
 
         <div class="glass-panel">
-            <h3>📜 MÓDULO FISCAL & ROTAS</h3>
+            <h3>📜 MÓDULO FISCAL & ROTAS</h3>          
             
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 5px;">
+                <button class="btn btn-accent" onclick="abrirModal('modalNfe')">CONSULTA NF-E</button>
+                <a href="https://consultapublica.antt.gov.br/Site/ConsultaRNTRC.aspx" target="_blank" class="btn btn-blue">ANTT</a>
+            </div>
+            
+	    <a href="https://app.sefa.pa.gov.br/pservicos/autenticacao?servico=aHR0cHM6Ly9hcHAuc2VmYS5wYS5nb3YuYnIvaG9tb2xvZ2FjYW8tY3JlZGl0by8jL2luc3RydWNvZXM=" target="_blank" class="btn btn-homologar">🏠 HOMOLOGAR NFe</a>
+        </div>
+        
+
+        <div class="glass-panel" style="border-top: 4px solid var(--success-wood);">
+            <h3>🛡️ QR DRIVE</h3>
+            <input type="text" id="qrLink" placeholder="Link do Drive...">
+            <button class="btn btn-success" onclick="gerarQR()">GERAR QR CODE</button>
+            
+            <div id="qr-container">
+                <div id="qrcode"></div>
+            </div>
+            
+            <button id="btnDownloadQR" class="btn btn-blue" style="display:none; margin-top:10px" onclick="baixarQR()">BAIXAR QR (312px)</button>
+        </div>
+
+        <div class="glass-panel" style="width: 690px;">
             <div class="menu-grid-rotas">
                 <div class="dropdown">
                     <button class="dropbtn-rota btn-mad-menu">MADMAIS ▼</button>
@@ -264,25 +287,6 @@
             </div>
             
             <button class="btn btn-blue" onclick="copiarTexto()">Copiar Resultado</button>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 5px;">
-                <button class="btn btn-accent" onclick="abrirModal('modalNfe')">CONSULTA NF-E</button>
-                <a href="https://consultapublica.antt.gov.br/Site/ConsultaRNTRC.aspx" target="_blank" class="btn btn-blue">ANTT</a>
-            </div>
-            
-	    <a href="https://app.sefa.pa.gov.br/pservicos/autenticacao?servico=aHR0cHM6Ly9hcHAuc2VmYS5wYS5nb3YuYnIvaG9tb2xvZ2FjYW8tY3JlZGl0by8jL2luc3RydWNvZXM=" target="_blank" class="btn btn-homologar">🏠 HOMOLOGAR NFe</a>
-        </div>
-
-        <div class="glass-panel" style="border-top: 4px solid var(--success-wood);">
-            <h3>🛡️ QR DRIVE</h3>
-            <input type="text" id="qrLink" placeholder="Link do Drive...">
-            <button class="btn btn-success" onclick="gerarQR()">GERAR QR CODE</button>
-            
-            <div id="qr-container">
-                <div id="qrcode"></div>
-            </div>
-            
-            <button id="btnDownloadQR" class="btn btn-blue" style="display:none; margin-top:10px" onclick="baixarQR()">BAIXAR QR (312px)</button>
         </div>
 
         <div class="glass-panel" style="grid-column: 1 / -1; border-top: 4px solid #3498db;">
