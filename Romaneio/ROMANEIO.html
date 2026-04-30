@@ -7,6 +7,8 @@
     <title>MadMais - Ferramenta v1,0</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+	<!-- ESTA PARTE CARREGA O CONVERSOR (PRECISA ESTAR NO SEU ARQUIVO) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         :root {
             --wood-dark: #1a0f0a;
@@ -18,8 +20,7 @@
             --danger-wood: #7a2d2d;
             --blue-wood: #2c3e50;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', serif; }
+  
 
         body {
             background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), 
@@ -71,7 +72,7 @@
             margin-bottom: 10px; outline: none; font-weight: bold; font-size: 16px;
         }
 
-        .btn { padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 11px; transition: 0.3s; color: white; text-align: center; display: block; width: 100%; margin-bottom: 8px; text-decoration: none; border: none; }
+        .btn { padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 11px; transition: 0.3s; color: white; text-align: center; display: block; margin-bottom: 8px; text-decoration: none; border: none; }
         .btn:hover { transform: translateY(-3px); filter: brightness(1.2); }
 
         .btn-accent { background: #8b4513; }
@@ -181,6 +182,20 @@
     </div>
 </div>
 
+            <!-- A DIV VISÍVEL -->
+<div id="secaoPDF" class="glass-panel" >
+    <h3>CONVERSOR DE IMAGEM PARA PDF</h3>
+    <p style="font-family: Arial, sans-serif;">Selecione imagens JPG ou JPEG:</p>
+    
+    <input type="file" id="imageInput" style="margin: 10px 0; padding: 10px;" accept="image/jpeg, image/jpg" multiple>
+    <br>
+    <button onclick="converterParaPDF()" style="background: #28a745; color: white; border: none; padding: 12px 25px; border-radius: 5px; font-weight: bold; cursor: pointer; font-family: Arial, sans-serif;">
+        GERAR E BAIXAR PDF
+    </button>
+    
+    <div id="statusPdf" style="margin-top: 10px; font-size: 12px; color: #666; font-family: Arial, sans-serif;"></div>
+</div>
+
         <div class="glass-panel">
             <h3>📏 ROMANEIO (M³)</h3>
             <div style="display: flex; gap: 5px;">
@@ -251,7 +266,7 @@
             <button id="btnDownloadQR" class="btn btn-blue" style="display:none; margin-top:10px" onclick="baixarQR()">BAIXAR QR (312px)</button>
         </div>
 
-        <div class="glass-panel" style="width: 690px;">
+        <div class="glass-panel" style="width: 290px;">
             <div class="menu-grid-rotas">
                 <div class="dropdown">
                     <button class="dropbtn-rota btn-mad-menu">MADMAIS ▼</button>
@@ -287,7 +302,9 @@
             </div>
             
             <button class="btn btn-blue" onclick="copiarTexto()">Copiar Resultado</button>
+
         </div>
+
 
         <div class="glass-panel" style="grid-column: 1 / -1; border-top: 4px solid #3498db;">
             <h3>🌐 SINTEGRA - CONSULTA NACIONAL</h3>
@@ -486,6 +503,41 @@
                 grid.appendChild(card); 
             }); 
         }
+async function converterParaPDF() {
+        const { jsPDF } = window.jspdf;
+        const input = document.getElementById('imageInput');
+        const status = document.getElementById('statusPdf');
+
+        if (input.files.length === 0) {
+            alert("Por favor, selecione pelo menos uma imagem.");
+            return;
+        }
+
+        status.innerText = "Processando arquivo(s)...";
+        try {
+            const doc = new jsPDF();
+            for (let i = 0; i < input.files.length; i++) {
+                const file = input.files[i];
+                const imageData = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.readAsDataURL(file);
+                });
+                
+                if (i > 0) doc.addPage();
+                const imgProps = doc.getImageProperties(imageData);
+                const pdfWidth = doc.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                doc.addImage(imageData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+            }
+            doc.save("documento_madmais.pdf");
+            status.innerText = "PDF baixado com sucesso!";
+        } catch (e) {
+            console.error(e);
+            status.innerText = "Erro ao gerar PDF.";
+        }
+    }
+		
         window.onload = carregarGradeSintegra;
         setInterval(() => document.getElementById("hours").innerHTML = new Date().toLocaleTimeString(), 1000);
     </script>
