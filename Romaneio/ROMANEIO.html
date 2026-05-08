@@ -182,19 +182,6 @@
     </div>
 </div>
 
-            <!-- A DIV VISÍVEL -->
-<div id="secaoPDF" class="glass-panel" >
-    <h3>CONVERSOR DE IMAGEM PARA PDF</h3>
-    <p style="font-family: Arial, sans-serif;">Selecione imagens JPG ou JPEG:</p>
-    
-    <input type="file" id="imageInput" style="margin: 10px 0; padding: 10px;" accept="image/jpeg, image/jpg" multiple>
-    <br>
-    <button onclick="converterParaPDF()" style="background: #28a745; color: white; border: none; padding: 12px 25px; border-radius: 5px; font-weight: bold; cursor: pointer; font-family: Arial, sans-serif;">
-        GERAR E BAIXAR PDF
-    </button>
-    
-    <div id="statusPdf" style="margin-top: 10px; font-size: 12px; color: #666; font-family: Arial, sans-serif;"></div>
-</div>
 
         <div class="glass-panel">
             <h3>📏 ROMANEIO (M³)</h3>
@@ -240,6 +227,20 @@
             <button class="btn btn-blue" style="margin-top:10px" onclick="capturarResumo()">📸 COPIAR PRINT</button>
             <select id="metros" size="4" style="margin-top:10px; font-size:11px"></select>
         </div>
+
+                    <!-- A DIV VISÍVEL -->
+<div id="secaoPDF" class="glass-panel" >
+    <h3>CONVERSOR DE IMAGEM PARA PDF</h3>
+    <p style="font-family: Arial, sans-serif;">Selecione imagens JPG ou JPEG:</p>
+    
+    <input type="file" id="imageInput" style="margin: 10px 0; padding: 10px;" accept="image/jpeg, image/jpg" multiple>
+    <br>
+    <button onclick="converterParaPDF()" style="background: #28a745; color: white; border: none; padding: 12px 25px; border-radius: 5px; font-weight: bold; cursor: pointer; font-family: Arial, sans-serif;">
+        GERAR E BAIXAR PDF
+    </button>
+    
+    <div id="statusPdf" style="margin-top: 10px; font-size: 12px; color: #666; font-family: Arial, sans-serif;"></div>
+</div>
 
         <div class="glass-panel">
             <h3>📜 MÓDULO FISCAL & ROTAS</h3>          
