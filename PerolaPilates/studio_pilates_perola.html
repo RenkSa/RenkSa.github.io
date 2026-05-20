@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio de Pilates Pérola</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --dark: #111111;
+    --card-bg: #1a1a1a;
+    --rose: #c8956a;
+    --rose-light: #e8b89a;
+    --rose-pale: #f0cbb0;
+    --white: #f5f0eb;
+    --gray: #888;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 48px;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(200,149,106,0.15);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--rose-light);
+    letter-spacing: 1px;
+  }
+
+  .nav-logo span {
+    font-style: normal;
+    font-weight: 900;
+    color: var(--white);
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 500;
+    opacity: 0.7;
+    transition: opacity 0.3s, color 0.3s;
+  }
+
+  .nav-links a:hover { opacity: 1; color: var(--rose-light); }
+
+  .nav-cta {
+    background: var(--rose);
+    color: var(--black) !important;
+    opacity: 1 !important;
+    padding: 10px 22px;
+    border-radius: 2px;
+    font-weight: 700 !important;
+  }
+
+  .nav-cta:hover { background: var(--rose-light) !important; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 64px 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-tag {
+    font-size: 0.7rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--rose);
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    font-weight: 900;
+    line-height: 0.95;
+    margin-bottom: 8px;
+    color: var(--white);
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--rose-light);
+    display: block;
+    font-size: 0.65em;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+
+  .hero-sub {
+    font-size: 0.7rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 32px;
+  }
+
+  .hero-desc {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: rgba(245,240,235,0.65);
+    max-width: 380px;
+    margin-bottom: 48px;
+  }
+
+  .hero-fisio {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border: 1px solid rgba(200,149,106,0.3);
+    border-radius: 4px;
+    background: rgba(200,149,106,0.05);
+    max-width: 300px;
+  }
+
+  .fisio-icon {
+    width: 42px;
+    height: 42px;
+    background: var(--rose);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .fisio-info {
+    font-size: 0.72rem;
+    line-height: 1.6;
+    color: rgba(245,240,235,0.7);
+  }
+
+  .fisio-info strong {
+    display: block;
+    color: var(--rose-light);
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--black) 0%, transparent 30%),
+                linear-gradient(to top, var(--black) 0%, transparent 20%);
+    z-index: 1;
+  }
+
+  .hero-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.5) saturate(0.6);
+  }
+
+  .hero-bg-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1008 0%, #2a1a0a 50%, #111 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-silhouette {
+    width: 60%;
+    opacity: 0.15;
+  }
+
+  /* decorative circles */
+  .deco-circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(200,149,106,0.15);
+    pointer-events: none;
+  }
+
+  /* PROMOÇÕES */
+  #promocoes {
+    background: var(--dark);
+    padding: 96px 48px;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .section-tag {
+    font-size: 0.65rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--rose-light);
+  }
+
+  .promo-banner {
+    background: linear-gradient(135deg, rgba(200,149,106,0.12) 0%, rgba(200,149,106,0.05) 100%);
+    border: 1px solid rgba(200,149,106,0.25);
+    border-radius: 8px;
+    padding: 24px 32px;
+    text-align: center;
+    margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .promo-banner::before {
+    content: '🔥';
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+  }
+
+  .promo-banner::after {
+    content: '🔥';
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+  }
+
+  .promo-banner h3 {
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--rose);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .promo-banner p {
+    font-size: 0.85rem;
+    color: rgba(245,240,235,0.65);
+  }
+
+  .plans-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .plan-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(200,149,106,0.15);
+    border-radius: 8px;
+    padding: 36px 28px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+
+  .plan-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(200,149,106,0.4);
+  }
+
+  .plan-card.featured {
+    border-color: var(--rose);
+    background: linear-gradient(135deg, rgba(200,149,106,0.08) 0%, var(--card-bg) 100%);
+  }
+
+  .plan-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--rose);
+    color: var(--black);
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+  }
+
+  .plan-freq {
+    width: 52px;
+    height: 52px;
+    background: rgba(200,149,106,0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--rose-light);
+    font-family: 'Playfair Display', serif;
+  }
+
+  .plan-label {
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 16px;
+  }
+
+  .plan-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .plan-price sup {
+    font-size: 1rem;
+    vertical-align: super;
+    font-weight: 400;
+  }
+
+  .plan-original {
+    font-size: 0.75rem;
+    color: var(--gray);
+    text-decoration: line-through;
+    margin-bottom: 16px;
+  }
+
+  .plan-discount {
+    display: inline-block;
+    background: rgba(200,149,106,0.2);
+    color: var(--rose-light);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .plan-cta {
+    display: block;
+    margin-top: 28px;
+    padding: 12px;
+    background: var(--rose);
+    color: var(--black);
+    text-decoration: none;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: 3px;
+    transition: background 0.3s;
+  }
+
+  .plan-cta:hover { background: var(--rose-light); }
+
+  /* HORÁRIOS */
+  #horarios {
+    padding: 96px 48px;
+    background: var(--black);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #horarios::before {
+    content: 'HORÁRIO';
+    position: absolute;
+    font-family: 'Playfair Display', serif;
+    font-size: 18vw;
+    font-weight: 900;
+    color: rgba(200,149,106,0.03);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .horarios-content {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .horario-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 36px;
+    border: 1px solid rgba(200,149,106,0.2);
+    border-radius: 6px;
+    margin-bottom: 16px;
+    background: rgba(255,255,255,0.02);
+    transition: background 0.3s, border-color 0.3s;
+  }
+
+  .horario-card:hover {
+    background: rgba(200,149,106,0.06);
+    border-color: rgba(200,149,106,0.35);
+  }
+
+  .horario-day {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  .horario-time {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .time-icon {
+    font-size: 1.2rem;
+  }
+
+  .time-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--rose-light);
+  }
+
+  .horario-sub {
+    font-size: 0.7rem;
+    color: var(--gray);
+    letter-spacing: 1px;
+  }
+
+  .turmas-info {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .turma-slot {
+    padding: 20px 24px;
+    border: 1px solid rgba(200,149,106,0.15);
+    border-radius: 6px;
+    background: rgba(200,149,106,0.04);
+  }
+
+  .turma-slot h4 {
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 8px;
+  }
+
+  .turma-slot p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  /* LOCALIZAÇÃO */
+  #localizacao {
+    background: var(--dark);
+    padding: 96px 48px;
+  }
+
+  .location-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    max-width: 1000px;
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  .location-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin-bottom: 8px;
+  }
+
+  .location-address {
+    font-size: 0.9rem;
+    color: rgba(245,240,235,0.65);
+    line-height: 1.8;
+    margin-bottom: 32px;
+  }
+
+  .location-address strong {
+    display: block;
+    color: var(--rose-light);
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .contact-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .contact-list li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.9rem;
+    color: rgba(245,240,235,0.75);
+  }
+
+  .contact-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(200,149,106,0.12);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    border: 1px solid rgba(200,149,106,0.2);
+  }
+
+  .map-placeholder {
+    aspect-ratio: 4/3;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(200,149,106,0.2);
+    background: #161616;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+  }
+
+  .map-pin {
+    font-size: 3rem;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+
+  .map-label {
+    font-size: 0.75rem;
+    color: var(--rose-light);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .map-addr {
+    font-size: 0.8rem;
+    color: var(--gray);
+    text-align: center;
+    padding: 0 24px;
+    line-height: 1.6;
+  }
+
+  .map-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--rose);
+    color: var(--black);
+    text-decoration: none;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: 3px;
+    transition: background 0.3s;
+  }
+
+  .map-btn:hover { background: var(--rose-light); }
+
+  /* CONTATO */
+  #contato {
+    padding: 96px 48px;
+    background: var(--black);
+    text-align: center;
+  }
+
+  .contato-numbers {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin: 48px 0;
+  }
+
+  .phone-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(200,149,106,0.2);
+    border-radius: 8px;
+    padding: 36px 48px;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .phone-card:hover {
+    border-color: var(--rose);
+    transform: translateY(-4px);
+  }
+
+  .phone-card .phone-icon {
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
+
+  .phone-card .phone-label {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 8px;
+  }
+
+  .phone-card .phone-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 1px;
+  }
+
+  .whatsapp-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 48px;
+    background: #25D366;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: 3px;
+    transition: opacity 0.3s;
+    margin-top: 8px;
+  }
+
+  .whatsapp-cta:hover { opacity: 0.85; }
+
+  .instagram-block {
+    margin-top: 64px;
+    padding: 36px;
+    border: 1px solid rgba(200,149,106,0.15);
+    border-radius: 8px;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .instagram-block .ig-icon { font-size: 2rem; margin-bottom: 12px; }
+  .instagram-block p {
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: var(--gray);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .instagram-block a {
+    color: var(--rose-light);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+  }
+
+  /* FOOTER */
+  footer {
+    background: #080808;
+    padding: 40px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(200,149,106,0.1);
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--rose-light);
+    font-size: 1.1rem;
+  }
+
+  .footer-logo span {
+    display: block;
+    font-style: normal;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-top: 2px;
+  }
+
+  footer p {
+    font-size: 0.7rem;
+    color: var(--gray);
+    letter-spacing: 1px;
+  }
+
+  /* DIVIDER */
+  .rose-divider {
+    width: 48px;
+    height: 2px;
+    background: var(--rose);
+    margin: 16px auto 0;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-left > * {
+    animation: fadeInUp 0.8s ease forwards;
+    opacity: 0;
+  }
+  .hero-left > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-left > *:nth-child(2) { animation-delay: 0.25s; }
+  .hero-left > *:nth-child(3) { animation-delay: 0.35s; }
+  .hero-left > *:nth-child(4) { animation-delay: 0.45s; }
+  .hero-left > *:nth-child(5) { animation-delay: 0.55s; }
+  .hero-left > *:nth-child(6) { animation-delay: 0.65s; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+
+    #hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .hero-left { padding: 100px 24px 48px; }
+    .hero-right { display: none; }
+
+    #promocoes, #horarios, #localizacao, #contato { padding: 64px 24px; }
+
+    .plans-grid { grid-template-columns: 1fr; max-width: 360px; }
+    .turmas-info { grid-template-columns: 1fr; }
+    .location-grid { grid-template-columns: 1fr; }
+
+    footer { flex-direction: column; text-align: center; padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    Pérola
+    <span>Studio de Pilates</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#promocoes">Preços</a></li>
+    <li><a href="#horarios">Horários</a></li>
+    <li><a href="#localizacao">Localização</a></li>
+    <li><a href="#contato" class="nav-cta">Matricule-se</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <p class="hero-tag">Saúde · Movimento · Equilíbrio</p>
+    <h1 class="hero-title">
+      STUDIO DE<br>PILATES
+      <em>Pérola</em>
+    </h1>
+    <p class="hero-sub">Santarém · Pará</p>
+    <p class="hero-desc">
+      Descubra o poder transformador do Pilates. Mais que exercício — um cuidado completo com o seu corpo e mente.
+    </p>
+    <div class="hero-fisio">
+      <div class="fisio-icon">🩺</div>
+      <div class="fisio-info">
+        <strong>Fisioterapeuta Responsável</strong>
+        Sara Sales<br>CREFITO 408007.1.F
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-bg-placeholder">
+      <svg width="220" height="300" viewBox="0 0 220 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="hero-silhouette">
+        <ellipse cx="110" cy="40" rx="28" ry="28" fill="white"/>
+        <path d="M60 100 Q110 70 160 100 L175 220 Q110 250 45 220 Z" fill="white"/>
+        <path d="M80 200 Q70 260 55 300" stroke="white" stroke-width="14" stroke-linecap="round"/>
+        <path d="M140 200 Q150 260 165 300" stroke="white" stroke-width="14" stroke-linecap="round"/>
+        <path d="M60 100 Q30 130 20 170" stroke="white" stroke-width="14" stroke-linecap="round"/>
+        <path d="M160 100 Q190 130 200 170" stroke="white" stroke-width="14" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- PROMOÇÕES -->
+<section id="promocoes">
+  <div class="section-header">
+    <p class="section-tag">Promoção especial</p>
+    <h2 class="section-title">Preços de <em>Inauguração</em></h2>
+    <div class="rose-divider"></div>
+  </div>
+
+  <div class="promo-banner">
+    <h3>🔥 Promoções Especiais de Inauguração 🔥</h3>
+    <p>Quem realizar a matrícula agora no início terá condições promocionais exclusivas 💎✨</p>
+  </div>
+
+  <div class="plans-grid">
+    <!-- 1x -->
+    <div class="plan-card">
+      <div class="plan-freq">1×</div>
+      <p class="plan-label">na semana</p>
+      <div class="plan-price"><sup>R$</sup>139</div>
+      <p class="plan-original">&nbsp;</p>
+      <span class="plan-discount">Valor Normal</span>
+      <a href="#contato" class="plan-cta">Matricular-se</a>
+    </div>
+
+    <!-- 3x -->
+    <div class="plan-card featured">
+      <div class="plan-badge">Mais Popular</div>
+      <div class="plan-freq">3×</div>
+      <p class="plan-label">na semana</p>
+      <div class="plan-price"><sup>R$</sup>287<small style="font-size:1.2rem">,10</small></div>
+      <p class="plan-original">De R$319,00</p>
+      <span class="plan-discount">10% OFF</span>
+      <a href="#contato" class="plan-cta">Matricular-se</a>
+    </div>
+
+    <!-- 2x -->
+    <div class="plan-card">
+      <div class="plan-freq">2×</div>
+      <p class="plan-label">na semana</p>
+      <div class="plan-price"><sup>R$</sup>203<small style="font-size:1.2rem">,15</small></div>
+      <p class="plan-original">De R$239,00</p>
+      <span class="plan-discount">15% OFF</span>
+      <a href="#contato" class="plan-cta">Matricular-se</a>
+    </div>
+  </div>
+</section>
+
+<!-- HORÁRIOS -->
+<section id="horarios">
+  <div class="section-header">
+    <p class="section-tag">Novas Turmas</p>
+    <h2 class="section-title"><em>Horários</em> de Atendimento</h2>
+    <p style="margin-top:12px; font-size:0.75rem; color:var(--gray); letter-spacing:2px; text-transform:uppercase;">Construa sua melhor versão!</p>
+    <div class="rose-divider"></div>
+  </div>
+
+  <div class="horarios-content">
+    <div class="horario-card">
+      <div>
+        <div class="horario-day">Segunda a Sexta</div>
+        <div class="horario-sub">Seg · Ter · Qua · Qui · Sex</div>
+      </div>
+      <div class="horario-time">
+        <span class="time-icon">📅</span>
+        <span class="time-text">08h às 20h</span>
+      </div>
+    </div>
+
+    <div class="horario-card">
+      <div>
+        <div class="horario-day">Sábado</div>
+        <div class="horario-sub">Manhã</div>
+      </div>
+      <div class="horario-time">
+        <span class="time-icon">☀️</span>
+        <span class="time-text">08h às 11h</span>
+      </div>
+    </div>
+
+    <div class="turmas-info">
+      <div class="turma-slot">
+        <h4>🌅 Manhã</h4>
+        <p>08h às 11h</p>
+      </div>
+      <div class="turma-slot">
+        <h4>🌙 Tarde / Noite</h4>
+        <p>15h às 20h</p>
+      </div>
+    </div>
+
+    <div style="margin-top:40px; text-align:center;">
+      <p style="font-size:0.75rem; color:var(--rose); letter-spacing:2px; text-transform:uppercase; margin-bottom:16px;">⚠️ Vagas Limitadas</p>
+      <a href="#contato" class="map-btn">Faça sua matrícula agora</a>
+    </div>
+  </div>
+</section>
+
+<!-- LOCALIZAÇÃO -->
+<section id="localizacao">
+  <div class="section-header">
+    <p class="section-tag">Onde nos encontrar</p>
+    <h2 class="section-title"><em>Localização</em></h2>
+    <div class="rose-divider"></div>
+  </div>
+
+  <div class="location-grid">
+    <div class="location-info">
+      <h3>Como chegar</h3>
+      <div class="location-address">
+        <strong>📍 Endereço</strong>
+        Av. São Sebastião, Nº 1803<br>
+        Aldeia, Santarém/PA
+      </div>
+
+      <ul class="contact-list">
+        <li>
+          <div class="contact-icon">📞</div>
+          (93) 99168-2797
+        </li>
+        <li>
+          <div class="contact-icon">📞</div>
+          (93) 98131-0142
+        </li>
+        <li>
+          <div class="contact-icon">📸</div>
+          @studio_de_pilates_perola
+        </li>
+      </ul>
+    </div>
+
+    <div class="map-placeholder">
+      <div class="map-pin">📍</div>
+      <div class="map-label">Studio de Pilates Pérola</div>
+      <div class="map-addr">Av. São Sebastião, Nº 1803<br>Aldeia, Santarém/PA</div>
+      <a href="https://maps.google.com/?q=Av.+São+Sebastião+1803+Santarém+PA" target="_blank" class="map-btn" style="margin-top:8px">
+        🗺️ Ver no Maps
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="section-header">
+    <p class="section-tag">Fale conosco</p>
+    <h2 class="section-title">Entre em <em>Contato</em></h2>
+    <div class="rose-divider"></div>
+  </div>
+
+  <div class="contato-numbers">
+    <div class="phone-card">
+      <div class="phone-icon">📱</div>
+      <div class="phone-label">WhatsApp</div>
+      <div class="phone-number">(93) 99168-2797</div>
+    </div>
+    <div class="phone-card">
+      <div class="phone-icon">📱</div>
+      <div class="phone-label">WhatsApp</div>
+      <div class="phone-number">(93) 98131-0142</div>
+    </div>
+  </div>
+
+  <a href="https://wa.me/5593991682797" target="_blank" class="whatsapp-cta">
+    💬 Falar pelo WhatsApp
+  </a>
+
+  <div class="instagram-block">
+    <div class="ig-icon">📸</div>
+    <p>Nos siga no Instagram</p>
+    <a href="https://instagram.com/studio_de_pilates_perola" target="_blank">@studio_de_pilates_perola</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    Pérola
+    <span>Studio de Pilates · Santarém/PA</span>
+  </div>
+  <p>Fisioterapeuta Sara Sales · CREFITO 408007.1.F</p>
+  <p>© 2025 Studio de Pilates Pérola</p>
+</footer>
+
+</body>
+</html>
