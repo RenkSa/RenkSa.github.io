@@ -270,27 +270,27 @@
         <div class="glass-panel" style="width: 290px;">
             <div class="menu-grid-rotas">
                 <div class="dropdown">
-                    <button class="dropbtn-rota btn-mad-menu">MADMAIS ▼</button>
+                    <button class="dropbtn-rota btn-mad-menu">TAPAJOS ▼</button>
                     <div class="dropdown-content-rotas">
-                        <button onclick="processarRotaEmpresa('MADMAIS', 'PA370')">VIA PA 370 CURUAÚNA</button>
-                        <button onclick="processarRotaEmpresa('MADMAIS', 'BR163')">VIA BR 163/230</button>
-                        <button onclick="processarRotaEmpresa('MADMAIS', 'MT')">VIA MATO GROSSO (BR-163)</button>
-                        <button onclick="processarRotaEmpresa('MADMAIS', 'MT230')">VIA MT (PA 370 / BR 230)</button>
-                        <button onclick="processarRotaEmpresa('MADMAIS', 'UNIRIOS')">MAD+ (UNIRIOS)</button>
-                        <button onclick="processarRotaEmpresa('MADMAIS', 'REICON')">MAD+ (REICON)</button>
-                        <button onclick="processarRotaEmpresa('MADMAIS', 'SAMAL')">MAD+ (SAMAL)</button>
+                        <button onclick="processarRotaEmpresa('TAPAJOS', 'PA370')">VIA PA 370 CURUAÚNA</button>
+                        <button onclick="processarRotaEmpresa('TAPAJOS', 'BR163')">VIA BR 163/230</button>
+                        <button onclick="processarRotaEmpresa('TAPAJOS', 'MT')">VIA MATO GROSSO (BR-163)</button>
+                        <button onclick="processarRotaEmpresa('TAPAJOS', 'MT230')">VIA MT (PA 370 / BR 230)</button>
+                        <button onclick="processarRotaEmpresa('TAPAJOS', 'UNIRIOS')">TAPAJOS (UNIRIOS)</button>
+                        <button onclick="processarRotaEmpresa('TAPAJOS', 'REICON')">TAPAJOS (REICON)</button>
+                        <button onclick="processarRotaEmpresa('TAPAJOS', 'SAMAL')">TAPAJOS (SAMAL)</button>
                     </div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropbtn-rota btn-wood-menu">WOOD ▼</button>
+                    <button class="dropbtn-rota btn-wood-menu">MADFORT ▼</button>
                     <div class="dropdown-content-rotas">
-                        <button onclick="processarRotaEmpresa('WOOD', 'PA370')">VIA PA 370 CURUAÚNA</button>
-                        <button onclick="processarRotaEmpresa('WOOD', 'BR163')">VIA BR 163/230</button>
-                        <button onclick="processarRotaEmpresa('WOOD', 'MT')">VIA MATO GROSSO (BR-163)</button>
-                        <button onclick="processarRotaEmpresa('WOOD', 'MT230')">VIA MT (PA 370 / BR 230)</button>
-                        <button onclick="processarRotaEmpresa('WOOD', 'UNIRIOS')">WOOD+ (UNIRIOS)</button>
-                        <button onclick="processarRotaEmpresa('WOOD', 'REICON')">WOOD+ (REICON)</button>
-                        <button onclick="processarRotaEmpresa('WOOD', 'SAMAL')">WOOD+ (SAMAL)</button>
+                        <button onclick="processarRotaEmpresa('MADFORT', 'PA370')">VIA PA 370 CURUAÚNA</button>
+                        <button onclick="processarRotaEmpresa('MADFORT', 'BR163')">VIA BR 163/230</button>
+                        <button onclick="processarRotaEmpresa('MADFORT', 'MT')">VIA MATO GROSSO (BR-163)</button>
+                        <button onclick="processarRotaEmpresa('MADFORT', 'MT230')">VIA MT (PA 370 / BR 230)</button>
+                        <button onclick="processarRotaEmpresa('MADFORT', 'UNIRIOS')">MADFORT (UNIRIOS)</button>
+                        <button onclick="processarRotaEmpresa('MADFORT', 'REICON')">MADFORT+ (REICON)</button>
+                        <button onclick="processarRotaEmpresa('MADFORT', 'SAMAL')">MADFORT+ (SAMAL)</button>
                     </div>
                 </div>
             </div>
@@ -334,9 +334,9 @@
             let textoOriginal = campo.value;
             if (!textoOriginal.trim()) { alert("COLE O TEXTO DA ROTA NO CAMPO ABAIXO PRIMEIRO!"); return; }
 
-            const NOME_MAD = "MADFORT BENEFICIAMENTO E COMERCIO DE MADEIRAS LTDA";
-            const NOME_WOOD = "MADFORT BENEFICIAMENTO E COMERCIO DE MADEIRAS LTDA";
-            const NOME = (empresa === 'MADMAIS') ? NOME_MAD : NOME_WOOD;
+            const NOME_TAPAJOS = "TAPAJOS WOOD INDÚSTRIA COMÉRCIO E EXPORTAÇÃO LTDA (9669)";
+            const NOME_MAD = "MADFORT BENEFICIAMENTO E COMERCIO DE MADEIRAS LTDA (8485)";
+            const NOME = (empresa === 'TAPAJOS') ? NOME_TAPAJOS : NOME_MAD;
 
             const rotas_db = {
                 'PA370': `SAINDO DO PÁTIO DA EMPRESA ${NOME} EM MOJUÍ DOS CAMPOS-PA, SEGUE PELA PA-431, SEGUE PELA PA 370 CURUAUNA, PASSANDO POR `,
