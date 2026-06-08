@@ -540,20 +540,22 @@ REGRA 1 — FORMATO DO MUNICÍPIO:
 - PROIBIDO formato UF-NOME → NUNCA escreva PA-CASTANHAL ou PI-TERESINA
 
 REGRA 2 — RODOVIA:
-- Coloque a BR correta ANTES de cada município → exemplo: BR-316 CASTANHAL-PA
-- Se já houver BR antes do município, não repita
+- Coloque a BR entre parênteses APÓS o município → exemplo: CASTANHAL-PA (BR-316)
+- Se já houver BR no formato correto, não altere
 
 REGRA 3 — TRANSIÇÃO DE ESTADO (OBRIGATÓRIA):
 - Insira a frase de transição SOMENTE quando o estado MUDAR em relação ao município anterior
+- NUNCA coloque a frase para o primeiro estado da rota — ela só aparece ao cruzar fronteira durante o percurso
 - Se dois municípios consecutivos forem do mesmo estado, NÃO repita a frase — apenas continue listando com vírgula
 - Formato da frase: ENTRANDO NO ESTADO DO [NOME] ([UF]),
 - Use o artigo correto: "DO" para Pará, Piauí, Maranhão, Ceará, Tocantins, Amazonas, Mato Grosso; "DA" para Bahia, Paraíba, Paraná; "DE" para outros
-- Após a frase de transição, escreva: PASSANDO POR BR-XXX MUNICIPIO-UF, BR-XXX MUNICIPIO-UF, BR-XXX MUNICIPIO-UF (todos do mesmo estado juntos)
+- Após a frase de transição, liste diretamente os municípios — NUNCA escreva "PASSANDO POR"
+- PROIBIDO usar "PASSANDO POR" em qualquer lugar da saída
 
 EXEMPLO COMPLETO:
 Entrada: "URUARA, ANAPU, MARABÁ, TERESINA, PICOS, PETROLINA, JUAZEIRO, ITABAIANA"
 Saída esperada:
-"ENTRANDO NO ESTADO DO PARÁ (PA), PASSANDO POR BR-230 URUARA-PA, BR-230 ANAPU-PA, BR-222 MARABÁ-PA, ENTRANDO NO ESTADO DO PIAUÍ (PI), PASSANDO POR BR-316 TERESINA-PI, BR-407 PICOS-PI, ENTRANDO NO ESTADO DE PERNAMBUCO (PE), PASSANDO POR BR-428 PETROLINA-PE, ENTRANDO NO ESTADO DA BAHIA (BA), PASSANDO POR BR-407 JUAZEIRO-BA, ENTRANDO NO ESTADO DE SERGIPE (SE), PASSANDO POR BR-235 ITABAIANA-SE"
+"URUARA-PA (BR-230), ANAPU-PA (BR-230), MARABÁ-PA (BR-222), ENTRANDO NO ESTADO DO PIAUÍ (PI), TERESINA-PI (BR-316), PICOS-PI (BR-407), ENTRANDO NO ESTADO DE PERNAMBUCO (PE), PETROLINA-PE (BR-428), ENTRANDO NO ESTADO DA BAHIA (BA), JUAZEIRO-BA (BR-407), ENTRANDO NO ESTADO DE SERGIPE (SE), ITABAIANA-SE (BR-235)"
 
 REGRAS FINAIS:
 - Se parte do texto já tiver formatação correta, mantenha e apenas complemente o restante
@@ -657,9 +659,12 @@ ${texto}`;
                 status.innerText = '⏳ Corrigindo e formatando rota (2/2)...';
 
                 // PASSO 2: texto — corrigir geografia e formatar
-                var promptFormatar = 'Você é especialista em logística rodoviária brasileira. Abaixo está uma lista de municípios extraída de uma imagem de rota de transporte, possivelmente com erros de leitura. TAREFA: 1) Corrija nomes incorretos para o município real brasileiro mais próximo (ex: "SAS GUANAMBI" lido errado pode ser SÃO GERALDO DO ARAGUAIA-PA que está na BR-222 no Pará). 2) Atribua o estado (UF) correto a cada município usando seu conhecimento geográfico real — nunca invente estados errados (ex: WANDERLÂNDIA é sempre TO, não PA nem BA; SÃO GERALDO DO ARAGUAIA é PA; CAROLINA é MA; RIACHÃO é MA; BALSAS é MA; TASSO FRAGOSO é MA). 3) Formate assim: ENTRANDO NO ESTADO DO/DA/DE [NOME] ([UF]), apenas quando o estado MUDAR — mesmo estado fica junto. Use DO para Pará/Piauí/Maranhão/Ceará/Tocantins/Amazonas/Mato Grosso, DA para Bahia/Paraíba/Paraná, DE para outros. Após a transição: PASSANDO POR BR-XXX MUNICIPIO-UF, BR-XXX MUNICIPIO-UF. Coloque a BR federal correta ANTES de cada município. Município sempre NOME-UF. Responda SOMENTE com o texto formatado em UMA ÚNICA LINHA.\n\nLISTA DE MUNICÍPIOS:\n' + textoOCR;
+                var promptFormatar = 'Você é especialista em logística rodoviária brasileira. Receberá uma lista de municípios com possíveis erros de leitura. Sua resposta deve ser EXCLUSIVAMENTE o texto da rota formatado — zero explicações, zero comentários, zero notas, zero parênteses com observações, zero frases explicativas. Apenas a rota.\n\nREGRAS:\n1. Corrija nomes errados para o município real mais próximo usando geografia brasileira.\n2. Atribua o estado (UF) correto a cada município — WANDERLÂNDIA é TO, SÃO GERALDO DO ARAGUAIA é PA, CAROLINA é MA, RIACHÃO é MA, BALSAS é MA, TASSO FRAGOSO é MA, FORMOSA DO RIO PRETO é BA.\n3. Formato de cada município: NOME-UF (BR-XXX)\n4. Ao mudar de estado: ENTRANDO NO ESTADO DO/DA/DE [NOME] ([UF]), — use DO para PA/PI/MA/CE/TO/AM/MT, DA para BA/PB/PR, DE para outros.\n5. NUNCA coloque a frase de transição para o primeiro estado.\n6. PROIBIDO "PASSANDO POR" em qualquer parte.\n7. Resposta em UMA ÚNICA LINHA.\n\nFORMATO EXATO DE SAÍDA (siga este modelo):\nMARABÁ-PA (BR-222), SÃO GERALDO DO ARAGUAIA-PA (BR-222), ENTRANDO NO ESTADO DO TOCANTINS (TO), WANDERLÂNDIA-TO (BR-153), ENTRANDO NO ESTADO DO MARANHÃO (MA), ESTREITO-MA (BR-226), CAROLINA-MA (BR-226)\n\nLISTA DE MUNICÍPIOS:\n' + textoOCR;
 
-                var r2 = await chamarGroq('llama-3.3-70b-versatile', [{ role: 'user', content: promptFormatar }]);
+                var r2 = await chamarGroq('llama-3.3-70b-versatile', [
+                    { role: 'system', content: 'Você responde APENAS com o texto da rota formatado, sem nenhuma explicação, comentário ou nota. Nunca escreva frases como "não está na lista", "não é um município", "mas sim", etc. Somente o texto da rota.' },
+                    { role: 'user', content: promptFormatar }
+                ]);
 
                 if (r2.status !== 200) { alert('Erro formatação: ' + r2.text.substring(0, 300)); status.innerText = 'Erro formatação'; return; }
                 var resultado = JSON.parse(r2.text).choices[0].message.content.trim();
